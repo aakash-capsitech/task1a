@@ -1,0 +1,8 @@
+/* Apply this after importing Fluent styles
+.ms-Panel--custom {
+  width: 360px !important;
+  max-width: 360px !important;
+  min-width: 360px !important;
+  right: 0 !important;
+  left: auto !important;
+} */

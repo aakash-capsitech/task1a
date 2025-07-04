@@ -1,0 +1,39 @@
+/* Apply this after importing Fluent styles
+.ms-Panel--custom {
+  width: 360px !important;
+  max-width: 360px !important;
+  min-width: 360px !important;
+  right: 0 !important;
+  left: auto !important;
+} */
+
+
+.outline-btn {
+  height: 36px;
+  background-color: white;
+  color: #0078d4;
+  border: 1px solid #0078d4;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.outline-btn:hover {
+  background-color: #e5f1fb;
+}
+
+.primary-btn {
+  height: 36px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #005fa1;
+}
