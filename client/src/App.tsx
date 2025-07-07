@@ -125,6 +125,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./auth/AuthContext";
 import { useAuth } from "./auth/useAuth";
+import UserDetailsDemo from "./components/UserDetailDemo";
 
 // Dashboard example
 const Dashboard = () => {
@@ -190,6 +191,8 @@ const App = () => {
               </PrivateRoute>
             }
           />
+
+          <Route path="/u" element={<UserDetailsDemo />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
