@@ -107,6 +107,24 @@ const Topbar = () => {
             <span style={{color: "white"}}>Sign Out</span>
           </button>  
         </div>
+        <div>
+          <button style={{border: "none", background: "none"}}
+          onClick={()=>{
+            // localStorage.removeItem("token")
+            navigate("/admin")
+          }}>
+            {/* <Persona
+              text="Sign Out"
+              size={PersonaSize.size32}
+              hidePersonaDetails
+              styles={{
+                root: { background: 'transparent' },
+                primaryText: { color: 'white' },
+              }}
+            /> */}
+            <span style={{color: "white"}}>Admin</span>
+          </button>  
+        </div>
       </Stack>
     </div>
   );

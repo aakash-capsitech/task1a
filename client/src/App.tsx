@@ -126,6 +126,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./auth/AuthContext";
 import { useAuth } from "./auth/useAuth";
 import UserDetailsDemo from "./components/UserDetailDemo";
+import UserHome from "./pages/UserHome";
 
 // Dashboard example
 const Dashboard = () => {
@@ -155,7 +156,7 @@ const App = () => {
 
           {/* Protected Routes */}
           <Route
-            path="/"
+            path="/admin"
             element={
               <PrivateRoute>
                 <Home />
@@ -192,7 +193,9 @@ const App = () => {
             }
           />
 
-          <Route path="/u" element={<UserDetailsDemo />} />
+          <Route path="/" element={<PrivateRoute>
+                <UserHome />
+              </PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
