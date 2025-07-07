@@ -31,8 +31,12 @@
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
 import { Stack, IconButton } from '@fluentui/react';
 import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
+import { useNavigate } from 'react-router-dom';
 
 const Topbar = () => {
+
+  const navigate = useNavigate()
+
   return (
     <div
       style={{
@@ -85,15 +89,24 @@ const Topbar = () => {
         <IconButton iconProps={{ iconName: 'News' }} title="Feed" styles={{ root: { color: 'white' } }} />
         <IconButton iconProps={{ iconName: 'ReadingMode' }} title="Bookmarks" styles={{ root: { color: 'white' } }} />
         <IconButton iconProps={{ iconName: 'Headset' }} title="Support" styles={{ root: { color: 'white' } }} />
-        <Persona
-          text="GM"
-          size={PersonaSize.size32}
-          hidePersonaDetails
-          styles={{
-            root: { background: 'transparent' },
-            primaryText: { color: 'white' },
-          }}
-        />
+        <div>
+          <button style={{border: "none", background: "none"}}
+          onClick={()=>{
+            localStorage.removeItem("token")
+            navigate("/login")
+          }}>
+            {/* <Persona
+              text="Sign Out"
+              size={PersonaSize.size32}
+              hidePersonaDetails
+              styles={{
+                root: { background: 'transparent' },
+                primaryText: { color: 'white' },
+              }}
+            /> */}
+            <span style={{color: "white"}}>Sign Out</span>
+          </button>  
+        </div>
       </Stack>
     </div>
   );

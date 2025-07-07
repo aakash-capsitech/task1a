@@ -145,3 +145,19 @@ const SVG = ({
     </motion.svg>
   );
 };
+
+
+
+
+{/* <Route
+              path="/bg"
+              element={
+                <BackgroundLines
+                  className="h-screen flex items-center justify-center text-white bg-black"
+                  children= {<div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", }}>
+                    <h1 style={{ fontSize: "3rem", fontWeight: "bold", color: "#00C951" }}>
+                      Aakash
+                    </h1>
+                  </div>} />
+              }
+            /> */}

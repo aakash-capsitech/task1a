@@ -1,104 +1,199 @@
-import Layout from './components/Layout'
-import UserTable from './components/UserTable'
-import "./App.css"
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import LoginForm from './pages/Login'
-import { World } from './components/ui/Globe'
-import { BackgroundLines } from './components/ui/background-lines'
-import { Children } from 'react'
-import { UserRolesModal3 } from './components/UserRole/Demo'
-import UserProfilePanel from './components/UserProfilePanel'
+// import "./App.css"
+// import { BrowserRouter, Route, Routes } from 'react-router-dom'
+// import Home from './pages/Home'
+// import { UserRolesModal3 } from './components/UserRole/Demo'
+// import UserProfilePanel from './components/UserProfilePanel'
+
+// const App = () => {
+//   return (
+//     <div>
+//        <BrowserRouter>
+//         <Routes>
+//             <Route path='/' element={<Home />} />
+//             <Route path='/md' element={<UserRolesModal3 />} />
+//             <Route path='/user' element={<UserProfilePanel userId="68676f5aa67a2ff139bc2845" onClose={function (): void {
+//             throw new Error('Function not implemented.')
+//           } } />} />
+
+//         </Routes>
+//        </BrowserRouter>
+//     </div>
+//   )
+// }
+
+// export default App
+
+
+
+
+
+
+
+
+
+// import "./App.css";
+// import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+// import Home from "./pages/Home";
+// import { UserRolesModal3 } from "./components/UserRole/Demo";
+// import UserProfilePanel from "./components/UserProfilePanel";
+
+// import LoginPage from "./pages/LoginPage";
+// import RegisterPage from "./pages/RegisterPage";
+// import { AuthProvider } from "./auth/AuthContext";
+// import { useAuth } from "./auth/useAuth";
+// import type { JSX } from "react";
+
+// const Dashboard = () => {
+//   const { logout } = useAuth();
+//   return (
+//     <div>
+//       <h1>Dashboard</h1>
+//       <button onClick={logout}>Logout</button>
+//     </div>
+//   );
+// };
+
+// const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+//   const { isLoggedIn } = useAuth();
+//   return isLoggedIn ? children : <Navigate to="/login" />;
+// };
+
+// const App = () => {
+//   return (
+//     <AuthProvider>
+//       <BrowserRouter>
+//         <Routes>
+//           {/* Existing routes */}
+//           <Route path="/" element={<Home />} />
+//           <Route path="/md" element={<UserRolesModal3 />} />
+//           <Route
+//             path="/user"
+//             element={
+//               <UserProfilePanel
+//                 userId="68676f5aa67a2ff139bc2845"
+//                 onClose={() => {
+//                   throw new Error("Function not implemented.");
+//                 }}
+//               />
+//             }
+//           />
+
+//           {/* Auth routes */}
+//           <Route path="/login" element={<LoginPage />} />
+//           <Route path="/register" element={<RegisterPage />} />
+//           <Route
+//             path="/dashboard"
+//             element={
+//               <PrivateRoute>
+//                 <Dashboard />
+//               </PrivateRoute>
+//             }
+//           />
+//         </Routes>
+//       </BrowserRouter>
+//     </AuthProvider>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import { UserRolesModal3 } from "./components/UserRole/Demo";
+import UserProfilePanel from "./components/UserProfilePanel";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import { AuthProvider } from "./auth/AuthContext";
+import { useAuth } from "./auth/useAuth";
+
+// Dashboard example
+const Dashboard = () => {
+  const { logout } = useAuth();
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};
+
+// 🔐 PrivateRoute: guards routes behind auth
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useAuth();
+  return isLoggedIn ? children : <Navigate to="/login" replace />;
+};
 
 const App = () => {
   return (
-    <div>
-       <BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/md' element={<UserRolesModal3 />} />
-            <Route path='/login' element={<LoginForm />} />
-            <Route path='/user' element={<UserProfilePanel userId ="68676f5aa67a2ff139bc2845" />} />
-            {/* <Route
-              path="/bg"
-              element={
-                <BackgroundLines className="bg-black h-screen flex items-center justify-center text-white">
-                  <div className="text-center my-auto">
-                    <h1 className="text-5xl font-bold text-red-500">Aakash</h1>
-                  </div>
-                </BackgroundLines>
-              }
-            /> */}
-            <Route
-              path="/bg"
-              element={
-                <BackgroundLines
-                  className="h-screen flex items-center justify-center text-white bg-black"
-                  children= {<div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", }}>
-                    <h1 style={{ fontSize: "3rem", fontWeight: "bold", color: "#00C951" }}>
-                      Aakash
-                    </h1>
-                  </div>} />
-              }
-            />
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-
-
-
-            <Route
-              path="/globe"
-              element={
-              <World
-                globeConfig={{
-                  pointSize: 1,
-                  globeColor: "#0c1445",
-                  showAtmosphere: true,
-                  atmosphereColor: "#ffffff",
-                  atmosphereAltitude: 0.1,
-                  emissive: "#112233",
-                  emissiveIntensity: 0.3,
-                  shininess: 0.9,
-                  polygonColor: "rgba(255,255,255,0.4)",
-                  ambientLight: "#888888",
-                  directionalLeftLight: "#ffffff",
-                  directionalTopLight: "#ffffff",
-                  pointLight: "#ffffff",
-                  arcTime: 2000,
-                  arcLength: 0.9,
-                  rings: 1,
-                  maxRings: 3,
-                  initialPosition: { lat: 0, lng: 0 },
-                  autoRotate: true,
-                  autoRotateSpeed: 1.5,
-                }}
-                data={[
-                  {
-                    order: 1,
-                    startLat: 28.6139,
-                    startLng: 77.209,
-                    endLat: 40.7128,
-                    endLng: -74.006,
-                    arcAlt: 0.2,
-                    color: "#00ffff",
-                  },
-                  {
-                    order: 2,
-                    startLat: 28.6139,
-                    startLng: 77.209,
-                    endLat: 35.6895,
-                    endLng: 139.6917,
-                    arcAlt: 0.25,
-                    color: "#ff00ff",
-                  },
-                ]}
-              />
+          {/* Protected Routes */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
             }
           />
-
+          <Route
+            path="/md"
+            element={
+              <PrivateRoute>
+                <UserRolesModal3 />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <PrivateRoute>
+                <UserProfilePanel
+                  userId="68676f5aa67a2ff139bc2845"
+                  onClose={() => {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-       </BrowserRouter>
-    </div>
-  )
-}
+      </BrowserRouter>
+    </AuthProvider>
+  );
+};
 
-export default App
+export default App;

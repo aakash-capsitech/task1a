@@ -1,3 +1,5 @@
+
+
 using MongoDB.Driver;
 using MyMongoApp.Models;
 
@@ -13,6 +15,10 @@ namespace MyMongoApp.Data
             _database = client.GetDatabase("MyMongoAppDb");
         }
 
+        // Main app users
         public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
+
+        // Auth-specific users
+        public IMongoCollection<AUser> AUsers => _database.GetCollection<AUser>("auth_users");
     }
 }

@@ -601,3 +601,54 @@ export function World(props: WorldProps) {
     </Canvas>
   );
 }
+
+
+      //  <Route
+      //         path="/globe"
+      //         element={
+      //         <World
+      //           globeConfig={{
+      //             pointSize: 1,
+      //             globeColor: "#0c1445",
+      //             showAtmosphere: true,
+      //             atmosphereColor: "#ffffff",
+      //             atmosphereAltitude: 0.1,
+      //             emissive: "#112233",
+      //             emissiveIntensity: 0.3,
+      //             shininess: 0.9,
+      //             polygonColor: "rgba(255,255,255,0.4)",
+      //             ambientLight: "#888888",
+      //             directionalLeftLight: "#ffffff",
+      //             directionalTopLight: "#ffffff",
+      //             pointLight: "#ffffff",
+      //             arcTime: 2000,
+      //             arcLength: 0.9,
+      //             rings: 1,
+      //             maxRings: 3,
+      //             initialPosition: { lat: 0, lng: 0 },
+      //             autoRotate: true,
+      //             autoRotateSpeed: 1.5,
+      //           }}
+      //           data={[
+      //             {
+      //               order: 1,
+      //               startLat: 28.6139,
+      //               startLng: 77.209,
+      //               endLat: 40.7128,
+      //               endLng: -74.006,
+      //               arcAlt: 0.2,
+      //               color: "#00ffff",
+      //             },
+      //             {
+      //               order: 2,
+      //               startLat: 28.6139,
+      //               startLng: 77.209,
+      //               endLat: 35.6895,
+      //               endLng: 139.6917,
+      //               arcAlt: 0.25,
+      //               color: "#ff00ff",
+      //             },
+      //           ]}
+      //         />
+      //       }
+      //     />
