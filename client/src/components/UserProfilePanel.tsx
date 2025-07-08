@@ -27,106 +27,6 @@ const tagStyle = {
 const labelStyle = { fontSize: 12, color: '#555', marginTop: 12 };
 const valueStyle = { fontSize: 13, fontWeight: 500 };
 
-// const UserProfilePanel = ({ userId }: { userId: string }) => {
-//   const [user, setUser] = useState<any>(null);
-
-//   useEffect(() => {
-//     axios.get(`http://localhost:5153/api/users/${userId}`).then((res) => setUser(res.data));
-//   }, [userId]);
-
-//   if (!user) return <Text>Loading...</Text>;
-
-//   const fullName = user.name?.toUpperCase();
-//   const role = user.role;
-//   const configs = user.configs || [];
-
-//   return (
-//     <div
-//       style={{
-//         width: 280,
-//         background: '#fff',
-//         padding: 16,
-//         borderRadius: 8,
-//         boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-//       }}
-//     >
-//       {/* Avatar and Name */}
-//       <Stack horizontalAlign="center" tokens={{ childrenGap: 8 }}>
-//         <Persona
-//           text={fullName}
-//           hidePersonaDetails
-//           size={PersonaSize.size56}
-//           initialsColor={6}
-//           styles={{
-//             primaryText: { fontWeight: 600 },
-//           }}
-//         />
-//         <Text variant="mediumPlus" style={{ fontWeight: 600 }}>
-//           {fullName}
-//         </Text>
-//         <Text variant="small">{role}</Text>
-//       </Stack>
-
-//       {/* Config Role Tags */}
-//       <Stack tokens={{ childrenGap: 4 }} style={{ marginTop: 12 }} horizontalAlign="center">
-//         {configs.map((cfg: string, idx: number) => (
-//           <span key={idx} style={tagStyle}>
-//             <Icon iconName="CheckMark" styles={{ root: { fontSize: 12 } }} />
-//             {cfg}
-//           </span>
-//         ))}
-//       </Stack>
-
-//       {/* Configure Roles Button */}
-//       <div style={{ marginTop: 12, textAlign: 'center' }}>
-//         <DefaultButton
-//           text="Configure Roles"
-//           iconProps={{ iconName: 'Permissions' }}
-//         />
-//       </div>
-
-//       <hr style={{ margin: '16px 0', borderColor: '#eee' }} />
-
-//       {/* Details */}
-//       <div>
-//         <div style={labelStyle}>Gender</div>
-//         <div style={valueStyle}>{user.gender || '-'}</div>
-
-//         <div style={labelStyle}>Email</div>
-//         <div style={valueStyle}>
-//           {user.email?.toUpperCase() || '-'}{' '}
-//           <Icon iconName="Mail" style={{ fontSize: 12 }} />
-//         </div>
-
-//         <div style={labelStyle}>Phone</div>
-//         <div style={valueStyle}>{user.phone || '-'}</div>
-
-//         <div style={labelStyle}>Address(es)</div>
-//         <div style={valueStyle}>{user.address || '-'}</div>
-
-//         <div style={labelStyle}>Team(s)</div>
-//         <div style={valueStyle}>{user.teams?.join(', ') || '-'}</div>
-
-//         <div style={labelStyle}>Last Login</div>
-//         <div style={valueStyle}>
-//           {user.lastLogin
-//             ? new Date(user.lastLogin).toLocaleDateString('en-GB', {
-//                 day: '2-digit',
-//                 month: '2-digit',
-//                 year: 'numeric',
-//               }) +
-//               ' ' +
-//               new Date(user.lastLogin).toLocaleTimeString([], {
-//                 hour: '2-digit',
-//                 minute: '2-digit',
-//               })
-//             : '-'}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const UserProfilePanel = ({
   userId,
   onClose,
@@ -136,9 +36,21 @@ const UserProfilePanel = ({
 }) => {
   const [user, setUser] = useState<any>(null);
 
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5153/api/users/${userId}`).then((res) => {setUser(res.data)
+  // console.log(user)});
+  // }, [userId]);
   useEffect(() => {
-    axios.get(`http://localhost:5153/api/users/${userId}`).then((res) => setUser(res.data));
-  }, [userId]);
+  axios.get(`http://localhost:5153/api/users/${userId}`)
+    .then((res) => {
+      console.log("📦 Full response:", res.data);
+      setUser(res.data);
+    })
+    .catch((err) => {
+      console.error("❌ Failed to fetch user:", err);
+    });
+}, [userId]);
+
 
   if (!user) return <Text>Loading...</Text>;
 

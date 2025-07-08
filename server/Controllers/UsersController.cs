@@ -3,6 +3,8 @@ using MyMongoApp.Data;
 using MyMongoApp.Dtos;
 using MyMongoApp.Models;
 using MongoDB.Driver;
+using MyMongoApp.Enums;
+
 
 namespace MyMongoApp.Controllers
 {
@@ -17,41 +19,96 @@ namespace MyMongoApp.Controllers
             _context = context;
         }
 
+        // [HttpPost]
+        // public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
+        // {
+        //     var user = new User
+        //     {
+        //         Name = dto.Name,
+        //         Email = dto.Email,
+        //         Role = dto.Role,
+        //         ConfigRoles = dto.ConfigRoles
+        //     };
+
+        //     await _context.Users.InsertOneAsync(user);
+        //     return Ok(user);
+        // }
+        
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
         {
+            var parsedRoles = new List<UserConfigRole>();
+            foreach (var roleStr in dto.ConfigRoles)
+            {
+                if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
+                {
+                    parsedRoles.Add(parsed);
+                }
+                else
+                {
+                    return BadRequest($"Invalid config role: {roleStr}");
+                }
+            }
+
             var user = new User
             {
                 Name = dto.Name,
                 Email = dto.Email,
                 Role = dto.Role,
-                ConfigRoles = dto.ConfigRoles
+                ConfigRoles = parsedRoles
             };
 
             await _context.Users.InsertOneAsync(user);
             return Ok(user);
         }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="id"></param>
-/// <param name="newRoles"></param>
-/// <returns></returns>
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newRoles"></param>
+        /// <returns></returns>
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateRoles(string id, [FromBody] List<string> newRoles)
+        // {
+        //     var update = Builders<User>.Update.Set(u => u.ConfigRoles, newRoles);
+        //     var result = await _context.Users.UpdateOneAsync(
+        //         u => u.Id == id,
+        //         update
+        //     );
+
+        //     if (result.MatchedCount == 0)
+        //         return NotFound();
+
+        //     return Ok(new { message = "Roles updated." });
+        // }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRoles(string id, [FromBody] List<string> newRoles)
         {
-            var update = Builders<User>.Update.Set(u => u.ConfigRoles, newRoles);
-            var result = await _context.Users.UpdateOneAsync(
-                u => u.Id == id,
-                update
-            );
+            var parsedRoles = new List<UserConfigRole>();
+            foreach (var roleStr in newRoles)
+            {
+                if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
+                {
+                    parsedRoles.Add(parsed);
+                }
+                else
+                {
+                    return BadRequest($"Invalid role: {roleStr}");
+                }
+            }
+
+            var update = Builders<User>.Update.Set(u => u.ConfigRoles, parsedRoles);
+            var result = await _context.Users.UpdateOneAsync(u => u.Id == id, update);
 
             if (result.MatchedCount == 0)
                 return NotFound();
 
             return Ok(new { message = "Roles updated." });
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(string id)

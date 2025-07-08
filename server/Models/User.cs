@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MyMongoApp.Enums;
 
 namespace MyMongoApp.Models
 {
@@ -18,7 +19,11 @@ namespace MyMongoApp.Models
         [BsonElement("role")]
         public string Role { get; set; } = string.Empty;
 
+        // [BsonElement("configRoles")]
+        // public List<string> ConfigRoles { get; set; } = new();
+
         [BsonElement("configRoles")]
-        public List<string> ConfigRoles { get; set; } = new();
+        [BsonRepresentation(BsonType.String)]
+        public List<UserConfigRole> ConfigRoles { get; set; } = new();
     }
 }
