@@ -135,11 +135,53 @@ namespace MyMongoApp.Controllers
             _context = context;
         }
 
+        // [HttpPost]
+        // public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
+        // {
+        //     var parsedRoles = new List<UserConfigRole>();
+
+        //     //     var existingUser = await _users.Find(u => u.Email == request.Email).FirstOrDefaultAsync();
+        // //     if (existingUser != null)
+        // //         return BadRequest("User already exists.");
+
+        //     foreach (var roleStr in dto.ConfigRoles)
+        //     {
+        //         if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
+        //         {
+        //             parsedRoles.Add(parsed);
+        //         }
+        //         else
+        //         {
+        //             return BadRequest($"Invalid config role: {roleStr}");
+        //         }
+        //     }
+
+        //     var user = new User
+        //     {
+        //         Name = dto.Name,
+        //         Email = dto.Email,
+        //         Role = dto.Role,
+        //         Phone = dto.Phone,
+        //         Nationality = dto.Nationality,
+        //         Address = dto.Address,
+        //         ConfigRoles = parsedRoles
+        //     };
+
+        //     await _context.Users.InsertOneAsync(user);
+        //     return Ok(user);
+        // }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
         {
-            var parsedRoles = new List<UserConfigRole>();
+            // Check if a user with the same email already exists
+            var existingUser = await _context.Users.Find(u => u.Email == dto.Email).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                return BadRequest("A user with this email already exists.");
+            }
 
+            var parsedRoles = new List<UserConfigRole>();
             foreach (var roleStr in dto.ConfigRoles)
             {
                 if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
@@ -166,6 +208,7 @@ namespace MyMongoApp.Controllers
             await _context.Users.InsertOneAsync(user);
             return Ok(user);
         }
+
 
         // [HttpPut("{id}")]
         // public async Task<IActionResult> UpdateRoles(string id, [FromBody] List<string> newRoles)
@@ -265,11 +308,11 @@ public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto 
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            Console.WriteLine($"🔍 Extracted userId from token: {userId}");
+            // Console.WriteLine($"🔍 Extracted userId from token: {userId}");
 
             if (userId == null)
             {
-                Console.WriteLine("❌ No userId in token. Returning Unauthorized.");
+                // Console.WriteLine("❌ No userId in token. Returning Unauthorized.");
                 return Unauthorized();
             }
 
@@ -277,11 +320,11 @@ public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto 
 
             if (user == null)
             {
-                Console.WriteLine($"❌ No user found in DB with id: {userId}");
+                // Console.WriteLine($"❌ No user found in DB with id: {userId}");
                 return NotFound();
             }
 
-            Console.WriteLine($"✅ Found user: {user.Name} ({user.Email})");
+            // Console.WriteLine($"✅ Found user: {user.Name} ({user.Email})");
 
             return Ok(user);
         }
