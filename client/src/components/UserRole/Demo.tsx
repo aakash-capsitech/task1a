@@ -1,42 +1,56 @@
-// UserRolesModal.tsx
-import React from 'react';
-import {
-  Dialog,
-  DialogType,
-  DialogFooter,
-  TextField,
-  Dropdown,
-  type IDropdownOption,
-  Checkbox,
-  PrimaryButton,
-  DefaultButton,
-  Stack,
-} from '@fluentui/react';
-import axios from 'axios';
+// // UserRolesModal.tsx
+// import React from 'react';
+// import {
+//   Dialog,
+//   DialogType,
+//   DialogFooter,
+//   TextField,
+//   Dropdown,
+//   type IDropdownOption,
+//   Checkbox,
+//   PrimaryButton,
+//   DefaultButton,
+//   Stack,
+// } from '@fluentui/react';
+// import axios from 'axios';
 
-const roles = [
-  { key: 'callAgent', text: 'Call agent', description: 'A agent can receive and make phone calls.' },
-  { key: 'callMonitor', text: 'Call monitor', description: 'A monitor can receive and make phone calls and listen any ongoing call.' },
-  { key: 'chatAgent', text: 'Chat agent', description: 'A chat agent can join any ongoing web-chat.' },
-  { key: 'chatMonitor', text: 'Chat monitor', description: 'A chat monitor can monitor any ongoing chats.' },
-  { key: 'allClients', text: 'All clients', description: 'User can access all the clients saved in the practice.' },
-  { key: 'reviewer', text: 'Reviewer', description: 'Tax and accounts reviewer.' },
-  { key: 'creditNoteReviewer', text: 'Credit note reviewer', description: 'User can review credit notes request for approval' },
-];
+// const roles = [
+//   { key: 'callAgent', text: 'Call agent', description: 'A agent can receive and make phone calls.' },
+//   { key: 'callMonitor', text: 'Call monitor', description: 'A monitor can receive and make phone calls and listen any ongoing call.' },
+//   { key: 'chatAgent', text: 'Chat agent', description: 'A chat agent can join any ongoing web-chat.' },
+//   { key: 'chatMonitor', text: 'Chat monitor', description: 'A chat monitor can monitor any ongoing chats.' },
+//   { key: 'allClients', text: 'All clients', description: 'User can access all the clients saved in the practice.' },
+//   { key: 'reviewer', text: 'Reviewer', description: 'Tax and accounts reviewer.' },
+//   { key: 'creditNoteReviewer', text: 'Credit note reviewer', description: 'User can review credit notes request for approval' },
+// ];
 
-const primaryRoles: IDropdownOption[] = [
-  { key: 'manager', text: 'Manager' },
-  { key: 'admin', text: 'Admin' },
-];
+// const primaryRoles: IDropdownOption[] = [
+//   { key: 'manager', text: 'Manager' },
+//   { key: 'admin', text: 'Admin' },
+// ];
 
-// export const UserRolesModal3 = () => {
+// export const UserRolesModal3 = ({
+//   userId,
+//   userName,
+//   userEmail,
+//   primaryRole,
+//   configRoles,
+//   onUpdate,
+// }: {
+//   userId: string;
+//   userName: string;
+//   userEmail: string;
+//   primaryRole: string;
+//   configRoles: string[];
+//   onUpdate: () => void;
+// }) => {
 //   const [isOpen, setIsOpen] = React.useState(false);
-//   const [selectedRoles, setSelectedRoles] = React.useState<{ [key: string]: boolean }>({
-//     chatAgent: true,
-//     chatMonitor: true,
-//     allClients: true,
-//     reviewer: true,
-//     creditNoteReviewer: true,
+//   const [selectedRoles, setSelectedRoles] = React.useState<{ [key: string]: boolean }>(() => {
+//     const initial: any = {};
+//     roles.forEach((role) => {
+//       initial[role.key] = configRoles?.includes(role.key) || false;
+//     });
+//     return initial;
 //   });
 
 //   const handleRoleChange = (key: string, checked?: boolean) => {
@@ -45,6 +59,17 @@ const primaryRoles: IDropdownOption[] = [
 
 //   const openDialog = () => setIsOpen(true);
 //   const closeDialog = () => setIsOpen(false);
+
+//   const handleSave = async () => {
+//     const selectedKeys = Object.keys(selectedRoles).filter(key => selectedRoles[key]);
+//     try {
+//       await axios.put(`http://localhost:5153/api/users/${userId}`, selectedKeys);
+//       onUpdate();
+//       closeDialog();
+//     } catch (error) {
+//       console.error("Error updating roles", error);
+//     }
+//   };
 
 //   return (
 //     <div>
@@ -63,9 +88,9 @@ const primaryRoles: IDropdownOption[] = [
 //         }}
 //       >
 //         <Stack tokens={{ childrenGap: 15 }}>
-//           <TextField label="Name" value="AADIPTA ADHIKARY" readOnly />
-//           <TextField label="Email" value="ABC23456789@GMAIL.COM" readOnly />
-//           <Dropdown label="Primary role" selectedKey="manager" options={primaryRoles} disabled />
+//           <TextField label="Name" value={userName} readOnly />
+//           <TextField label="Email" value={userEmail} readOnly />
+//           <Dropdown label="Primary role" selectedKey={primaryRole} options={primaryRoles} disabled />
 
 //           {roles.map(role => (
 //             <div key={role.key}>
@@ -80,7 +105,7 @@ const primaryRoles: IDropdownOption[] = [
 //         </Stack>
 
 //         <DialogFooter>
-//           <PrimaryButton text="Save" onClick={closeDialog} />
+//           <PrimaryButton text="Save" onClick={handleSave} />
 //           <DefaultButton text="Cancel" onClick={closeDialog} />
 //         </DialogFooter>
 //       </Dialog>
@@ -90,12 +115,60 @@ const primaryRoles: IDropdownOption[] = [
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react';
+import {
+  Dialog,
+  DialogType,
+  DialogFooter,
+  TextField,
+  Dropdown,
+  type IDropdownOption,
+  Checkbox,
+  PrimaryButton,
+  DefaultButton,
+  Stack,
+  MessageBar,
+  MessageBarType,
+} from '@fluentui/react';
+import axios from 'axios';
+
+const roles = [
+  { key: 'callAgent', text: 'Call agent', description: 'A agent can receive and make phone calls.' },
+  { key: 'callMonitor', text: 'Call monitor', description: 'A monitor can receive and make phone calls and listen any ongoing call.' },
+  { key: 'chatAgent', text: 'Chat agent', description: 'A chat agent can join any ongoing web-chat.' },
+  { key: 'chatMonitor', text: 'Chat monitor', description: 'A chat monitor can monitor any ongoing chats.' },
+  { key: 'allClients', text: 'All clients', description: 'User can access all the clients saved in the practice.' },
+  { key: 'reviewer', text: 'Reviewer', description: 'Tax and accounts reviewer.' },
+  { key: 'creditNoteReviewer', text: 'Credit note reviewer', description: 'User can review credit notes request for approval' },
+];
+
+const primaryRoles: IDropdownOption[] = [
+  { key: 'manager', text: 'Manager' },
+  { key: 'admin', text: 'Admin' },
+];
+
 export const UserRolesModal3 = ({
   userId,
   userName,
   userEmail,
   primaryRole,
   configRoles,
+  phone: initialPhone,
+  nationality: initialNationality,
+  address: initialAddress,
   onUpdate,
 }: {
   userId: string;
@@ -103,38 +176,83 @@ export const UserRolesModal3 = ({
   userEmail: string;
   primaryRole: string;
   configRoles: string[];
+  phone?: string;
+  nationality?: string;
+  address?: string;
   onUpdate: () => void;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedRoles, setSelectedRoles] = React.useState<{ [key: string]: boolean }>(() => {
-    const initial: any = {};
-    roles.forEach((role) => {
-      initial[role.key] = configRoles?.includes(role.key) || false;
+  const [selectedRoles, setSelectedRoles] = React.useState<{ [key: string]: boolean }>({});
+  const [phone, setPhone] = React.useState('');
+  const [nationality, setNationality] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [error, setError] = React.useState('');
+
+  const initializeState = () => {
+    const initSelected: any = {};
+    roles.forEach(role => {
+      initSelected[role.key] = configRoles?.includes(role.key) || false;
     });
-    return initial;
-  });
+    setSelectedRoles(initSelected);
+    setPhone(initialPhone || '');
+    setNationality(initialNationality || '');
+    setAddress(initialAddress || '');
+  };
+
+  const openDialog = () => {
+    initializeState();
+    setIsOpen(true);
+  };
+
+  const closeDialog = () => {
+    setError('');
+    setIsOpen(false);
+  };
+
+  const validate = () => {
+    if (!/^[\d\s+\-()]{7,}$/.test(phone)) {
+      setError('Please enter a valid phone number.');
+      return false;
+    }
+    if (!nationality.trim()) {
+      setError('Nationality is required.');
+      return false;
+    }
+    if (!address.trim()) {
+      setError('Address is required.');
+      return false;
+    }
+    setError('');
+    return true;
+  };
 
   const handleRoleChange = (key: string, checked?: boolean) => {
     setSelectedRoles(prev => ({ ...prev, [key]: !!checked }));
   };
 
-  const openDialog = () => setIsOpen(true);
-  const closeDialog = () => setIsOpen(false);
-
   const handleSave = async () => {
+    if (!validate()) return;
+
     const selectedKeys = Object.keys(selectedRoles).filter(key => selectedRoles[key]);
+
     try {
-      await axios.put(`http://localhost:5153/api/users/${userId}`, selectedKeys);
+      await axios.put(`http://localhost:5153/api/users/${userId}`, {
+        configRoles: selectedKeys,
+        phone,
+        nationality,
+        address,
+      });
       onUpdate();
       closeDialog();
-    } catch (error) {
-      console.error("Error updating roles", error);
+    } catch (err) {
+      console.error('Error updating roles', err);
+      setError('Something went wrong while saving. Please try again.');
     }
   };
 
   return (
     <div>
-      <DefaultButton text="Configure Roles" onClick={openDialog} iconProps={{ iconName: "Permissions" }} />
+      <DefaultButton text="Configure Roles" onClick={openDialog} iconProps={{ iconName: 'Permissions' }} />
 
       <Dialog
         hidden={!isOpen}
@@ -149,9 +267,30 @@ export const UserRolesModal3 = ({
         }}
       >
         <Stack tokens={{ childrenGap: 15 }}>
+          {error && <MessageBar messageBarType={MessageBarType.error}>{error}</MessageBar>}
           <TextField label="Name" value={userName} readOnly />
           <TextField label="Email" value={userEmail} readOnly />
           <Dropdown label="Primary role" selectedKey={primaryRole} options={primaryRoles} disabled />
+
+          <TextField
+            label="Phone Number"
+            value={phone}
+            onChange={(_, val) => setPhone(val || '')}
+            placeholder="+91 98765 43210"
+          />
+          <TextField
+            label="Nationality"
+            value={nationality}
+            onChange={(_, val) => setNationality(val || '')}
+            placeholder="Indian"
+          />
+          <TextField
+            label="Address"
+            multiline
+            value={address}
+            onChange={(_, val) => setAddress(val || '')}
+            placeholder="Enter address here"
+          />
 
           {roles.map(role => (
             <div key={role.key}>

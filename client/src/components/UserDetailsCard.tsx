@@ -32,9 +32,7 @@ const UserDetailsCard = ({
   role,
   address,
   configs,
-  country,
   nationality,
-  contactPerson,
 }: UserDetailsProps) => {
   return (
     <Stack tokens={{ childrenGap: 8 }} styles={sectionStyle}>
@@ -99,24 +97,12 @@ const UserDetailsCard = ({
           </Stack>
         )}
 
-        {/* Country */}
-        <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 200 } }}>
-          <Text styles={labelStyle}>Country of residence</Text>
-          <Text styles={valueStyle}>{country || '-'}</Text>
-        </Stack>
-
         {/* Nationality */}
         <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 200 } }}>
           <Text styles={labelStyle}>Nationality</Text>
           <Text styles={valueStyle}>{nationality || '-'}</Text>
         </Stack>
       </Stack>
-
-      {contactPerson && (
-        <Text variant="small" styles={{ root: { marginTop: 12, color: '#888' } }}>
-          Default contact - {contactPerson}
-        </Text>
-      )}
     </Stack>
   );
 };

@@ -1,6 +1,4 @@
-
-
-const SB = () => {
+const SB = ({ userConfigRoles }: { userConfigRoles: string[] }) => {
   const sidebarItems = [
     {
       section: "Your preferences",
@@ -17,22 +15,7 @@ const SB = () => {
         "Canned emails",
         {
           label: "Customisations",
-          children: [
-            "Web chat",
-            "Engagement letter",
-            "E-signature",
-            "Other letters",
-            "Email templates",
-            "Leads",
-            "Data-link",
-            "Services",
-            "Tasks",
-            "Client tags",
-            "Notes",
-            "Leaves",
-            "DMS (alerts)",
-            "Holidays",
-          ],
+          children: userConfigRoles,
         },
       ],
     },
@@ -91,13 +74,15 @@ const SB = () => {
                     {item.label}
                   </div>
                   <div style={{ marginLeft: "16px" }}>
-                    {item.children.map((child, j) => (
+                    {item.children.map((child: string, j: number) => (
                       <div
                         key={j}
                         style={{
                           padding: "6px 8px",
                           borderRadius: "2px",
                           cursor: "pointer",
+                          color: "green",
+                          fontWeight: "bold"
                         }}
                       >
                         {child}

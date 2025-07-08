@@ -1,11 +1,6 @@
-
-
-
-
 import { useEffect, useState } from "react";
 import { DetailsList, type IColumn, Icon, SelectionMode } from "@fluentui/react";
 import CreateUserPanel from "./CreateUserPanel";
-import { UserRolesModal3 } from "./UserRole/Demo";
 import axios from "axios";
 import SB from "./SB";
 import UserProfilePanel from "./UserProfilePanel";
@@ -85,28 +80,36 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
   // Fixed: Add proper dependency array to prevent infinite loop
   useEffect(() => {
     fetchUsers();
-  }, []); // Empty dependency array means this runs only once on mount
+  }, []);
 
   const handleSaveUser = async (newUser: any) => {
-    const name = newUser.firstName + newUser.lastName;
-    const email = newUser.email;
-    const role = newUser.role;
-    
-    try {
-      onLoading(true);
-      await axios.post("http://localhost:5153/api/users", {
-        email,
-        name,
-        role,
-      });
-      // After successfully creating the user, refresh the entire list
-      await fetchUsers();
-    } catch (err) {
-      console.error("❌ Failed to save user", err);
-    } finally {
-      onLoading(false);
-    }
-  };
+  const name = `${newUser.firstName} ${newUser.lastName}`.trim();
+  const email = newUser.email;
+  const role = newUser.role;
+  const phone = newUser.phone;
+  const nationality = newUser.nationality;
+  const address = newUser.address;
+  const configRoles = newUser.configRoles || []; // assuming optional comma-separated or checkbox array
+
+  try {
+    onLoading(true);
+    await axios.post("http://localhost:5153/api/users", {
+      name,
+      email,
+      role,
+      phone,
+      nationality,
+      address,
+      configRoles,
+    });
+    await fetchUsers(); // Refresh user list
+  } catch (err) {
+    console.error("❌ Failed to save user", err);
+  } finally {
+    onLoading(false);
+  }
+};
+
 
   const columns: IColumn[] = [
     {

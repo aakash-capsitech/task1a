@@ -1,33 +1,3 @@
-// import { SearchBox } from '@fluentui/react/lib/SearchBox';
-
-// const Topbar = () => {
-//   return (
-//     <div 
-//       className="d-flex justify-content-between align-items-center bg-[#0078D4] border-bottom px-3" 
-//       style={{ 
-//         height: '60px',
-//         minHeight: '60px',
-//         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-//       }}
-//     >
-//       <h4 className="m-0">Users</h4>
-//       <div style={{ width: '300px' }}>
-//         <SearchBox 
-//           placeholder="Search" 
-//           underlined 
-//           styles={{
-//             root: { width: '100%' }
-//           }}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Topbar;
-
-
-
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
 import { Stack, IconButton } from '@fluentui/react';
 import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
@@ -95,15 +65,6 @@ const Topbar = () => {
             localStorage.removeItem("token")
             navigate("/login")
           }}>
-            {/* <Persona
-              text="Sign Out"
-              size={PersonaSize.size32}
-              hidePersonaDetails
-              styles={{
-                root: { background: 'transparent' },
-                primaryText: { color: 'white' },
-              }}
-            /> */}
             <span style={{color: "white"}}>Sign Out</span>
           </button>  
         </div>

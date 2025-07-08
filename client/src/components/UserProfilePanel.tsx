@@ -2,9 +2,7 @@ import {
   Persona,
   PersonaSize,
   Text,
-  DefaultButton,
   Stack,
-  TagItem,
 } from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { useEffect, useState } from 'react';
@@ -109,20 +107,21 @@ const UserProfilePanel = ({
       </Stack>
 
       <div style={{ marginTop: 12, textAlign: "center" }}>
-        {/* <DefaultButton text="Configure Roles" iconProps={{ iconName: "Permissions" }} /> */}
-        {/* <UserRolesModal3 userId={''} userName={''} userEmail={''} primaryRole={''} configRoles={[]} onUpdate={function (): void {
-          throw new Error('Function not implemented.');
-        } } /> */}
+
         <UserRolesModal3
-          userId={userId}
+          userId={user.id}
           userName={user.name}
           userEmail={user.email}
           primaryRole={user.role}
           configRoles={user.configRoles}
+          phone={user.phone}
+          nationality={user.nationality}
+          address={user.address}
           onUpdate={() => {
             axios.get(`http://localhost:5153/api/users/${userId}`).then((res) => setUser(res.data));
           }}
         />
+
 
       </div>
 

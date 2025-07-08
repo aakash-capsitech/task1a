@@ -19,6 +19,6 @@ namespace MyMongoApp.Data
         public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
 
         // Auth-specific users
-        public IMongoCollection<AUser> AUsers => _database.GetCollection<AUser>("auth_users");
+        // public IMongoCollection<AUser> AUsers => _database.GetCollection<AUser>("auth_users");
     }
 }

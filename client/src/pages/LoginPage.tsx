@@ -73,20 +73,20 @@ const LoginPage = () => {
           )}
         </Formik>
 
-        <Stack horizontalAlign="center">
+        {/* <Stack horizontalAlign="center">
           <span>
             Don’t have an account?{' '}
             <RouterLink to="/register">
               <Link>Register</Link>
             </RouterLink>
           </span>
-        </Stack>
+        </Stack> */}
 
         <Separator>OR</Separator>
 
         <Stack horizontal tokens={{ childrenGap: 12 }}>
-          <DefaultButton text="Google" iconProps={{ iconName: 'GoogleLogo' }} grow />
-          <DefaultButton text="Microsoft" iconProps={{ iconName: 'OfficeLogo' }} grow />
+          <DefaultButton text="Google" iconProps={{ iconName: 'GoogleLogo' }} />
+          <DefaultButton text="Microsoft" iconProps={{ iconName: 'OfficeLogo' }} />
         </Stack>
       </Stack>
     </Stack>
