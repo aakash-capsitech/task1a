@@ -9,6 +9,7 @@ import {
 import { Icon } from '@fluentui/react/lib/Icon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { UserRolesModal3 } from './UserRole/Demo';
 
 const tagStyle = {
   backgroundColor: '#dff6dd',
@@ -196,7 +197,21 @@ const UserProfilePanel = ({
       </Stack>
 
       <div style={{ marginTop: 12, textAlign: "center" }}>
-        <DefaultButton text="Configure Roles" iconProps={{ iconName: "Permissions" }} />
+        {/* <DefaultButton text="Configure Roles" iconProps={{ iconName: "Permissions" }} /> */}
+        {/* <UserRolesModal3 userId={''} userName={''} userEmail={''} primaryRole={''} configRoles={[]} onUpdate={function (): void {
+          throw new Error('Function not implemented.');
+        } } /> */}
+        <UserRolesModal3
+          userId={userId}
+          userName={user.name}
+          userEmail={user.email}
+          primaryRole={user.role}
+          configRoles={user.configRoles}
+          onUpdate={() => {
+            axios.get(`http://localhost:5153/api/users/${userId}`).then((res) => setUser(res.data));
+          }}
+        />
+
       </div>
 
       <hr style={{ margin: "16px 0", borderColor: "#eee" }} />

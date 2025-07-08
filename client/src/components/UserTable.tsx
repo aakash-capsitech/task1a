@@ -258,7 +258,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
           <button className="outline-btn">Add filter</button>
         </div>
 
-        <UserRolesModal3 />
+        {/* <UserRolesModal3 /> */}
       </div>
 
       {/* Table Container (scrollable) */}
