@@ -2,10 +2,27 @@ import { SearchBox } from '@fluentui/react/lib/SearchBox';
 import { Stack, IconButton } from '@fluentui/react';
 import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const Topbar = () => {
 
   const navigate = useNavigate()
+  const [adminAccess, setAdminAccess] = useState(false)
+
+  useEffect(()=>{
+    const token: string | null = localStorage.getItem("token")
+    if (!token) {
+      setAdminAccess(false)
+      return
+    }
+
+    const decoded: any = jwtDecode(token);
+    const role = decoded?.role;
+    if(role == "admin") {
+      setAdminAccess(true)
+    }
+  },[])
 
   return (
     <div
@@ -68,7 +85,7 @@ const Topbar = () => {
             <span style={{color: "white"}}>Sign Out</span>
           </button>  
         </div>
-        <div>
+        {adminAccess && <div>
           <button style={{border: "none", background: "none"}}
           onClick={()=>{
             // localStorage.removeItem("token")
@@ -85,7 +102,7 @@ const Topbar = () => {
             /> */}
             <span style={{color: "white"}}>Admin</span>
           </button>  
-        </div>
+        </div>}
       </Stack>
     </div>
   );

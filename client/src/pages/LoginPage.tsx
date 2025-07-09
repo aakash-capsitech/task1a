@@ -73,14 +73,14 @@ const LoginPage = () => {
           )}
         </Formik>
 
-        {/* <Stack horizontalAlign="center">
+        <Stack horizontalAlign="center">
           <span>
             Don’t have an account?{' '}
             <RouterLink to="/register">
               <Link>Register</Link>
             </RouterLink>
           </span>
-        </Stack> */}
+        </Stack>
 
         <Separator>OR</Separator>
 

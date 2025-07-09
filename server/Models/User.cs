@@ -19,27 +19,20 @@
 //         [BsonElement("role")]
 //         public string Role { get; set; } = string.Empty;
 
-//         // [BsonElement("configRoles")]
-//         // public List<string> ConfigRoles { get; set; } = new();
+//         [BsonElement("phone")]
+//         public string Phone { get; set; } = string.Empty;
+
+//         [BsonElement("nationality")]
+//         public string Nationality { get; set; } = string.Empty;
+
+//         [BsonElement("address")]
+//         public string Address { get; set; } = string.Empty;
 
 //         [BsonElement("configRoles")]
 //         [BsonRepresentation(BsonType.String)]
 //         public List<UserConfigRole> ConfigRoles { get; set; } = new();
 //     }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -64,6 +57,9 @@ namespace MyMongoApp.Models
         [BsonElement("email")]
         public string Email { get; set; } = string.Empty;
 
+        [BsonElement("logins")]
+        public int Logins { get; set; } = 0;
+
         [BsonElement("role")]
         public string Role { get; set; } = string.Empty;
 
@@ -79,5 +75,8 @@ namespace MyMongoApp.Models
         [BsonElement("configRoles")]
         [BsonRepresentation(BsonType.String)]
         public List<UserConfigRole> ConfigRoles { get; set; } = new();
+
+        [BsonElement("passwordHash")]
+        public string PasswordHash { get; set; } = "12345";
     }
 }

@@ -18,15 +18,15 @@ const roles: IDropdownOption[] = [
 ];
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  firstName: Yup.string().required('first name is Required'),
+  lastName: Yup.string().required('last name is Required'),
+  email: Yup.string().email('Invalid email').required('email Required'),
   phone: Yup.string()
     .matches(/^[\d+\-()\s]{7,}$/, 'Invalid phone number')
-    .required('Required'),
-  nationality: Yup.string().required('Required'),
-  address: Yup.string().required('Required'),
-  role: Yup.string().required('Required'),
+    .required('please provide phone no.'),
+  nationality: Yup.string().required('Add your nationality'),
+  address: Yup.string().required('Address is required'),
+  role: Yup.string().required('Please select a role'),
 });
 
 const CreateUserPanel: React.FC<Props> = ({ isOpen, onDismiss, onSave }) => {

@@ -1,0 +1,362 @@
+// import {
+//   Dialog,
+//   DialogType,
+//   DialogFooter,
+//   TextField,
+//   PrimaryButton,
+//   DefaultButton,
+//   Stack,
+// } from '@fluentui/react';
+// import { useState } from 'react';
+
+// type EditUserModalProps = {
+//   initialData: {
+//     username: string;
+//     email: string;
+//     phone?: string;
+//     role?: string;
+//     address?: string;
+//     configs?: string[];
+//     nationality?: string;
+//   };
+//   onDismiss: () => void;
+//   onSave: (data: any) => void;
+// };
+
+// const EditUserModal = ({ initialData, onDismiss, onSave }: EditUserModalProps) => {
+//   const [formData, setFormData] = useState({ ...initialData });
+
+//   const handleChange = (field: string, value: string) => {
+//     setFormData((prev) => ({ ...prev, [field]: value }));
+//   };
+
+//   return (
+//     <Dialog
+//       hidden={false}
+//       onDismiss={onDismiss}
+//       dialogContentProps={{
+//         type: DialogType.largeHeader,
+//         title: 'Edit User Details',
+//       }}
+//     >
+//       <Stack tokens={{ childrenGap: 12 }}>
+//         <TextField
+//           label="Username"
+//           value={formData.username}
+//           onChange={(_, v) => handleChange('username', v || '')}
+//         />
+//         <TextField
+//           label="Email"
+//           value={formData.email}
+//           onChange={(_, v) => handleChange('email', v || '')}
+//         />
+//         <TextField
+//           label="Phone"
+//           value={formData.phone}
+//           onChange={(_, v) => handleChange('phone', v || '')}
+//         />
+//         <TextField
+//           label="Role"
+//           value={formData.role}
+//           onChange={(_, v) => handleChange('role', v || '')}
+//         />
+//         <TextField
+//           label="Address"
+//           value={formData.address}
+//           onChange={(_, v) => handleChange('address', v || '')}
+//         />
+//         <TextField
+//           label="Nationality"
+//           value={formData.nationality}
+//           onChange={(_, v) => handleChange('nationality', v || '')}
+//         />
+//       </Stack>
+
+//       <DialogFooter>
+//         <PrimaryButton
+//           onClick={() => {
+//             onSave(formData);
+//           }}
+//           text="Save"
+//         />
+//         <DefaultButton onClick={onDismiss} text="Cancel" />
+//       </DialogFooter>
+//     </Dialog>
+//   );
+// };
+
+// export default EditUserModal;
+
+
+
+
+
+
+
+
+// import {
+//   Dialog,
+//   DialogType,
+//   DialogFooter,
+//   TextField,
+//   PrimaryButton,
+//   DefaultButton,
+//   Stack,
+// } from '@fluentui/react';
+// import { useEffect, useState } from 'react';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+
+// type EditUserModalProps = {
+//   initialData: {
+//     username: string;
+//     email: string;
+//     phone?: string;
+//     role?: string;
+//     address?: string;
+//     configs?: string[];
+//     nationality?: string;
+//   };
+//   onDismiss: () => void;
+//   onSave: (data: any) => void;
+// };
+
+// const EditUserModal = ({ initialData, onDismiss, onSave }: EditUserModalProps) => {
+//   const [formData, setFormData] = useState({ ...initialData });
+//   const [errors, setErrors] = useState<Record<string, string>>({});
+
+//   const handleChange = (field: string, value: string) => {
+//     setFormData((prev) => ({ ...prev, [field]: value }));
+//     if (value.trim() !== '') {
+//       setErrors((prev) => ({ ...prev, [field]: '' }));
+//     }
+//   };
+
+//   const validate = () => {
+//     const newErrors: Record<string, string> = {};
+//     for (const [key, value] of Object.entries(formData)) {
+//       if (typeof value === 'string' && value.trim() === '') {
+//         newErrors[key] = 'This field is required';
+//       }
+//     }
+//     setErrors(newErrors);
+//     return Object.keys(newErrors).length === 0;
+//   };
+
+//   const handleSave = () => {
+//     if (!validate()) {
+//       toast.error('Please fill out all required fields.');
+//       return;
+//     }
+//     onSave(formData);
+//   };
+
+//   return (
+//     <>
+//       <ToastContainer position="top-right" autoClose={3000} />
+//       <Dialog
+//         hidden={false}
+//         onDismiss={onDismiss}
+//         dialogContentProps={{
+//           type: DialogType.largeHeader,
+//           title: 'Edit User Details',
+//         }}
+//       >
+//         <Stack tokens={{ childrenGap: 12 }}>
+//           <TextField
+//             label="Username"
+//             value={formData.username}
+//             onChange={(_, v) => handleChange('username', v || '')}
+//             errorMessage={errors.username}
+//             required
+//           />
+//           <TextField
+//             label="Email"
+//             value={formData.email}
+//             onChange={(_, v) => handleChange('email', v || '')}
+//             errorMessage={errors.email}
+//             required
+//           />
+//           <TextField
+//             label="Phone"
+//             value={formData.phone}
+//             onChange={(_, v) => handleChange('phone', v || '')}
+//             errorMessage={errors.phone}
+//             required
+//           />
+//           {/* <TextField
+//             label="Role"
+//             value={formData.role}
+//             onChange={(_, v) => handleChange('role', v || '')}
+//             errorMessage={errors.role}
+//             required
+//           /> */}
+//           <TextField
+//             label="Address"
+//             value={formData.address}
+//             onChange={(_, v) => handleChange('address', v || '')}
+//             errorMessage={errors.address}
+//             required
+//           />
+//           <TextField
+//             label="Nationality"
+//             value={formData.nationality}
+//             onChange={(_, v) => handleChange('nationality', v || '')}
+//             errorMessage={errors.nationality}
+//             required
+//           />
+//         </Stack>
+
+//         <DialogFooter>
+//           <PrimaryButton onClick={handleSave} text="Save" />
+//           <DefaultButton onClick={onDismiss} text="Cancel" />
+//         </DialogFooter>
+//       </Dialog>
+//     </>
+//   );
+// };
+
+// export default EditUserModal;
+
+
+
+
+
+import {
+  Panel,
+  PanelType,
+} from '@fluentui/react/lib/Panel';
+import {
+  TextField,
+  PrimaryButton,
+  DefaultButton,
+  Stack,
+} from '@fluentui/react';
+import { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+type EditUserPanelProps = {
+  isOpen: boolean;
+  initialData: {
+    username: string;
+    email: string;
+    phone?: string;
+    role?: string;
+    address?: string;
+    configs?: string[];
+    nationality?: string;
+  };
+  onDismiss: () => void;
+  onSave: (data: any) => void;
+};
+
+const EditUserPanel = ({ isOpen, initialData, onDismiss, onSave }: EditUserPanelProps) => {
+  const [formData, setFormData] = useState({ ...initialData });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setFormData({ ...initialData });
+    setErrors({});
+  }, [initialData, isOpen]);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (value.trim() !== '') {
+      setErrors((prev) => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    for (const [key, value] of Object.entries(formData)) {
+      if (typeof value === 'string' && value.trim() === '') {
+        newErrors[key] = 'This field is required';
+      }
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = () => {
+    if (!validate()) {
+      toast.error('Please fill out all required fields.');
+      return;
+    }
+    onSave(formData);
+    onDismiss();
+  };
+
+  return (
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Panel
+        isOpen={isOpen}
+        onDismiss={onDismiss}
+        type={PanelType.custom}
+        customWidth="400px"
+        headerText="Edit User Details"
+        closeButtonAriaLabel="Close"
+        isFooterAtBottom={true}
+        styles={{
+          main: { width: '480px' },
+          content: { padding: '24px' },
+          footer: { padding: '16px 24px' },
+        }}
+      >
+        <Stack tokens={{ childrenGap: 12 }}>
+          <TextField
+            label="Username"
+            value={formData.username}
+            onChange={(_, v) => handleChange('username', v || '')}
+            errorMessage={errors.username}
+            required
+          />
+          <TextField
+            label="Email"
+            value={formData.email}
+            onChange={(_, v) => handleChange('email', v || '')}
+            errorMessage={errors.email}
+            required
+          />
+          <TextField
+            label="Phone"
+            value={formData.phone}
+            onChange={(_, v) => handleChange('phone', v || '')}
+            errorMessage={errors.phone}
+            required
+          />
+          <TextField
+            label="Address"
+            value={formData.address}
+            onChange={(_, v) => handleChange('address', v || '')}
+            errorMessage={errors.address}
+            required
+          />
+          <TextField
+            label="Nationality"
+            value={formData.nationality}
+            onChange={(_, v) => handleChange('nationality', v || '')}
+            errorMessage={errors.nationality}
+            required
+          />
+        </Stack>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}>
+          <DefaultButton
+            text="Cancel"
+            onClick={onDismiss}
+            styles={{ root: { marginRight: 8, minWidth: 80 } }}
+          />
+          <PrimaryButton
+            text="Save"
+            onClick={handleSave}
+            styles={{ root: { minWidth: 80 } }}
+          />
+        </div>
+      </Panel>
+    </>
+  );
+};
+
+export default EditUserPanel;

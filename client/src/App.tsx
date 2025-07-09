@@ -6,6 +6,7 @@ import { AuthProvider } from "./auth/AuthContext";
 import { useAuth } from "./auth/useAuth";
 import UserHome from "./pages/UserHome";
 import type { JSX } from "react";
+import RegisterPage from "./pages/RegisterPage";
 
 // 🔐 PrivateRoute: guards routes behind auth
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -20,7 +21,7 @@ const App = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/register" element={<RegisterPage />} /> */}
+          <Route path="/register" element={<RegisterPage />} />
 
           {/* Protected Routes */}
           <Route

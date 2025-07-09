@@ -46,15 +46,61 @@ namespace MyMongoApp.Controllers
         // }
 
 
+        // [HttpPost("login")]
+        // public async Task<IActionResult> Login(LoginRequest request)
+        // {
+        //     var user = await _users.Find(u => u.Email == request.Email).FirstOrDefaultAsync();
+        //     // if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        //     //     return Unauthorized("Invalid credentials.");
+
+        //      if (user == null || request.Password!="123123")
+        //         return Unauthorized("Invalid credentials.");
+
+        //     var tokenHandler = new JwtSecurityTokenHandler();
+        //     var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"] ?? "supersecretkey123");
+
+        //     var tokenDescriptor = new SecurityTokenDescriptor
+        //     {
+        //         Subject = new ClaimsIdentity(new[]
+        //         {
+        //             new Claim(ClaimTypes.Email, user.Email),
+        //             new Claim(ClaimTypes.NameIdentifier, user.Id), // <-- Add this line to include user ID
+        //             new Claim(ClaimTypes.Role, user.Role),
+        //         }),
+        //         Expires = DateTime.UtcNow.AddHours(1),
+        //         SigningCredentials = new SigningCredentials(
+        //             new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //     };
+
+        //     var token = tokenHandler.CreateToken(tokenDescriptor);
+        //     return Ok(new { token = tokenHandler.WriteToken(token) });
+        // }
+
+
+        /// <summary>
+        /// for user login
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = await _users.Find(u => u.Email == request.Email).FirstOrDefaultAsync();
-            // if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-            //     return Unauthorized("Invalid credentials.");
-
-             if (user == null || request.Password!="123123")
+            if (user == null)
                 return Unauthorized("Invalid credentials.");
+
+            bool isFirstTimeUser = user.Logins == 0 && user.PasswordHash == "12345";
+
+            bool isValidPassword = isFirstTimeUser
+                ? request.Password == "12345"
+                : BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+
+            if (!isValidPassword)
+                return Unauthorized("Invalid credentials.");
+
+            // Increment login count on successful login
+            // var update = Builders<User>.Update.Inc(u => u.Logins, 1);
+            // await _users.UpdateOneAsync(u => u.Id == user.Id, update);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"] ?? "supersecretkey123");
@@ -64,16 +110,20 @@ namespace MyMongoApp.Controllers
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id) // <-- Add this line to include user ID
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Role, user.Role),
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                )
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return Ok(new { token = tokenHandler.WriteToken(token) });
         }
+
 
     }
 }
