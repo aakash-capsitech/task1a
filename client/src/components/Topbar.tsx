@@ -1,110 +1,296 @@
-import { SearchBox } from '@fluentui/react/lib/SearchBox';
-import { Stack, IconButton } from '@fluentui/react';
-import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+// import { SearchBox } from '@fluentui/react/lib/SearchBox';
+// import { Stack, IconButton } from '@fluentui/react';
+// import { Persona, PersonaSize } from '@fluentui/react/lib/Persona';
+// import { useNavigate } from 'react-router-dom';
+// import { useEffect, useState } from 'react';
+// import { jwtDecode } from 'jwt-decode';
+
+// const Topbar = () => {
+
+//   const navigate = useNavigate()
+//   const [adminAccess, setAdminAccess] = useState(false)
+
+//   useEffect(()=>{
+//     const token: string | null = localStorage.getItem("token")
+//     if (!token) {
+//       setAdminAccess(false)
+//       return
+//     }
+
+//     const decoded: any = jwtDecode(token);
+//     const role = decoded?.role;
+//     if(role == "admin") {
+//       setAdminAccess(true)
+//     }
+//   },[])
+
+//   return (
+//     <div
+//       style={{
+//         // height: 60,
+//         // minHeight: 60,
+//         backgroundColor: '#0078D4',
+//         color: 'white',
+//         padding: '5px 16px',
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
+//         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+//       }}
+//     >
+//       {/* Left: Title */}
+//       <div style={{ fontSize: 16, fontWeight: 500, whiteSpace: 'nowrap' }}>
+//         Acting Office - Dev
+//       </div>
+
+//       {/* Center: Search bar (collapses on small screens) */}
+//       <div
+//         style={{
+//           flex: 1,
+//           maxWidth: 320,
+//           margin: '0 16px',
+//         }}
+//       >
+//         <SearchBox
+//           placeholder="Ctrl + K"
+//           styles={{
+//             root: {
+//               width: '100%',
+//               borderRadius: 4,
+//               backgroundColor: 'white',
+//             },
+//             field: {
+//               fontSize: 14,
+//               padding: '4px 8px',
+//             },
+//             iconContainer: {
+//               color: '#605e5c',
+//             },
+//           }}
+//         />
+//       </div>
+
+//       {/* Right: Icons + Persona */}
+//       <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+//         <IconButton iconProps={{ iconName: 'Waffle' }} title="Apps" styles={{ root: { color: 'white' } }} />
+//         <IconButton iconProps={{ iconName: 'News' }} title="Feed" styles={{ root: { color: 'white' } }} />
+//         <IconButton iconProps={{ iconName: 'ReadingMode' }} title="Bookmarks" styles={{ root: { color: 'white' } }} />
+//         <IconButton iconProps={{ iconName: 'Headset' }} title="Support" styles={{ root: { color: 'white' } }} />
+//         <div>
+//           <button style={{border: "none", background: "none"}}
+//           onClick={()=>{
+//             localStorage.removeItem("token")
+//             navigate("/login")
+//           }}>
+//             <span style={{color: "white"}}>Sign Out</span>
+//           </button>  
+//         </div>
+//         {adminAccess && <div>
+//           <button style={{border: "none", background: "none"}}
+//           onClick={()=>{
+//             // localStorage.removeItem("token")
+//             navigate("/admin")
+//           }}>
+//             {/* <Persona
+//               text="Sign Out"
+//               size={PersonaSize.size32}
+//               hidePersonaDetails
+//               styles={{
+//                 root: { background: 'transparent' },
+//                 primaryText: { color: 'white' },
+//               }}
+//             /> */}
+//             <span style={{color: "white"}}>Admin</span>
+//           </button>  
+//         </div>}
+//       </Stack>
+//     </div>
+//   );
+// };
+
+// export default Topbar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import {
+  SearchBox,
+  Stack,
+  IconButton,
+  Persona,
+  PersonaSize,
+  Callout,
+  DirectionalHint,
+  DefaultButton,
+  mergeStyleSets,
+  PersonaPresence,
+} from '@fluentui/react';
+import { useEffect, useRef, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
+const classNames = mergeStyleSets({
+  calloutContainer: {
+    width: 270,
+    padding: 12,
+    borderRadius: 8,
+    boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+  },
+  optionRow: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: 4,
+    selectors: {
+      ':hover': {
+        backgroundColor: '#f3f2f1',
+      },
+    },
+  },
+  icon: {
+    fontSize: 16,
+    marginRight: 10,
+    color: '#323130',
+  },
+  label: {
+    fontSize: 14,
+    color: '#323130',
+  },
+});
 
 const Topbar = () => {
+  const navigate = useNavigate();
+  const [adminAccess, setAdminAccess] = useState(false);
+  const [isCalloutVisible, setIsCalloutVisible] = useState(false);
+  const [userInfo, setUserInfo] = useState({ name: 'User', role: 'Admin' });
+  const personaRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate()
-  const [adminAccess, setAdminAccess] = useState(false)
-
-  useEffect(()=>{
-    const token: string | null = localStorage.getItem("token")
-    if (!token) {
-      setAdminAccess(false)
-      return
-    }
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
     const decoded: any = jwtDecode(token);
-    const role = decoded?.role;
-    if(role == "admin") {
-      setAdminAccess(true)
-    }
-  },[])
+    setAdminAccess(decoded?.role === 'admin');
+    setUserInfo({
+      name: decoded?.email || 'User',
+      role: decoded?.role || 'User',
+    });
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
-    <div
-      style={{
-        // height: 60,
-        // minHeight: 60,
-        backgroundColor: '#0078D4',
-        color: 'white',
-        padding: '5px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      }}
-    >
-      {/* Left: Title */}
-      <div style={{ fontSize: 16, fontWeight: 500, whiteSpace: 'nowrap' }}>
-        Acting Office - Dev
-      </div>
-
-      {/* Center: Search bar (collapses on small screens) */}
+    <>
       <div
         style={{
-          flex: 1,
-          maxWidth: 320,
-          margin: '0 16px',
+          backgroundColor: '#0078D4',
+          color: 'white',
+          padding: '5px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         }}
       >
-        <SearchBox
-          placeholder="Ctrl + K"
-          styles={{
-            root: {
-              width: '100%',
-              borderRadius: 4,
-              backgroundColor: 'white',
-            },
-            field: {
-              fontSize: 14,
-              padding: '4px 8px',
-            },
-            iconContainer: {
-              color: '#605e5c',
-            },
-          }}
-        />
+        <div style={{ fontSize: 16, fontWeight: 500 }}>Acting Office - Dev</div>
+
+        <div style={{ flex: 1, maxWidth: 320, margin: '0 16px' }}>
+          <SearchBox
+            placeholder="Ctrl + K"
+            styles={{
+              root: { width: '100%', borderRadius: 4, backgroundColor: 'white' },
+              field: { fontSize: 14, padding: '4px 8px' },
+              iconContainer: { color: '#605e5c' },
+            }}
+          />
+        </div>
+
+        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+          <IconButton iconProps={{ iconName: 'Waffle' }} title="Apps" styles={{ root: { color: 'white' } }} />
+          <IconButton iconProps={{ iconName: 'News' }} title="Feed" styles={{ root: { color: 'white' } }} />
+          <IconButton iconProps={{ iconName: 'ReadingMode' }} title="Bookmarks" styles={{ root: { color: 'white' } }} />
+          <IconButton iconProps={{ iconName: 'Headset' }} title="Support" styles={{ root: { color: 'white' } }} />
+
+          <div ref={personaRef}>
+            <button
+              onClick={() => setIsCalloutVisible((prev) => !prev)}
+              style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}
+            >
+              <Persona
+                text={userInfo.name}
+                size={PersonaSize.size40}
+                hidePersonaDetails
+                presence={PersonaPresence.online}
+                initialsColor={6}
+                styles={{
+                  root: { background: 'transparent' },
+                  primaryText: { color: 'white' },
+                }}
+              />
+            </button>
+          </div>
+        </Stack>
       </div>
 
-      {/* Right: Icons + Persona */}
-      <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-        <IconButton iconProps={{ iconName: 'Waffle' }} title="Apps" styles={{ root: { color: 'white' } }} />
-        <IconButton iconProps={{ iconName: 'News' }} title="Feed" styles={{ root: { color: 'white' } }} />
-        <IconButton iconProps={{ iconName: 'ReadingMode' }} title="Bookmarks" styles={{ root: { color: 'white' } }} />
-        <IconButton iconProps={{ iconName: 'Headset' }} title="Support" styles={{ root: { color: 'white' } }} />
-        <div>
-          <button style={{border: "none", background: "none"}}
-          onClick={()=>{
-            localStorage.removeItem("token")
-            navigate("/login")
-          }}>
-            <span style={{color: "white"}}>Sign Out</span>
-          </button>  
-        </div>
-        {adminAccess && <div>
-          <button style={{border: "none", background: "none"}}
-          onClick={()=>{
-            // localStorage.removeItem("token")
-            navigate("/admin")
-          }}>
-            {/* <Persona
-              text="Sign Out"
-              size={PersonaSize.size32}
-              hidePersonaDetails
+      {isCalloutVisible && (
+        <Callout
+          target={personaRef.current as Element}
+          onDismiss={() => setIsCalloutVisible(false)}
+          directionalHint={DirectionalHint.bottomRightEdge}
+          gapSpace={8}
+          isBeakVisible
+          setInitialFocus
+        >
+          <div className={classNames.calloutContainer}>
+            <Persona
+              text={userInfo.name}
+              secondaryText={userInfo.role}
+              size={PersonaSize.size48}
+              presence={PersonaPresence.online}
               styles={{
-                root: { background: 'transparent' },
-                primaryText: { color: 'white' },
+                root: { marginBottom: 12 },
+                secondaryText: { color: '#605e5c' },
               }}
-            /> */}
-            <span style={{color: "white"}}>Admin</span>
-          </button>  
-        </div>}
-      </Stack>
-    </div>
+            />
+
+            {/* <div
+              className={classNames.optionRow}
+              onClick={() => {
+                // alert('Go to profile');
+                navigate("/profile")
+                setIsCalloutVisible(false)
+              }}
+            >
+              <span className={`ms-Icon ms-Icon--ContactInfo ${classNames.icon}`} />
+              <span className={classNames.label}>Profile</span>
+            </div> */}
+
+            <div className={classNames.optionRow} onClick={handleSignOut}>
+              <span className={`ms-Icon ms-Icon--SignOut ${classNames.icon}`} />
+              <span className={classNames.label}>Sign Out</span>
+            </div>
+          </div>
+        </Callout>
+      )}
+    </>
   );
 };
 
