@@ -7,6 +7,8 @@ using MyMongoApp.Enums;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BCrypt.Net;
+using MongoDB.Bson;
+
 
 
 namespace MyMongoApp.Controllers
@@ -172,12 +174,99 @@ namespace MyMongoApp.Controllers
         /// for getting all users
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _context.Users.Find(_ => true).ToListAsync();
-            return Ok(users);
-        }
+        // [HttpGet]
+        // public async Task<IActionResult> GetUsers()
+        // {
+        //     var users = await _context.Users.Find(_ => true).ToListAsync();
+        //     return Ok(users);
+        // }
+
+
+
+        //         [HttpGet]
+        // public async Task<IActionResult> GetUsers(
+        //     int page = 1,
+        //     int pageSize = 10,
+        //     string? search = null,
+        //     string? status = null)
+        // {
+        //     var filterBuilder = Builders<User>.Filter;
+        //     var filters = new List<FilterDefinition<User>>();
+
+        //     if (!string.IsNullOrWhiteSpace(search))
+        //     {
+        //         var regex = new BsonRegularExpression(search, "i");
+        //         filters.Add(filterBuilder.Or(
+        //             filterBuilder.Regex(u => u.Name, regex),
+        //             filterBuilder.Regex(u => u.Email, regex),
+        //             filterBuilder.Regex(u => u.Phone, regex)
+        //         ));
+        //     }
+
+        //     // if (!string.IsNullOrEmpty(status))
+        //     // {
+        //     //     // Assuming User has a Status field (Active/Inactive)
+        //     //     filters.Add(filterBuilder.Eq(u => u.Status, status));
+        //     // }
+
+        //     var finalFilter = filters.Any() ? filterBuilder.And(filters) : filterBuilder.Empty;
+
+        //     var total = await _context.Users.CountDocumentsAsync(finalFilter);
+        //     var users = await _context.Users
+        //         .Find(finalFilter)
+        //         .Skip((page - 1) * pageSize)
+        //         .Limit(pageSize)
+        //         .ToListAsync();
+
+        //     return Ok(new { total, users });
+        // }
+
+[HttpGet]
+public async Task<IActionResult> GetUsers(
+    int page = 1,
+    int pageSize = 10,
+    string? search = null,
+    string? role = null,
+    string? nationality = null)
+{
+    var filterBuilder = Builders<User>.Filter;
+    var filters = new List<FilterDefinition<User>>();
+
+    if (!string.IsNullOrWhiteSpace(search))
+    {
+        var regex = new BsonRegularExpression(search, "i");
+        filters.Add(filterBuilder.Or(
+            filterBuilder.Regex(u => u.Name, regex),
+            filterBuilder.Regex(u => u.Email, regex),
+            filterBuilder.Regex(u => u.Phone, regex)
+        ));
+    }
+
+    if (!string.IsNullOrWhiteSpace(role))
+    {
+        var regex = new BsonRegularExpression(role, "i");
+        filters.Add(filterBuilder.Regex(u => u.Role, regex));
+    }
+
+    if (!string.IsNullOrWhiteSpace(nationality))
+    {
+        var regex = new BsonRegularExpression(nationality, "i");
+        filters.Add(filterBuilder.Regex(u => u.Nationality, regex));
+    }
+
+    var finalFilter = filters.Any() ? filterBuilder.And(filters) : filterBuilder.Empty;
+
+    var total = await _context.Users.CountDocumentsAsync(finalFilter);
+    var users = await _context.Users
+        .Find(finalFilter)
+        .Skip((page - 1) * pageSize)
+        .Limit(pageSize)
+        .ToListAsync();
+
+    return Ok(new { total, users });
+}
+
+
 
         /// <summary>
         /// for deleting user
