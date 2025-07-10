@@ -1,11 +1,11 @@
 import Layout from '../components/Layout'
-import MainUserUserTablePage from '../components/UserUserTablePage'
+import UserProfilePage from '../components/UserProfilePage'
 
 const UserHome = () => {
   return (
     <div>
        <Layout>
-        <MainUserUserTablePage />
+        <UserProfilePage />
       </Layout>
     </div>
   )

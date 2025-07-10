@@ -3,6 +3,7 @@ import {
   DetailsList,
   type IColumn,
   Icon,
+  PrimaryButton,
   SearchBox,
   SelectionMode,
   TextField,
@@ -95,9 +96,11 @@ const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
 const [selectedRole, setSelectedRole] = useState<string | null>(null);
 const [selectedNationality, setSelectedNationality] = useState<string | null>(null);
 
+const [tempInput, setTempInput] = useState('');
+
 const filterOptions: IDropdownOption[] = [
   { key: 'role', text: 'Roles' },
-  { key: 'nationality', text: 'Team' },
+  // { key: 'nationality', text: 'Nationality' },
 ];
 
 
@@ -324,14 +327,14 @@ const fetchUsers = async () => {
         </div>
 
         <SearchBox
-  placeholder="Search by name, email, phone"
-  value={searchTerm}
-  onChange={(_, newValue) => {
-    setSearchTerm(newValue || "");
-    setPage(1); // reset to first page
-  }}
-  styles={{ root: { width: 200 } }}
-/>
+          placeholder="Search by name, email, phone"
+          value={searchTerm}
+          onChange={(_, newValue) => {
+            setSearchTerm(newValue || "");
+            setPage(1); // reset to first page
+          }}
+          styles={{ root: { width: 200 } }}
+        />
 
 {/* <select
   value={statusFilter}
@@ -360,7 +363,7 @@ const fetchUsers = async () => {
     <span style={{
       backgroundColor: "#f3f2f1", borderRadius: "12px", padding: "4px 8px", display: "flex", alignItems: "center", gap: "4px", fontSize: "13px"
     }}>
-      Team = <strong>{selectedNationality}</strong>
+      Nationality = <strong>{selectedNationality}</strong>
       <Icon iconName="Cancel" style={{ cursor: "pointer" }} onClick={() => { setSelectedNationality(null); setPage(1); }} />
     </span>
   )}
@@ -390,22 +393,33 @@ const fetchUsers = async () => {
         <TextField
           placeholder="Enter role"
           onChange={(_, val) => {
-            setSelectedRole(val || null);
-            setFilterPanelVisible(false);
-            setPage(1);
+            // setSelectedRole(val || null);
+            // setFilterPanelVisible(false);
+            // setPage(1);
+            setTempInput(val || '')
           }}
         />
       )}
-      {selectedFilter === "nationality" && (
+      {/* {selectedFilter === "nationality" && (
         <TextField
-          placeholder="Enter team"
+          placeholder="Enter Nationality"
           onChange={(_, val) => {
-            setSelectedNationality(val || null);
-            setFilterPanelVisible(false);
-            setPage(1);
+            // setSelectedNationality(val || null);
+            // setFilterPanelVisible(false);
+            // setPage(1);
+            setTempInput(val || '')
           }}
         />
-      )}
+      )} */}
+
+      <PrimaryButton
+        text="Apply Filter"
+        onClick={() => {
+          setSelectedRole(tempInput || null);
+          setFilterPanelVisible(false);
+          setPage(1);
+        }}
+      />
     </div>
   )}
 </div>
