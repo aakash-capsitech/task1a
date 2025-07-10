@@ -8,7 +8,7 @@ import UserHome from "./pages/UserHome";
 import type { JSX } from "react";
 import RegisterPage from "./pages/RegisterPage";
 
-// 🔐 PrivateRoute: guards routes behind auth
+// PrivateRoute: guards routes behind auth
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const { isLoggedIn } = useAuth();
   return isLoggedIn ? children : <Navigate to="/login" replace />;

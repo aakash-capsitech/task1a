@@ -82,7 +82,7 @@ const UserDetailsCard = ({
 
         // setUserData(res.data);
       } catch (err) {
-        console.error('❌ Failed to fetch user data', err);
+        console.error('Failed to fetch user data', err);
         // setError('Could not load user data.');
       }
     };

@@ -147,7 +147,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
       setItems(response.data.users || []);
       setTotalUsers(response.data.total || 0);
     } catch (err) {
-      console.error("❌ Failed to fetch users", err);
+      console.error("Failed to fetch users", err);
       setItems([]);
     } finally {
       onLoading(false);
@@ -182,7 +182,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
       });
       await fetchUsers();
     } catch (err) {
-      console.error("❌ Failed to save user", err);
+      console.error("Failed to save user", err);
     } finally {
       onLoading(false);
     }
@@ -193,7 +193,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
       await axios.delete(`http://localhost:5153/api/users/${userId}`);
       await fetchUsers();
     } catch (err) {
-      console.error("❌ Failed to delete user", err);
+      console.error("Failed to delete user", err);
     }
   };
 
@@ -549,7 +549,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
               await fetchUsers();
               setIsEditOpen(false);
             } catch (err) {
-              console.error("❌ Failed to update user", err);
+              console.error("Failed to update user", err);
             }
           }}
         />

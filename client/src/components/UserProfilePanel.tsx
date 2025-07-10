@@ -37,11 +37,11 @@ const UserProfilePanel = ({
   useEffect(() => {
     axios.get(`http://localhost:5153/api/users/${userId}`)
       .then((res) => {
-        console.log("📦 Full response:", res.data);
+        console.log("Full response:", res.data);
         setUser(res.data);
       })
       .catch((err) => {
-        console.error("❌ Failed to fetch user:", err);
+        console.error("Failed to fetch user:", err);
       });
   }, [userId]);
 
@@ -62,7 +62,7 @@ const UserProfilePanel = ({
         position: "relative",
       }}
     >
-      {/* ❌ Close Button */}
+      {/* Close Button */}
       <button
         onClick={onClose}
         style={{

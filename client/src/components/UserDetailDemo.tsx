@@ -35,7 +35,7 @@ const UserDetailsDemo = () => {
 
         setUserData(res.data);
       } catch (err) {
-        console.error('❌ Failed to fetch user data', err);
+        console.error('Failed to fetch user data', err);
         setError('Could not load user data.');
       }
     };
@@ -81,7 +81,7 @@ const UserDetailsDemo = () => {
         configRoles: updatedData.configs,
       }));
     } catch (err) {
-      console.error('❌ Failed to save user', err);
+      console.error('Failed to save user', err);
       setError('Could not save user data.');
     }
   };

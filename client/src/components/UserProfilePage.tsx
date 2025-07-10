@@ -26,7 +26,7 @@ const UserProfilePage = () => {
         setUserConfigRoles(res.data.configRoles || []);
         setAdminAccess(res.data.role === "admin");
       } catch (err) {
-        console.error("❌ Failed to fetch user", err);
+        console.error("Failed to fetch user", err);
       }
     };
 
