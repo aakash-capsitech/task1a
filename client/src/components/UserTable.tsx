@@ -13,6 +13,8 @@ import SB from "./SB";
 import UserProfilePanel from "./UserProfilePanel";
 import EditUserPanel from "./EditUserPanel";
 import { Dropdown, type IDropdownOption } from "@fluentui/react/lib/Dropdown";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const buttonStyle = {
   display: "flex",
@@ -182,6 +184,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
       });
       await fetchUsers();
     } catch (err) {
+      toast.error("user with this email already exists")
       console.error("Failed to save user", err);
     } finally {
       onLoading(false);
@@ -548,7 +551,9 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
               );
               await fetchUsers();
               setIsEditOpen(false);
+              toast.success("user updated successfully")
             } catch (err) {
+              toast.error("something went wrong")
               console.error("Failed to update user", err);
             }
           }}

@@ -1,20 +1,10 @@
-// import React from 'react'
-
-// const CallFlow = () => {
-//   return (
-//     <div>CallFlow</div>
-//   )
-// }
-
-// export default CallFlow
-
 import { LoginRulesPage } from '../../ListComponents/LoginRulesPage';
 import Topbar from '../Topbar';
 import Sidebar from '../Sidebar';
 import SB from '../SB';
 import UserDetailsDemo from '../UserDetailDemo';
 
-const CallFlow = () => {
+const Profile = () => {
   return (
     <div className="d-flex" style={{ height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
@@ -35,7 +25,7 @@ const CallFlow = () => {
           >
             <SB
               userConfigRoles={[]}
-              activeItem="Call flow"
+              activeItem="Profile"
               setActiveItem={() => {}}
             />
           </div>
@@ -46,7 +36,7 @@ const CallFlow = () => {
             style={{ overflowY: 'auto', height: '100%' }}
           >
             {/* <LoginRulesPage /> */}
-            <h1>CallFlow</h1>
+            <UserDetailsDemo />
           </div>
         </div>
       </div>
@@ -54,4 +44,4 @@ const CallFlow = () => {
   );
 };
 
-export default CallFlow;
+export default Profile;

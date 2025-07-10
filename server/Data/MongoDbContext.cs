@@ -20,6 +20,9 @@ namespace MyMongoApp.Data
 
         public IMongoCollection<LogEntry> Logs => _database.GetCollection<LogEntry>("Logs");
 
+        public IMongoCollection<LoginRule> LoginRules => _database.GetCollection<LoginRule>("LoginRules");
+
+
 
         // Auth-specific users
         // public IMongoCollection<AUser> AUsers => _database.GetCollection<AUser>("auth_users");

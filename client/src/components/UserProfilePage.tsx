@@ -10,8 +10,8 @@ import CallFlow from './TemplatePages/CallFlow';
 import CannedEmails from './TemplatePages/CannedEmails';
 import UserDetailsDemo from "./UserDetailDemo";
 
-const UserProfilePage = () => {
-  const [activeItem, setActiveItem] = useState("Profile");
+const UserProfilePage = ({active}:{active: string}) => {
+  const [activeItem, setActiveItem] = useState(active);
   const [adminAccess, setAdminAccess] = useState(false);
   const [userConfigRoles, setUserConfigRoles] = useState<string[]>([]);
 

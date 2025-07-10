@@ -5,7 +5,7 @@ const UserHome = () => {
   return (
     <div>
        <Layout>
-        <UserProfilePage />
+        <UserProfilePage active={""} />
       </Layout>
     </div>
   )

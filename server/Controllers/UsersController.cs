@@ -69,63 +69,65 @@ namespace MyMongoApp.Controllers
         }
 
 
-        /// <summary>
-        /// for updating user
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="dto"></param>
-        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto dto)
+public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto dto)
+{
+    var updates = new List<UpdateDefinition<User>>();
+
+    if (!string.IsNullOrWhiteSpace(dto.Name))
+        updates.Add(Builders<User>.Update.Set(u => u.Name, dto.Name));
+
+    if (!string.IsNullOrWhiteSpace(dto.Email))
+    {
+        var existing = await _context.Users.Find(u => u.Email == dto.Email && u.Id != id).FirstOrDefaultAsync();
+        if (existing != null)
         {
-            var updates = new List<UpdateDefinition<User>>();
-
-            if (!string.IsNullOrWhiteSpace(dto.Name))
-                updates.Add(Builders<User>.Update.Set(u => u.Name, dto.Name));
-
-            if (!string.IsNullOrWhiteSpace(dto.Email))
-                updates.Add(Builders<User>.Update.Set(u => u.Email, dto.Email));
-
-            if (!string.IsNullOrWhiteSpace(dto.Role))
-                updates.Add(Builders<User>.Update.Set(u => u.Role, dto.Role));
-
-            if (!string.IsNullOrWhiteSpace(dto.Phone))
-                updates.Add(Builders<User>.Update.Set(u => u.Phone, dto.Phone));
-
-            if (!string.IsNullOrWhiteSpace(dto.Nationality))
-                updates.Add(Builders<User>.Update.Set(u => u.Nationality, dto.Nationality));
-
-            if (!string.IsNullOrWhiteSpace(dto.Address))
-                updates.Add(Builders<User>.Update.Set(u => u.Address, dto.Address));
-
-            if (dto.ConfigRoles is not null)
-            {
-                var parsedRoles = new List<UserConfigRole>();
-                foreach (var roleStr in dto.ConfigRoles)
-                {
-                    if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
-                    {
-                        parsedRoles.Add(parsed);
-                    }
-                    else
-                    {
-                        return BadRequest($"Invalid config role: {roleStr}");
-                    }
-                }
-                updates.Add(Builders<User>.Update.Set(u => u.ConfigRoles, parsedRoles));
-            }
-
-            if (!updates.Any())
-                return BadRequest("No valid fields provided for update.");
-
-            var updateDef = Builders<User>.Update.Combine(updates);
-            var result = await _context.Users.UpdateOneAsync(u => u.Id == id, updateDef);
-
-            if (result.MatchedCount == 0)
-                return NotFound();
-
-            return Ok(new { message = "User updated successfully." });
+            return BadRequest("A user with this email already exists.");
         }
+        updates.Add(Builders<User>.Update.Set(u => u.Email, dto.Email));
+    }
+
+    if (!string.IsNullOrWhiteSpace(dto.Role))
+        updates.Add(Builders<User>.Update.Set(u => u.Role, dto.Role));
+
+    if (!string.IsNullOrWhiteSpace(dto.Phone))
+        updates.Add(Builders<User>.Update.Set(u => u.Phone, dto.Phone));
+
+    if (!string.IsNullOrWhiteSpace(dto.Nationality))
+        updates.Add(Builders<User>.Update.Set(u => u.Nationality, dto.Nationality));
+
+    if (!string.IsNullOrWhiteSpace(dto.Address))
+        updates.Add(Builders<User>.Update.Set(u => u.Address, dto.Address));
+
+    if (dto.ConfigRoles != null && dto.ConfigRoles.Any())
+    {
+        var parsedRoles = new List<UserConfigRole>();
+        foreach (var roleStr in dto.ConfigRoles)
+        {
+            if (Enum.TryParse<UserConfigRole>(roleStr, ignoreCase: true, out var parsed))
+            {
+                parsedRoles.Add(parsed);
+            }
+            else
+            {
+                return BadRequest($"Invalid config role: {roleStr}");
+            }
+        }
+        updates.Add(Builders<User>.Update.Set(u => u.ConfigRoles, parsedRoles));
+    }
+
+    if (!updates.Any())
+        return BadRequest("No valid fields provided for update.");
+
+    var updateDef = Builders<User>.Update.Combine(updates);
+    var result = await _context.Users.UpdateOneAsync(u => u.Id == id, updateDef);
+
+    if (result.MatchedCount == 0)
+        return NotFound();
+
+    return Ok(new { message = "User updated successfully." });
+}
+
 
 
         /// <summary>
@@ -170,56 +172,6 @@ namespace MyMongoApp.Controllers
         }
 
 
-        /// <summary>
-        /// for getting all users
-        /// </summary>
-        /// <returns></returns>
-        // [HttpGet]
-        // public async Task<IActionResult> GetUsers()
-        // {
-        //     var users = await _context.Users.Find(_ => true).ToListAsync();
-        //     return Ok(users);
-        // }
-
-
-
-        //         [HttpGet]
-        // public async Task<IActionResult> GetUsers(
-        //     int page = 1,
-        //     int pageSize = 10,
-        //     string? search = null,
-        //     string? status = null)
-        // {
-        //     var filterBuilder = Builders<User>.Filter;
-        //     var filters = new List<FilterDefinition<User>>();
-
-        //     if (!string.IsNullOrWhiteSpace(search))
-        //     {
-        //         var regex = new BsonRegularExpression(search, "i");
-        //         filters.Add(filterBuilder.Or(
-        //             filterBuilder.Regex(u => u.Name, regex),
-        //             filterBuilder.Regex(u => u.Email, regex),
-        //             filterBuilder.Regex(u => u.Phone, regex)
-        //         ));
-        //     }
-
-        //     // if (!string.IsNullOrEmpty(status))
-        //     // {
-        //     //     // Assuming User has a Status field (Active/Inactive)
-        //     //     filters.Add(filterBuilder.Eq(u => u.Status, status));
-        //     // }
-
-        //     var finalFilter = filters.Any() ? filterBuilder.And(filters) : filterBuilder.Empty;
-
-        //     var total = await _context.Users.CountDocumentsAsync(finalFilter);
-        //     var users = await _context.Users
-        //         .Find(finalFilter)
-        //         .Skip((page - 1) * pageSize)
-        //         .Limit(pageSize)
-        //         .ToListAsync();
-
-        //     return Ok(new { total, users });
-        // }
 
 [HttpGet]
 public async Task<IActionResult> GetUsers(

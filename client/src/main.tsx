@@ -7,12 +7,14 @@ import { ThemeProvider } from '@fluentui/react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fluentui/react/dist/css/fabric.css';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
+import { ToastContainer } from 'react-toastify';
 
 initializeIcons();
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <ToastContainer position="top-right" autoClose={3000} />
     <ThemeProvider>
       <App />
     </ThemeProvider>

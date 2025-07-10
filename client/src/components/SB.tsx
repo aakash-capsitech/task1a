@@ -109,10 +109,32 @@ const SB = ({
                         // Clear active item when navigating to admin
                         setActiveItem("");
                         navigate("/admin");
-                      } else {
+                      }
+                      else if (item == "Profile") {
+                        setActiveItem("");
+                        navigate("/profile");
+                      }
+                      else if (item == "Automation") {
+                        setActiveItem("");
+                        navigate("/automation");
+                      }
+                      else if (item == "Call flow") {
+                        setActiveItem("");
+                        navigate("/callflow");
+                      }
+                      else if (item == "Addons") {
+                        setActiveItem("Addons");
+                        navigate("/addons");
+                      }
+                      else if (item == "Canned emails") {
+                        setActiveItem("");
+                        navigate("/cannedemails");
+                      }
+                      else {
                         // Set active item first, then always navigate to home
-                        setActiveItem(item);
-                        navigate("/");
+                        setActiveItem("");
+                        navigate("/practice");
+                        // navigate("/")
                       }
                     }}
                     onMouseEnter={(e) => {

@@ -33,7 +33,7 @@ const LoginPage = () => {
                 password: values.password
               });
               login(res.data.token);
-              navigate('/');
+              navigate('/profile');
             } catch (err) {
               alert('Invalid credentials');
             }
