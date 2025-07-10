@@ -45,14 +45,35 @@ const EditUserPanel = ({ isOpen, initialData, onDismiss, onSave }: EditUserPanel
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    for (const [key, value] of Object.entries(formData)) {
-      if (typeof value === 'string' && value.trim() === '') {
-        newErrors[key] = 'This field is required';
-      }
+
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
     }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+
+    if (!formData.phone?.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\d{10,15}$/.test(formData.phone)) {
+      newErrors.phone = 'Phone number must be 10–15 digits';
+    }
+
+    if (!formData.address?.trim()) {
+      newErrors.address = 'Address is required';
+    }
+
+    if (!formData.nationality?.trim()) {
+      newErrors.nationality = 'Nationality is required';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
 
   const handleSave = () => {
     if (!validate()) {
