@@ -419,6 +419,7 @@ import {
 } from "@fluentui/react";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type AddLoginRulePanelProps = {
   isOpen: boolean;
@@ -512,8 +513,10 @@ export const AddLoginRulePanel = ({
     try {
       if (existingRule) {
         await axios.put(`http://localhost:5153/api/loginrules/${existingRule.id}`, payload);
+        toast.success("Login rules Updated")
       } else {
         await axios.post("http://localhost:5153/api/loginrules", payload);
+        toast.success("Login rules created")
       }
     } catch (err) {
       console.error("Save failed", err);

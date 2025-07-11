@@ -11,8 +11,8 @@ import {
 // import EditUserModal from './EditUserPanel'; // 💡 Separate modal for reuse
 import { jwtDecode } from 'jwt-decode';
 // import axios from 'axios';
-import ChangePasswordModal from './ChangePasswordModal';
-import EditUserPanel from './EditUserPanel';
+import ChangePasswordModal from '../Panels/ChangePasswordModal';
+import EditUserPanel from '../Panels/EditUserPanel';
 
 type UserDetailsProps = {
   username: string;

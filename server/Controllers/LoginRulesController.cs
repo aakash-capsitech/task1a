@@ -27,24 +27,63 @@ namespace MyMongoApp.Controllers
             return Ok(rules);
         }
 
+        // [HttpPost]
+        // public async Task<IActionResult> Create([FromBody] CreateLoginRuleDto dto)
+        // {
+        //     var rule = new LoginRule
+        //     {
+        //         UserIds = dto.UserIds,
+        //         Restriction = dto.Restriction,
+        //         FromDate = dto.FromDate,
+        //         ToDate = dto.ToDate,
+        //     };
+
+        //     await _context.LoginRules.InsertOneAsync(rule);
+        //     return Ok(rule);
+        // }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateLoginRuleDto dto)
         {
-            var rule = new LoginRule
+            if (dto.UserIds == null || dto.UserIds.Count == 0)
+                return BadRequest("At least one user must be selected.");
+
+            var rules = dto.UserIds.Select(userId => new LoginRule
             {
-                UserIds = dto.UserIds,
+                UserIds = new List<string> { userId }, // single user per rule
                 Restriction = dto.Restriction,
                 FromDate = dto.FromDate,
-                ToDate = dto.ToDate,
-            };
+                ToDate = dto.ToDate
+            }).ToList();
 
-            await _context.LoginRules.InsertOneAsync(rule);
-            return Ok(rule);
+            await _context.LoginRules.InsertManyAsync(rules);
+            return Ok(rules); // return list of created rules
         }
+
+
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> Update(string id, [FromBody] CreateLoginRuleDto dto)
+        // {
+        //     var update = Builders<LoginRule>.Update
+        //         .Set(r => r.UserIds, dto.UserIds)
+        //         .Set(r => r.Restriction, dto.Restriction)
+        //         .Set(r => r.FromDate, dto.FromDate)
+        //         .Set(r => r.ToDate, dto.ToDate);
+
+        //     var result = await _context.LoginRules.UpdateOneAsync(r => r.Id == id, update);
+
+        //     if (result.MatchedCount == 0)
+        //         return NotFound();
+
+        //     return NoContent();
+        // }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] CreateLoginRuleDto dto)
         {
+            if (dto.UserIds == null || dto.UserIds.Count != 1)
+                return BadRequest("Update must target exactly one user per rule.");
+
             var update = Builders<LoginRule>.Update
                 .Set(r => r.UserIds, dto.UserIds)
                 .Set(r => r.Restriction, dto.Restriction)
@@ -58,6 +97,7 @@ namespace MyMongoApp.Controllers
 
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)

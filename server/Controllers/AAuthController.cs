@@ -20,10 +20,14 @@ namespace MyMongoApp.Controllers
         private readonly IConfiguration _config;
 
         private readonly IMongoCollection<User> _users;
+        // private readonly IMongoCollection<User> _users;
+        private readonly IMongoCollection<LoginRule> _loginRules;
+
 
         public AAuthController(MongoDbContext dbContext, IConfiguration config)
         {
             _users = dbContext.Users; // <-- works now
+            _loginRules = dbContext.LoginRules; // <-- Add this
             _config = config;
         }
 
@@ -88,6 +92,22 @@ namespace MyMongoApp.Controllers
             var user = await _users.Find(u => u.Email == request.Email).FirstOrDefaultAsync();
             if (user == null)
                 return Unauthorized("Invalid credentials.");
+
+            var now = DateTime.UtcNow;
+
+            var isDenied = await _loginRules.Find(r =>
+                r.UserIds.Contains(user.Id) &&
+                r.Restriction == "deny" &&
+                (
+                    (r.FromDate == null || r.FromDate <= now) &&
+                    (r.ToDate == null || r.ToDate >= now)
+                )
+            ).AnyAsync();
+
+            if (isDenied)
+            {
+                return Unauthorized("Login Denied, contact Admin.");
+            }
 
             bool isFirstTimeUser = user.Logins == 0 && user.PasswordHash == "12345";
 

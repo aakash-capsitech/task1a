@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/useAuth';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -33,9 +34,12 @@ const LoginPage = () => {
                 password: values.password
               });
               login(res.data.token);
+              toast.success("login successful")
               navigate('/profile');
             } catch (err) {
-              alert('Invalid credentials');
+              console.log(err)
+              toast.error(`${(err as any).response.data}`)
+              // alert(`${(err as any).response.data}`);
             }
           }}
         >

@@ -123,7 +123,7 @@ const SB = ({
                         navigate("/callflow");
                       }
                       else if (item == "Addons") {
-                        setActiveItem("Addons");
+                        setActiveItem("");
                         navigate("/addons");
                       }
                       else if (item == "Canned emails") {

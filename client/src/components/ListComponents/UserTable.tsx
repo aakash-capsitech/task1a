@@ -7,14 +7,15 @@ import {
   SearchBox,
   SelectionMode,
 } from "@fluentui/react";
-import CreateUserPanel from "./CreateUserPanel";
+import CreateUserPanel from "../Panels/CreateUserPanel";
 import axios from "axios";
-import SB from "./SB";
-import UserProfilePanel from "./UserProfilePanel";
-import EditUserPanel from "./EditUserPanel";
+import SB from "../Navs/SB";
+import UserProfilePanel from "../CardComponenets/UserProfilePanel";
+import EditUserPanel from "../Panels/EditUserPanel";
 import { Dropdown, type IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageLayout from "../Navs/PageLayout";
 
 const buttonStyle = {
   display: "flex",
@@ -38,75 +39,202 @@ const iconStyle = {
   fontSize: "14px",
 };
 
-const MainUserTablePage = () => {
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeItem, setActiveItem] = useState<string>("Users"); // Add this line
 
-  return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <div
-        style={{
-          width: 220,
-          position: "fixed",
-          height: "100vh",
-          zIndex: 10,
-          backgroundColor: "#fff",
-        }}
-      >
-        <SB
-          userConfigRoles={[]}
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
-      </div>
 
-      <div
-        style={{
-          marginLeft: 210,
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {!selectedUserId ? (
-          <div>
-            <UserTable
-              onUserSelect={setSelectedUserId}
-              onLoading={setIsLoading}
-            />
-            {isLoading && (
-              <div style={{ textAlign: "center", padding: "20px" }}>
-                Loading...
-              </div>
-            )}
-          </div>
-        ) : (
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <UserProfilePanel
-              userId={selectedUserId}
-              onClose={() => setSelectedUserId(null)}
-            />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const MainUserTablePage = () => {
+//   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [activeItem, setActiveItem] = useState<string>("Users"); // Add this line
+
+//   return (
+//     <div style={{ display: "flex", height: "100vh" }}>
+//       <div
+//         style={{
+//           width: 220,
+//           position: "fixed",
+//           height: "100vh",
+//           zIndex: 10,
+//           backgroundColor: "#fff",
+//         }}
+//       >
+//         <SB
+//           userConfigRoles={[]}
+//           activeItem={activeItem}
+//           setActiveItem={setActiveItem}
+//         />
+//       </div>
+
+//       <div
+//         style={{
+//           marginLeft: 210,
+//           flex: 1,
+//           display: "flex",
+//           flexDirection: "column",
+//         }}
+//       >
+//         {!selectedUserId ? (
+//           <div>
+//             <UserTable
+//               onUserSelect={setSelectedUserId}
+//               onLoading={setIsLoading}
+//             />
+//             {isLoading && (
+//               <div style={{ textAlign: "center", padding: "20px" }}>
+//                 Loading...
+//               </div>
+//             )}
+//           </div>
+//         ) : (
+//           <div
+//             style={{
+//               flex: 1,
+//               display: "flex",
+//               justifyContent: "center",
+//               alignItems: "center",
+//             }}
+//           >
+//             <UserProfilePanel
+//               userId={selectedUserId}
+//               onClose={() => setSelectedUserId(null)}
+//             />
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+
+
+// import { useState } from 'react';
+// import PageLayout from '../Layouts/PageLayout';
+// import UserTable from '../Components/UserTable';
+// import UserProfilePanel from '../Components/UserProfilePanel';
+
+// const MainUserTablePage = () => {
+//   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   return (
+//     <PageLayout activeItem="Users">
+//       {!selectedUserId ? (
+//         <>
+//           <UserTable
+//             onUserSelect={setSelectedUserId}
+//             onLoading={setIsLoading}
+//           />
+//           {isLoading && (
+//             <div style={{ textAlign: 'center', padding: '20px' }}>
+//               Loading...
+//             </div>
+//           )}
+//         </>
+//       ) : (
+//         <div
+//           style={{
+//             flex: 1,
+//             display: 'flex',
+//             justifyContent: 'center',
+//             alignItems: 'center',
+//           }}
+//         >
+//           <UserProfilePanel
+//             userId={selectedUserId}
+//             onClose={() => setSelectedUserId(null)}
+//           />
+//         </div>
+//       )}
+//     </PageLayout>
+//   );
+// };
+
+// export default MainUserTablePage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 type Props = {
   onUserSelect: (userId: string) => void;
   onLoading: (loadState: boolean) => void;
 };
 
-const UserTable = ({ onUserSelect, onLoading }: Props) => {
+export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const [isCreateUserPanelOpen, setIsCreateUserPanelOpen] = useState(false);
   const [items, setItems] = useState<any[]>([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -182,6 +310,7 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
         address,
         configRoles,
       });
+      toast.success("User saved successfully")
       await fetchUsers();
     } catch (err) {
       toast.error("user with this email already exists")
@@ -194,8 +323,10 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const handleDeleteUser = async (userId: string) => {
     try {
       await axios.delete(`http://localhost:5153/api/users/${userId}`);
+      toast.warn("user deleted")
       await fetchUsers();
     } catch (err) {
+      toast.error("something went wrong")
       console.error("Failed to delete user", err);
     }
   };
@@ -617,4 +748,4 @@ const UserTable = ({ onUserSelect, onLoading }: Props) => {
   );
 };
 
-export default MainUserTablePage;
+// export default MainUserTablePage;

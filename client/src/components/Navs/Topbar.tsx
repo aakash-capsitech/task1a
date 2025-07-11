@@ -12,6 +12,10 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const classNames = mergeStyleSets({
   calloutContainer: {
@@ -64,7 +68,9 @@ const Topbar = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
+    toast.success("logged out")
     navigate('/login');
+    // toast.success("logged out")
   };
 
   return (

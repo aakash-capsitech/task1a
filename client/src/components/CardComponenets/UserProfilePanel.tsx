@@ -7,7 +7,7 @@ import {
 import { Icon } from '@fluentui/react/lib/Icon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { UserRolesModal3 } from './UserRole/UserRolesModal3';
+import { UserRolesModal3 } from '../Panels/UserRolesModal3';
 
 const tagStyle = {
   backgroundColor: '#dff6dd',

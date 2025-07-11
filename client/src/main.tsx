@@ -8,6 +8,7 @@ import { ThemeProvider } from '@fluentui/react';
 import '@fluentui/react/dist/css/fabric.css';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 initializeIcons();
 

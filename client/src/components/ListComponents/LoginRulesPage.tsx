@@ -221,7 +221,7 @@ export const LoginRulesPage = () => {
           setEditingRule(null);
           fetchRules();
         }}
-        existingRule={editingRule}
+        existingRule={editingRule as any}
       />
     </Stack>
   );
