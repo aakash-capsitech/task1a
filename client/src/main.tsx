@@ -8,14 +8,17 @@ import '@fluentui/react/dist/css/fabric.css';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { CToastProvider } from './components/toast/CToastContext.tsx';
 
 initializeIcons();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ToastContainer position="top-right" autoClose={3000} />
+    {/* <CToastProvider> */}
     <ThemeProvider>
       <App />
     </ThemeProvider>
+    {/* </CToastProvider> */}
   </StrictMode>
 );

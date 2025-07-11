@@ -12,6 +12,10 @@ import CallFlow from './components/TemplatePages/CallFlow';
 import Addons from './components/TemplatePages/Addons';
 import CannedEmails from './components/TemplatePages/CannedEmails';
 import MainUserTablePage from './components/TemplatePages/Users';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { D1 } from './components/Demos/D1';
+import { CToastProvider } from './components/toast/CToastProvider';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
 
@@ -24,11 +28,25 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 const App = () => {
   return (
     <AuthProvider>
+      <CToastProvider>
       <BrowserRouter>
+       {/* <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      /> */}
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path='/d1' element={<D1 />} />
 
           {/* Protected Routes */}
           <Route
@@ -98,6 +116,7 @@ const App = () => {
           />
         </Routes>
       </BrowserRouter>
+      </CToastProvider>
     </AuthProvider>
   );
 };

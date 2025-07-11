@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-// using MyMongoApp.Models;
-// using MyMongoApp.DTOs;
 using MyMongoApp.Data;
 using MyMongoApp.Models;
 using MyMongoApp.Dtos;
@@ -27,21 +25,6 @@ namespace MyMongoApp.Controllers
             return Ok(rules);
         }
 
-        // [HttpPost]
-        // public async Task<IActionResult> Create([FromBody] CreateLoginRuleDto dto)
-        // {
-        //     var rule = new LoginRule
-        //     {
-        //         UserIds = dto.UserIds,
-        //         Restriction = dto.Restriction,
-        //         FromDate = dto.FromDate,
-        //         ToDate = dto.ToDate,
-        //     };
-
-        //     await _context.LoginRules.InsertOneAsync(rule);
-        //     return Ok(rule);
-        // }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateLoginRuleDto dto)
         {
@@ -57,26 +40,13 @@ namespace MyMongoApp.Controllers
             }).ToList();
 
             await _context.LoginRules.InsertManyAsync(rules);
+            foreach (var rule in rules)
+            {
+                await LogAudit("Created", rule.Id, $"Created login rule for user {rule.UserIds.First()} with restriction {rule.Restriction}");
+            }
+
             return Ok(rules); // return list of created rules
         }
-
-
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> Update(string id, [FromBody] CreateLoginRuleDto dto)
-        // {
-        //     var update = Builders<LoginRule>.Update
-        //         .Set(r => r.UserIds, dto.UserIds)
-        //         .Set(r => r.Restriction, dto.Restriction)
-        //         .Set(r => r.FromDate, dto.FromDate)
-        //         .Set(r => r.ToDate, dto.ToDate);
-
-        //     var result = await _context.LoginRules.UpdateOneAsync(r => r.Id == id, update);
-
-        //     if (result.MatchedCount == 0)
-        //         return NotFound();
-
-        //     return NoContent();
-        // }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] CreateLoginRuleDto dto)
@@ -95,6 +65,9 @@ namespace MyMongoApp.Controllers
             if (result.MatchedCount == 0)
                 return NotFound();
 
+            await LogAudit("Updated", id, $"Updated login rule for user {dto.UserIds.First()} with restriction {dto.Restriction}");
+
+
             return NoContent();
         }
 
@@ -106,7 +79,34 @@ namespace MyMongoApp.Controllers
             if (result.DeletedCount == 0)
                 return NotFound();
 
+            await LogAudit("Deleted", id, $"Deleted login rule with ID {id}");
+
+
             return NoContent();
         }
+
+        [HttpGet("{id}/history")]
+        public async Task<IActionResult> GetHistory(string id)
+        {
+            var logs = await _context.AuditLogs
+                .Find(log => log.EntityId == id)
+                .SortByDescending(log => log.Timestamp)
+                .ToListAsync();
+
+            return Ok(logs);
+        }
+
+        private async Task LogAudit(string action, string entityId, string description)
+        {
+            var log = new AuditLog
+            {
+                Action = action,
+                EntityId = entityId,
+                Description = description,
+                Timestamp = DateTime.UtcNow
+            };
+            await _context.AuditLogs.InsertOneAsync(log);
+        }
+
     }
 }

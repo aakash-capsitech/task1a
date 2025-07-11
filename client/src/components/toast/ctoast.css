@@ -1,0 +1,69 @@
+.ctoast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ctoast {
+  min-width: 280px;
+  max-width: 360px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.4s ease;
+}
+
+.ctoast-success { background-color: #28a745; }
+.ctoast-error { background-color: #dc3545; }
+.ctoast-info { background-color: #17a2b8; }
+.ctoast-warn { background-color: #ffc107; color: black; }
+
+.ctoast-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.ctoast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: progressShrink 7s linear forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes progressShrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
