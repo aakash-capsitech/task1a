@@ -1,6 +1,6 @@
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SB = ({
   userConfigRoles,
@@ -15,7 +15,7 @@ const SB = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token: string | null = localStorage.getItem("token");
+    const token: string | null = localStorage.getItem('token');
     if (!token) {
       setAdminAccess(false);
       return;
@@ -23,29 +23,29 @@ const SB = ({
 
     const decoded: any = jwtDecode(token);
     const role = decoded?.role;
-    if (role === "admin") {
+    if (role === 'admin') {
       setAdminAccess(true);
     }
   }, []);
 
   const sidebarItems = [
     {
-      section: "Your preferences",
-      items: ["Profile"],
+      section: 'Your preferences',
+      items: ['Profile'],
     },
     {
-      section: "Practice configuration",
+      section: 'Practice configuration',
       items: [
-        "Practice profile",
-        "Automation",
-        ...(adminAccess ? ["Users"] : []),
-        "Call flow",
-        "Addons",
-        "Canned emails",
+        'Practice profile',
+        'Automation',
+        ...(adminAccess ? ['Users'] : []),
+        'Call flow',
+        'Addons',
+        'Canned emails',
       ],
     },
     {
-      section: "Customisations",
+      section: 'Customisations',
       items: [
         {
           children: userConfigRoles,
@@ -57,95 +57,89 @@ const SB = ({
   return (
     <div
       style={{
-        width: "220px",
-        backgroundColor: "#fff",
-        fontFamily: "Segoe UI, sans-serif",
-        fontSize: "14px",
-        color: "#323130",
-        padding: "8px 0",
-        height: "100vh",
+        width: '220px',
+        backgroundColor: '#fff',
+        fontFamily: 'Segoe UI, sans-serif',
+        fontSize: '14px',
+        color: '#323130',
+        padding: '8px 0',
+        height: '100vh',
       }}
     >
       {sidebarItems.map((section, idx) => (
-        <div key={idx} style={{ padding: "0 16px", marginBottom: "8px" }}>
+        <div key={idx} style={{ padding: '0 16px', marginBottom: '8px' }}>
           <div
             style={{
               fontWeight: 600,
-              color: "#004578",
-              fontSize: "13px",
-              margin: "12px 0 6px",
+              color: '#004578',
+              fontSize: '13px',
+              margin: '12px 0 6px',
             }}
           >
             {section.section}
           </div>
 
           {section.items.map((item: any, i: number) => {
-            if (typeof item === "string") {
+            if (typeof item === 'string') {
               const isActive = activeItem === item;
 
               return (
                 <div
                   key={i}
                   style={{
-                    padding: "6px 8px",
-                    borderRadius: "2px",
-                    backgroundColor: isActive ? "#f3f2f1" : "transparent",
-                    fontWeight: isActive ? 600 : "normal",
-                    cursor: "pointer",
+                    padding: '6px 8px',
+                    borderRadius: '2px',
+                    backgroundColor: isActive ? '#f3f2f1' : 'transparent',
+                    fontWeight: isActive ? 600 : 'normal',
+                    cursor: 'pointer',
                   }}
                 >
                   <button
                     style={{
-                      border: "none",
-                      background: "none",
-                      width: "100%",
-                      textAlign: "left",
-                      color: "inherit",
-                      fontWeight: "inherit",
-                      cursor: "pointer",
+                      border: 'none',
+                      background: 'none',
+                      width: '100%',
+                      textAlign: 'left',
+                      color: 'inherit',
+                      fontWeight: 'inherit',
+                      cursor: 'pointer',
                     }}
                     onClick={() => {
-                      if (item === "Users") {
+                      if (item === 'Users') {
                         // Clear active item when navigating to admin
-                        setActiveItem("");
-                        navigate("/admin");
-                      }
-                      else if (item == "Profile") {
-                        setActiveItem("");
-                        navigate("/profile");
-                      }
-                      else if (item == "Automation") {
-                        setActiveItem("");
-                        navigate("/automation");
-                      }
-                      else if (item == "Call flow") {
-                        setActiveItem("");
-                        navigate("/callflow");
-                      }
-                      else if (item == "Addons") {
-                        setActiveItem("");
-                        navigate("/addons");
-                      }
-                      else if (item == "Canned emails") {
-                        setActiveItem("");
-                        navigate("/cannedemails");
-                      }
-                      else {
+                        setActiveItem('');
+                        navigate('/admin');
+                      } else if (item == 'Profile') {
+                        setActiveItem('');
+                        navigate('/profile');
+                      } else if (item == 'Automation') {
+                        setActiveItem('');
+                        navigate('/automation');
+                      } else if (item == 'Call flow') {
+                        setActiveItem('');
+                        navigate('/callflow');
+                      } else if (item == 'Addons') {
+                        setActiveItem('');
+                        navigate('/addons');
+                      } else if (item == 'Canned emails') {
+                        setActiveItem('');
+                        navigate('/cannedemails');
+                      } else {
                         // Set active item first, then always navigate to home
-                        setActiveItem("");
-                        navigate("/practice");
+                        setActiveItem('');
+                        navigate('/practice');
                         // navigate("/")
                       }
                     }}
                     onMouseEnter={(e) => {
                       // Only apply hover effect if not active
                       if (!isActive) {
-                        e.currentTarget.style.background = "#eee";
+                        e.currentTarget.style.background = '#eee';
                       }
                     }}
                     onMouseLeave={(e) => {
                       // Reset to transparent (parent div handles active background)
-                      e.currentTarget.style.background = "none";
+                      e.currentTarget.style.background = 'none';
                     }}
                   >
                     {item}
@@ -159,35 +153,39 @@ const SB = ({
                 <div key={i}>
                   <div
                     style={{
-                      padding: "6px 8px",
-                      borderRadius: "2px",
-                      cursor: "pointer",
+                      padding: '6px 8px',
+                      borderRadius: '2px',
+                      cursor: 'pointer',
                     }}
                   >
                     {item.label}
                   </div>
-                  <div style={{ marginLeft: "16px" }}>
+                  <div style={{ marginLeft: '16px' }}>
                     {item.children.map((child: string, j: number) => {
                       const isActive = activeItem === child;
                       return (
                         <div
                           key={j}
                           style={{
-                            padding: "6px 8px",
-                            borderRadius: "2px",
-                            cursor: "pointer",
-                            color: "green",
-                            fontWeight: isActive ? "bold" : "normal",
-                            backgroundColor: isActive ? "#f3f2f1" : "transparent",
+                            padding: '6px 8px',
+                            borderRadius: '2px',
+                            cursor: 'pointer',
+                            color: 'green',
+                            fontWeight: isActive ? 'bold' : 'normal',
+                            backgroundColor: isActive
+                              ? '#f3f2f1'
+                              : 'transparent',
                           }}
                           onClick={() => setActiveItem(child)}
                           onMouseEnter={(e) => {
                             if (!isActive) {
-                              e.currentTarget.style.backgroundColor = "#eee";
+                              e.currentTarget.style.backgroundColor = '#eee';
                             }
                           }}
                           onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = isActive ? "#f3f2f1" : "transparent";
+                            e.currentTarget.style.backgroundColor = isActive
+                              ? '#f3f2f1'
+                              : 'transparent';
                           }}
                         >
                           {child}

@@ -1,24 +1,7 @@
-// import Layout from '../Navs/Layout'
-// import MainUserTablePage from '../ListComponents/UserTable'
-
-import { useState } from "react";
-import UserProfilePanel from "../CardComponenets/UserProfilePanel";
-import { UserTable } from "../ListComponents/UserTable";
-import PageLayout from "../Navs/PageLayout";
-
-// const Users = () => {
-//   return (
-//     <div>
-//        <Layout>
-//         <MainUserTablePage />
-//       </Layout>
-//     </div>
-//   )
-// }
-
-// export default Users
-
-
+import { useState } from 'react';
+import UserProfilePanel from '../CardComponenets/UserProfilePanel';
+import { UserTable } from '../ListComponents/UserTable';
+import PageLayout from '../Navs/PageLayout';
 
 const MainUserTablePage = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);

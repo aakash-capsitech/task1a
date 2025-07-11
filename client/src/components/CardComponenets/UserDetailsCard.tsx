@@ -8,9 +8,7 @@ import {
   FontWeights,
   DefaultButton,
 } from '@fluentui/react';
-// import EditUserModal from './EditUserPanel'; // 💡 Separate modal for reuse
 import { jwtDecode } from 'jwt-decode';
-// import axios from 'axios';
 import ChangePasswordModal from '../Panels/ChangePasswordModal';
 import EditUserPanel from '../Panels/EditUserPanel';
 
@@ -52,8 +50,8 @@ const UserDetailsCard = ({
 }: UserDetailsProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   // const [passwordEdit, setPasswordEdit] = useState(false)
-  const [isPasswordModalOpen, setIsPasswordModalOpen] =useState(false)
-  const [userId, setUserId] = useState("")
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -73,14 +71,6 @@ const UserDetailsCard = ({
         }
 
         setUserId(id);
-
-        // const res = await axios.get(`http://localhost:5153/api/users/${id}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // });
-
-        // setUserData(res.data);
       } catch (err) {
         console.error('Failed to fetch user data', err);
         // setError('Could not load user data.');
@@ -93,11 +83,23 @@ const UserDetailsCard = ({
   return (
     <Stack tokens={{ childrenGap: 8 }} styles={sectionStyle}>
       <Stack horizontal horizontalAlign="space-between">
-        <Text variant="mediumPlus" styles={{ root: { fontWeight: FontWeights.semibold } }}>
+        <Text
+          variant="mediumPlus"
+          styles={{ root: { fontWeight: FontWeights.semibold } }}
+        >
           Basic details
         </Text>
-        <DefaultButton text="" iconProps={{ iconName: 'Edit' }} onClick={() => setIsEditOpen(true)} style={{border: "none", background: "none"}} />
-        <DefaultButton text="Change Password" iconProps={{ iconName: 'PasswordField' }} onClick={() => setIsPasswordModalOpen(true)} />
+        <DefaultButton
+          text=""
+          iconProps={{ iconName: 'Edit' }}
+          onClick={() => setIsEditOpen(true)}
+          style={{ border: 'none', background: 'none' }}
+        />
+        <DefaultButton
+          text="Change Password"
+          iconProps={{ iconName: 'PasswordField' }}
+          onClick={() => setIsPasswordModalOpen(true)}
+        />
       </Stack>
 
       <Separator />
@@ -114,9 +116,16 @@ const UserDetailsCard = ({
         </Stack>
 
         {phone && (
-          <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 250 } }}>
+          <Stack
+            tokens={{ childrenGap: 4 }}
+            styles={{ root: { minWidth: 250 } }}
+          >
             <Text styles={labelStyle}>Phone number</Text>
-            <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+            <Stack
+              horizontal
+              verticalAlign="center"
+              tokens={{ childrenGap: 8 }}
+            >
               {/* <img
                 src="https://flagcdn.com/gb.svg"
                 alt="UK Flag"
@@ -132,21 +141,30 @@ const UserDetailsCard = ({
         )}
 
         {role && (
-          <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 200 } }}>
+          <Stack
+            tokens={{ childrenGap: 4 }}
+            styles={{ root: { minWidth: 200 } }}
+          >
             <Text styles={labelStyle}>Role</Text>
             <Text styles={valueStyle}>{role}</Text>
           </Stack>
         )}
 
         {address && (
-          <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 300 } }}>
+          <Stack
+            tokens={{ childrenGap: 4 }}
+            styles={{ root: { minWidth: 300 } }}
+          >
             <Text styles={labelStyle}>Address (default)</Text>
             <Text styles={valueStyle}>{address}</Text>
           </Stack>
         )}
 
         {configs && configs.length > 0 && (
-          <Stack tokens={{ childrenGap: 4 }} styles={{ root: { minWidth: 300 } }}>
+          <Stack
+            tokens={{ childrenGap: 4 }}
+            styles={{ root: { minWidth: 300 } }}
+          >
             <Text styles={labelStyle}>Configs</Text>
             <Text styles={valueStyle}>{configs.join(', ')}</Text>
           </Stack>
@@ -158,20 +176,17 @@ const UserDetailsCard = ({
         </Stack>
       </Stack>
 
-      {/* {isEditOpen && (
-        <EditUserPanel
-          initialData={{ username, email, phone, role, address, configs, nationality }}
-          onDismiss={() => setIsEditOpen(false)}
-          onSave={(data) => {
-            onSave?.(data);
-            setIsEditOpen(false);
-          }}
-        />
-      )} */}
-
       <EditUserPanel
         isOpen={isEditOpen}
-        initialData={{ username, email, phone, role, address, configs, nationality }}
+        initialData={{
+          username,
+          email,
+          phone,
+          role,
+          address,
+          configs,
+          nationality,
+        }}
         onDismiss={() => setIsEditOpen(false)}
         onSave={(data) => {
           onSave?.(data);
@@ -179,13 +194,13 @@ const UserDetailsCard = ({
         }}
       />
 
-
-      {isPasswordModalOpen && <ChangePasswordModal
-        userId={userId}
-        isOpen={isPasswordModalOpen}
-        onDismiss={() => setIsPasswordModalOpen(false)}
-      />
-      }
+      {isPasswordModalOpen && (
+        <ChangePasswordModal
+          userId={userId}
+          isOpen={isPasswordModalOpen}
+          onDismiss={() => setIsPasswordModalOpen(false)}
+        />
+      )}
     </Stack>
   );
 };

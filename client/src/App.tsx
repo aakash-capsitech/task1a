@@ -1,20 +1,19 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import { AuthProvider } from "./auth/AuthContext";
-import { useAuth } from "./auth/useAuth";
-import type { JSX } from "react";
-import RegisterPage from "./pages/RegisterPage";
-import PracticeProfile from "./components/TemplatePages/PracticeProfile";
-import Profile from "./components/TemplatePages/Profile";
-import Automation from "./components/TemplatePages/Automation";
-import CallFlow from "./components/TemplatePages/CallFlow";
-import Addons from "./components/TemplatePages/Addons";
-import CannedEmails from "./components/TemplatePages/CannedEmails";
-import MainUserTablePage from "./components/TemplatePages/Users";
+import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import { AuthProvider } from './auth/AuthContext';
+import { useAuth } from './auth/useAuth';
+import type { JSX } from 'react';
+import RegisterPage from './pages/RegisterPage';
+import PracticeProfile from './components/TemplatePages/PracticeProfile';
+import Profile from './components/TemplatePages/Profile';
+import Automation from './components/TemplatePages/Automation';
+import CallFlow from './components/TemplatePages/CallFlow';
+import Addons from './components/TemplatePages/Addons';
+import CannedEmails from './components/TemplatePages/CannedEmails';
+import MainUserTablePage from './components/TemplatePages/Users';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
-
 
 // PrivateRoute: guards routes behind auth
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {

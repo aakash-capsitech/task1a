@@ -54,7 +54,7 @@ const Sidebar = () => {
       {/* Toggle Button */}
       <div className="mb-3 d-flex justify-content-start ml-1">
         <button
-          onClick={() => setIsIcon(prev => !prev)}
+          onClick={() => setIsIcon((prev) => !prev)}
           style={{
             border: 'none',
             background: 'transparent',
@@ -73,7 +73,9 @@ const Sidebar = () => {
           if (item.type === 'section') {
             return (
               <div key={`section-${index}`}>
-                <hr style={{ color: 'gray', width: '100vw', marginLeft: '-20px' }} />
+                <hr
+                  style={{ color: 'gray', width: '100vw', marginLeft: '-20px' }}
+                />
                 <p
                   className="fw-bold mt-3 mb-2"
                   style={{
@@ -99,11 +101,16 @@ const Sidebar = () => {
                 width: '100%',
                 paddingLeft: '16px',
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#eee')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#eee')}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = 'transparent')
+              }
             >
               <li className="mb-2 d-flex align-items-center justify-content-between w-100">
-                <div className="d-flex align-items-center" style={{ gap: '0.5rem' }}>
+                <div
+                  className="d-flex align-items-center"
+                  style={{ gap: '0.5rem' }}
+                >
                   <Icon iconName={item.icon} className="me-2" />
                   {isIcon && <span>{item.label}</span>}
                 </div>
@@ -121,7 +128,6 @@ const Sidebar = () => {
                   </span>
                 )}
               </li>
-
             </button>
           );
         })}

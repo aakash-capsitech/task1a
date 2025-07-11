@@ -18,7 +18,11 @@ type ChangePasswordModalProps = {
   onDismiss: () => void;
 };
 
-const ChangePasswordModal = ({ userId, isOpen, onDismiss }: ChangePasswordModalProps) => {
+const ChangePasswordModal = ({
+  userId,
+  isOpen,
+  onDismiss,
+}: ChangePasswordModalProps) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -42,10 +46,13 @@ const ChangePasswordModal = ({ userId, isOpen, onDismiss }: ChangePasswordModalP
 
     setLoading(true);
     try {
-      await axios.post(`http://localhost:5153/api/users/${userId}/change-password`, {
-        currentPassword,
-        newPassword,
-      });
+      await axios.post(
+        `http://localhost:5153/api/users/${userId}/change-password`,
+        {
+          currentPassword,
+          newPassword,
+        }
+      );
 
       setSuccessMsg('Password changed successfully.');
       setCurrentPassword('');
@@ -93,12 +100,22 @@ const ChangePasswordModal = ({ userId, isOpen, onDismiss }: ChangePasswordModalP
           required
         />
 
-        {error && <MessageBar messageBarType={MessageBarType.error}>{error}</MessageBar>}
-        {successMsg && <MessageBar messageBarType={MessageBarType.success}>{successMsg}</MessageBar>}
+        {error && (
+          <MessageBar messageBarType={MessageBarType.error}>{error}</MessageBar>
+        )}
+        {successMsg && (
+          <MessageBar messageBarType={MessageBarType.success}>
+            {successMsg}
+          </MessageBar>
+        )}
       </Stack>
 
       <DialogFooter>
-        <PrimaryButton text="Change Password" onClick={handleChangePassword} disabled={loading} />
+        <PrimaryButton
+          text="Change Password"
+          onClick={handleChangePassword}
+          disabled={loading}
+        />
         <DefaultButton text="Cancel" onClick={onDismiss} />
       </DialogFooter>
     </Dialog>

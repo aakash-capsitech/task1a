@@ -1,4 +1,12 @@
-import { Stack, TextField, PrimaryButton, Checkbox, Link, Separator, DefaultButton } from '@fluentui/react';
+import {
+  Stack,
+  TextField,
+  PrimaryButton,
+  Checkbox,
+  Link,
+  Separator,
+  DefaultButton,
+} from '@fluentui/react';
 import { Formik } from 'formik';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
@@ -10,7 +18,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack horizontalAlign="center" verticalAlign="center" styles={{ root: { minHeight: '100vh', background: '#f3f3f3' } }}>
+    <Stack
+      horizontalAlign="center"
+      verticalAlign="center"
+      styles={{ root: { minHeight: '100vh', background: '#f3f3f3' } }}
+    >
       <Stack
         tokens={{ childrenGap: 15 }}
         styles={{
@@ -19,26 +31,33 @@ const LoginPage = () => {
             padding: 32,
             background: 'white',
             borderRadius: 6,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-          }
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          },
         }}
       >
-        <img src="/logo.png" alt="Logo" style={{ height: 48, alignSelf: 'center' }} />
+        <img
+          src="/logo.png"
+          alt="Logo"
+          style={{ height: 48, alignSelf: 'center' }}
+        />
 
         <Formik
           initialValues={{ email: '', password: '', rememberMe: false }}
           onSubmit={async (values) => {
             try {
-              const res = await axios.post("http://localhost:5153/api/aAuth/login", {
-                email: values.email,
-                password: values.password
-              });
+              const res = await axios.post(
+                'http://localhost:5153/api/aAuth/login',
+                {
+                  email: values.email,
+                  password: values.password,
+                }
+              );
               login(res.data.token);
-              toast.success("login successful")
+              toast.success('login successful');
               navigate('/profile');
             } catch (err) {
-              console.log(err)
-              toast.error(`${(err as any).response.data}`)
+              console.log(err);
+              toast.error(`${(err as any).response.data}`);
               // alert(`${(err as any).response.data}`);
             }
           }}
@@ -67,7 +86,9 @@ const LoginPage = () => {
                   <Checkbox
                     label="Remember me"
                     checked={formik.values.rememberMe}
-                    onChange={(_, checked) => formik.setFieldValue('rememberMe', checked)}
+                    onChange={(_, checked) =>
+                      formik.setFieldValue('rememberMe', checked)
+                    }
                   />
                   <Link>Forgot password?</Link>
                 </Stack>
@@ -90,7 +111,10 @@ const LoginPage = () => {
 
         <Stack horizontal tokens={{ childrenGap: 12 }}>
           <DefaultButton text="Google" iconProps={{ iconName: 'GoogleLogo' }} />
-          <DefaultButton text="Microsoft" iconProps={{ iconName: 'OfficeLogo' }} />
+          <DefaultButton
+            text="Microsoft"
+            iconProps={{ iconName: 'OfficeLogo' }}
+          />
         </Stack>
       </Stack>
     </Stack>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import UserDetailsCard from './UserDetailsCard';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const UserDetailsDemo = () => {
@@ -82,9 +82,9 @@ const UserDetailsDemo = () => {
         nationality: updatedData.nationality,
         configRoles: updatedData.configs,
       }));
-      toast.success("user updated successfully")
+      toast.success('user updated successfully');
     } catch (err) {
-      toast.error("something went wrong")
+      toast.error('something went wrong');
       console.error('Failed to save user', err);
       // setError('Could not save user data.');
     }

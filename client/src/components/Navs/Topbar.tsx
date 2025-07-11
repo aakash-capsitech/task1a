@@ -16,7 +16,6 @@ import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const classNames = mergeStyleSets({
   calloutContainer: {
     width: 270,
@@ -68,9 +67,8 @@ const Topbar = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
-    toast.success("logged out")
+    toast.success('logged out');
     navigate('/login');
-    // toast.success("logged out")
   };
 
   return (
@@ -92,7 +90,11 @@ const Topbar = () => {
           <SearchBox
             placeholder="Ctrl + K"
             styles={{
-              root: { width: '100%', borderRadius: 4, backgroundColor: 'white' },
+              root: {
+                width: '100%',
+                borderRadius: 4,
+                backgroundColor: 'white',
+              },
               field: { fontSize: 14, padding: '4px 8px' },
               iconContainer: { color: '#605e5c' },
             }}
@@ -100,15 +102,36 @@ const Topbar = () => {
         </div>
 
         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-          <IconButton iconProps={{ iconName: 'Waffle' }} title="Apps" styles={{ root: { color: 'white' } }} />
-          <IconButton iconProps={{ iconName: 'News' }} title="Feed" styles={{ root: { color: 'white' } }} />
-          <IconButton iconProps={{ iconName: 'ReadingMode' }} title="Bookmarks" styles={{ root: { color: 'white' } }} />
-          <IconButton iconProps={{ iconName: 'Headset' }} title="Support" styles={{ root: { color: 'white' } }} />
+          <IconButton
+            iconProps={{ iconName: 'Waffle' }}
+            title="Apps"
+            styles={{ root: { color: 'white' } }}
+          />
+          <IconButton
+            iconProps={{ iconName: 'News' }}
+            title="Feed"
+            styles={{ root: { color: 'white' } }}
+          />
+          <IconButton
+            iconProps={{ iconName: 'ReadingMode' }}
+            title="Bookmarks"
+            styles={{ root: { color: 'white' } }}
+          />
+          <IconButton
+            iconProps={{ iconName: 'Headset' }}
+            title="Support"
+            styles={{ root: { color: 'white' } }}
+          />
 
           <div ref={personaRef}>
             <button
               onClick={() => setIsCalloutVisible((prev) => !prev)}
-              style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+              }}
             >
               <Persona
                 text={userInfo.name}
@@ -147,7 +170,7 @@ const Topbar = () => {
               }}
             />
 
-            {/* <div
+            <div
               className={classNames.optionRow}
               onClick={() => {
                 // alert('Go to profile');
@@ -157,7 +180,7 @@ const Topbar = () => {
             >
               <span className={`ms-Icon ms-Icon--ContactInfo ${classNames.icon}`} />
               <span className={classNames.label}>Profile</span>
-            </div> */}
+            </div>
 
             <div className={classNames.optionRow} onClick={handleSignOut}>
               <span className={`ms-Icon ms-Icon--SignOut ${classNames.icon}`} />

@@ -16,7 +16,10 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
       <div className="d-flex flex-column flex-grow-1" style={{ minWidth: 0 }}>
         <Topbar />
 
-        <div className="d-flex flex-grow-1 bg-light" style={{ overflow: 'hidden' }}>
+        <div
+          className="d-flex flex-grow-1 bg-light"
+          style={{ overflow: 'hidden' }}
+        >
           {/* Fixed SB */}
           <div
             style={{
@@ -35,7 +38,10 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
           </div>
 
           {/* Scrollable Main Content */}
-          <div className="flex-grow-1 p-3" style={{ overflowY: 'auto', height: '100%' }}>
+          <div
+            className="flex-grow-1 p-3"
+            style={{ overflowY: 'auto', height: '100%' }}
+          >
             {children}
           </div>
         </div>

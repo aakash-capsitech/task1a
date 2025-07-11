@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   DetailsList,
   type IColumn,
@@ -6,228 +6,35 @@ import {
   PrimaryButton,
   SearchBox,
   SelectionMode,
-} from "@fluentui/react";
-import CreateUserPanel from "../Panels/CreateUserPanel";
-import axios from "axios";
-import SB from "../Navs/SB";
-import UserProfilePanel from "../CardComponenets/UserProfilePanel";
-import EditUserPanel from "../Panels/EditUserPanel";
-import { Dropdown, type IDropdownOption } from "@fluentui/react/lib/Dropdown";
-import { toast, ToastContainer } from 'react-toastify';
+} from '@fluentui/react';
+import CreateUserPanel from '../Panels/CreateUserPanel';
+import axios from 'axios';
+import EditUserPanel from '../Panels/EditUserPanel';
+import { Dropdown, type IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import PageLayout from "../Navs/PageLayout";
 
 const buttonStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: "6px",
-  padding: "6px 12px",
-  border: "none",
-  background: "white",
-  fontSize: "13px",
-  color: "#333",
-  cursor: "pointer",
-  height: "32px",
-  transition: "all 0.2s ease",
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '6px 12px',
+  border: 'none',
+  background: 'white',
+  fontSize: '13px',
+  color: '#333',
+  cursor: 'pointer',
+  height: '32px',
+  transition: 'all 0.2s ease',
 };
 
 const buttonHoverStyle = {
-  background: "#f3f2f1",
+  background: '#f3f2f1',
 };
 
 const iconStyle = {
-  fontSize: "14px",
+  fontSize: '14px',
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const MainUserTablePage = () => {
-//   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [activeItem, setActiveItem] = useState<string>("Users"); // Add this line
-
-//   return (
-//     <div style={{ display: "flex", height: "100vh" }}>
-//       <div
-//         style={{
-//           width: 220,
-//           position: "fixed",
-//           height: "100vh",
-//           zIndex: 10,
-//           backgroundColor: "#fff",
-//         }}
-//       >
-//         <SB
-//           userConfigRoles={[]}
-//           activeItem={activeItem}
-//           setActiveItem={setActiveItem}
-//         />
-//       </div>
-
-//       <div
-//         style={{
-//           marginLeft: 210,
-//           flex: 1,
-//           display: "flex",
-//           flexDirection: "column",
-//         }}
-//       >
-//         {!selectedUserId ? (
-//           <div>
-//             <UserTable
-//               onUserSelect={setSelectedUserId}
-//               onLoading={setIsLoading}
-//             />
-//             {isLoading && (
-//               <div style={{ textAlign: "center", padding: "20px" }}>
-//                 Loading...
-//               </div>
-//             )}
-//           </div>
-//         ) : (
-//           <div
-//             style={{
-//               flex: 1,
-//               display: "flex",
-//               justifyContent: "center",
-//               alignItems: "center",
-//             }}
-//           >
-//             <UserProfilePanel
-//               userId={selectedUserId}
-//               onClose={() => setSelectedUserId(null)}
-//             />
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-
-
-// import { useState } from 'react';
-// import PageLayout from '../Layouts/PageLayout';
-// import UserTable from '../Components/UserTable';
-// import UserProfilePanel from '../Components/UserProfilePanel';
-
-// const MainUserTablePage = () => {
-//   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   return (
-//     <PageLayout activeItem="Users">
-//       {!selectedUserId ? (
-//         <>
-//           <UserTable
-//             onUserSelect={setSelectedUserId}
-//             onLoading={setIsLoading}
-//           />
-//           {isLoading && (
-//             <div style={{ textAlign: 'center', padding: '20px' }}>
-//               Loading...
-//             </div>
-//           )}
-//         </>
-//       ) : (
-//         <div
-//           style={{
-//             flex: 1,
-//             display: 'flex',
-//             justifyContent: 'center',
-//             alignItems: 'center',
-//           }}
-//         >
-//           <UserProfilePanel
-//             userId={selectedUserId}
-//             onClose={() => setSelectedUserId(null)}
-//           />
-//         </div>
-//       )}
-//     </PageLayout>
-//   );
-// };
-
-// export default MainUserTablePage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 type Props = {
   onUserSelect: (userId: string) => void;
@@ -244,29 +51,26 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const [pageSize, setPageSize] = useState(5);
   const [totalUsers, setTotalUsers] = useState(0);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  // const [selectedNationality, setSelectedNationality] = useState<string | null>(
-  //   null
-  // );
 
-  const [tempInput, setTempInput] = useState("");
+  const [tempInput, setTempInput] = useState('');
 
-  const filterOptions: IDropdownOption[] = [{ key: "role", text: "Roles" }];
+  const filterOptions: IDropdownOption[] = [{ key: 'role', text: 'Roles' }];
 
   const roleOptions: IDropdownOption[] = [
-    { key: "staff", text: "Staff" },
-    { key: "manager", text: "Manager" },
-    { key: "admin", text: "Admin" },
+    { key: 'staff', text: 'Staff' },
+    { key: 'manager', text: 'Manager' },
+    { key: 'admin', text: 'Admin' },
   ];
 
   const fetchUsers = async () => {
     try {
       onLoading(true);
-      const response = await axios.get("http://localhost:5153/api/users", {
+      const response = await axios.get('http://localhost:5153/api/users', {
         params: {
           page,
           pageSize,
@@ -277,7 +81,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       setItems(response.data.users || []);
       setTotalUsers(response.data.total || 0);
     } catch (err) {
-      console.error("Failed to fetch users", err);
+      console.error('Failed to fetch users', err);
       setItems([]);
     } finally {
       onLoading(false);
@@ -301,7 +105,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
     try {
       onLoading(true);
-      await axios.post("http://localhost:5153/api/users", {
+      await axios.post('http://localhost:5153/api/users', {
         name,
         email,
         role,
@@ -310,11 +114,11 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
         address,
         configRoles,
       });
-      toast.success("User saved successfully")
+      toast.success('User saved successfully');
       await fetchUsers();
     } catch (err) {
-      toast.error("user with this email already exists")
-      console.error("Failed to save user", err);
+      toast.error('user with this email already exists');
+      console.error('Failed to save user', err);
     } finally {
       onLoading(false);
     }
@@ -323,43 +127,43 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const handleDeleteUser = async (userId: string) => {
     try {
       await axios.delete(`http://localhost:5153/api/users/${userId}`);
-      toast.warn("user deleted")
+      toast.warn('user deleted');
       await fetchUsers();
     } catch (err) {
-      toast.error("something went wrong")
-      console.error("Failed to delete user", err);
+      toast.error('something went wrong');
+      console.error('Failed to delete user', err);
     }
   };
 
   const columns: IColumn[] = [
     {
-      key: "sno",
-      name: "S.No.",
-      fieldName: "sno",
+      key: 'sno',
+      name: 'S.No.',
+      fieldName: 'sno',
       minWidth: 40,
       maxWidth: 50,
       onRender: (_item, index) => <span>{index! + 1}</span>,
     },
     {
-      key: "name",
-      name: "Name",
-      fieldName: "name",
+      key: 'name',
+      name: 'Name',
+      fieldName: 'name',
       minWidth: 100,
       maxWidth: 150,
       isResizable: true,
       onRender: (item) => (
         <button
           style={{
-            border: "none",
-            background: "none",
-            cursor: "pointer",
-            color: "#0078d4",
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            color: '#0078d4',
             fontWeight: 500,
           }}
           onMouseEnter={(e) =>
-            (e.currentTarget.style.textDecoration = "underline")
+            (e.currentTarget.style.textDecoration = 'underline')
           }
-          onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+          onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
           onClick={() => onUserSelect(item.id)}
         >
           {item.name}
@@ -367,63 +171,63 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       ),
     },
     {
-      key: "email",
-      name: "Email",
-      fieldName: "email",
+      key: 'email',
+      name: 'Email',
+      fieldName: 'email',
       minWidth: 160,
       maxWidth: 220,
       isMultiline: true,
     },
     {
-      key: "phone",
-      name: "Phone",
-      fieldName: "phone",
+      key: 'phone',
+      name: 'Phone',
+      fieldName: 'phone',
       minWidth: 100,
       maxWidth: 120,
     },
     {
-      key: "nationality",
-      name: "Nationality",
-      fieldName: "nationality",
+      key: 'nationality',
+      name: 'Nationality',
+      fieldName: 'nationality',
       minWidth: 100,
       maxWidth: 160,
     },
     {
-      key: "role",
-      name: "Role",
-      fieldName: "role",
+      key: 'role',
+      name: 'Role',
+      fieldName: 'role',
       minWidth: 120,
       maxWidth: 200,
       isMultiline: true,
     },
     {
-      key: "actions",
-      name: "",
+      key: 'actions',
+      name: '',
       minWidth: 40,
       maxWidth: 50,
       onRender: (item) => (
-        <div style={{ display: "flex", gap: "6px" }}>
+        <div style={{ display: 'flex', gap: '6px' }}>
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => handleDeleteUser(item.id)}
           >
             <Icon
-              iconName={"Delete"}
+              iconName={'Delete'}
               className="me-2"
-              style={{ color: "red" }}
+              style={{ color: 'red' }}
             />
           </span>
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               setSelectedEditUser(item);
               setIsEditOpen(true);
             }}
           >
             <Icon
-              iconName={"Edit"}
+              iconName={'Edit'}
               className="me-2"
-              style={{ color: "blue" }}
+              style={{ color: 'blue' }}
             />
           </span>
         </div>
@@ -433,29 +237,29 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   return (
     <div
-      style={{ flex: 1, display: "flex", flexDirection: "column", padding: 16 }}
+      style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}
     >
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "12px",
-          backgroundColor: "white",
-          padding: "12px",
-          borderRadius: "8px",
-          marginBottom: "12px",
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+          backgroundColor: 'white',
+          padding: '12px',
+          borderRadius: '8px',
+          marginBottom: '12px',
         }}
       >
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button
             style={buttonStyle}
             onMouseEnter={(e) =>
               Object.assign(e.currentTarget.style, buttonHoverStyle)
             }
             onMouseLeave={(e) =>
-              Object.assign(e.currentTarget.style, { background: "white" })
+              Object.assign(e.currentTarget.style, { background: 'white' })
             }
             onClick={() => setIsCreateUserPanelOpen(true)}
           >
@@ -471,7 +275,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               Object.assign(e.currentTarget.style, buttonHoverStyle)
             }
             onMouseLeave={(e) =>
-              Object.assign(e.currentTarget.style, { background: "white" })
+              Object.assign(e.currentTarget.style, { background: 'white' })
             }
             onClick={() => fetchUsers()}
           >
@@ -502,7 +306,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           placeholder="Search by name, email, phone"
           value={searchTerm}
           onChange={(_, newValue) => {
-            setSearchTerm(newValue || "");
+            setSearchTerm(newValue || '');
             setPage(1);
           }}
           styles={{ root: { width: 200 } }}
@@ -510,29 +314,29 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            position: "relative",
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            position: 'relative',
           }}
         >
           {/* Filter Chip */}
           {selectedRole && (
             <span
               style={{
-                backgroundColor: "#f3f2f1",
-                borderRadius: "12px",
-                padding: "4px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
-                fontSize: "13px",
+                backgroundColor: '#f3f2f1',
+                borderRadius: '12px',
+                padding: '4px 8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '13px',
               }}
             >
               Role = <strong>{selectedRole}</strong>
               <Icon
                 iconName="Cancel"
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
                 onClick={() => {
                   setSelectedRole(null);
                   setPage(1);
@@ -545,8 +349,8 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           <button
             style={{
               ...buttonStyle,
-              border: "1px solid #ccc",
-              background: "#f3f2f1",
+              border: '1px solid #ccc',
+              background: '#f3f2f1',
             }}
             onClick={() => setFilterPanelVisible((prev) => !prev)}
           >
@@ -557,22 +361,22 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           {filterPanelVisible && (
             <div
               style={{
-                position: "absolute",
-                top: "36px",
+                position: 'absolute',
+                top: '36px',
                 right: 0,
-                background: "#fff",
-                padding: "12px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                width: "220px",
+                background: '#fff',
+                padding: '12px',
+                border: '1px solid #ccc',
+                borderRadius: '6px',
+                width: '220px',
                 zIndex: 1000,
-                boxShadow: "0 0 4px rgba(0,0,0,0.1)",
+                boxShadow: '0 0 4px rgba(0,0,0,0.1)',
               }}
             >
-              <div style={{ fontWeight: 600, marginBottom: "6px" }}>
+              <div style={{ fontWeight: 600, marginBottom: '6px' }}>
                 Add filter
               </div>
-              <span style={{ fontSize: "12px", color: "#666" }}>
+              <span style={{ fontSize: '12px', color: '#666' }}>
                 Criteria *
               </span>
               <Dropdown
@@ -583,7 +387,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                 }
               />
 
-              {selectedFilter === "role" && (
+              {selectedFilter === 'role' && (
                 <Dropdown
                   placeholder="Select role"
                   options={roleOptions}
@@ -594,7 +398,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               )}
 
               <PrimaryButton
-                style={{ marginTop: "10px" }}
+                style={{ marginTop: '10px' }}
                 text="Apply Filter"
                 onClick={() => {
                   setSelectedRole(tempInput || null);
@@ -610,15 +414,15 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       <div
         style={{
           flex: 1,
-          backgroundColor: "white",
-          borderRadius: "8px",
-          boxShadow: "0 0 8px rgba(0,0,0,0.05)",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
+          backgroundColor: 'white',
+          borderRadius: '8px',
+          boxShadow: '0 0 8px rgba(0,0,0,0.05)',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
         }}
       >
-        <div style={{ flex: 1, overflow: "auto" }}>
+        <div style={{ flex: 1, overflow: 'auto' }}>
           <DetailsList
             items={items}
             columns={columns}
@@ -626,25 +430,25 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             compact={true}
             styles={{
               root: {
-                width: "100%",
+                width: '100%',
                 selectors: {
-                  ".ms-DetailsHeader": { backgroundColor: "#f3f2f1" },
-                  ".ms-DetailsHeader-cell": {
-                    color: "#004578",
+                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1' },
+                  '.ms-DetailsHeader-cell': {
+                    color: '#004578',
                     fontWeight: 600,
-                    fontSize: "13px",
-                    borderBottom: "1px solid #ccc",
+                    fontSize: '13px',
+                    borderBottom: '1px solid #ccc',
                   },
-                  ".ms-DetailsRow": {
-                    minHeight: "28px !important",
-                    borderBottom: "0.5px solid #eee",
+                  '.ms-DetailsRow': {
+                    minHeight: '28px !important',
+                    borderBottom: '0.5px solid #eee',
                   },
-                  ".ms-DetailsRow-cell": {
-                    paddingTop: "4px",
-                    paddingBottom: "4px",
-                    fontSize: "13px",
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
+                  '.ms-DetailsRow-cell': {
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    fontSize: '13px',
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-word',
                   },
                 },
               },
@@ -682,10 +486,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               );
               await fetchUsers();
               setIsEditOpen(false);
-              toast.success("user updated successfully")
+              toast.success('user updated successfully');
             } catch (err) {
-              toast.error("something went wrong")
-              console.error("Failed to update user", err);
+              toast.error('something went wrong');
+              console.error('Failed to update user', err);
             }
           }}
         />
@@ -699,10 +503,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
       <div
         style={{
-          marginTop: "12px",
-          display: "flex",
-          justifyContent: "center",
-          gap: "12px",
+          marginTop: '12px',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '12px',
         }}
       >
         <button
@@ -722,12 +526,12 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
         </button>
       </div>
 
-      <div style={{ textAlign: "center", padding: "8px" }}>
+      <div style={{ textAlign: 'center', padding: '8px' }}>
         Showing {items.length} of {totalUsers} users
       </div>
       <div>
         <div>
-          Show{" "}
+          Show{' '}
           <select
             value={pageSize}
             onChange={(e) => {
@@ -740,12 +544,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             <option>10</option>
             <option>15</option>
             <option>20</option>
-          </select>{" "}
+          </select>{' '}
           users
         </div>
       </div>
     </div>
   );
 };
-
-// export default MainUserTablePage;

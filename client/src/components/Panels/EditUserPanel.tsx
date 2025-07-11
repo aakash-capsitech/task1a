@@ -1,7 +1,4 @@
-import {
-  Panel,
-  PanelType,
-} from '@fluentui/react/lib/Panel';
+import { Panel, PanelType } from '@fluentui/react/lib/Panel';
 import {
   TextField,
   PrimaryButton,
@@ -27,7 +24,12 @@ type EditUserPanelProps = {
   onSave: (data: any) => void;
 };
 
-const EditUserPanel = ({ isOpen, initialData, onDismiss, onSave }: EditUserPanelProps) => {
+const EditUserPanel = ({
+  isOpen,
+  initialData,
+  onDismiss,
+  onSave,
+}: EditUserPanelProps) => {
   const [formData, setFormData] = useState({ ...initialData });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -73,7 +75,6 @@ const EditUserPanel = ({ isOpen, initialData, onDismiss, onSave }: EditUserPanel
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
 
   const handleSave = () => {
     if (!validate()) {
@@ -139,7 +140,9 @@ const EditUserPanel = ({ isOpen, initialData, onDismiss, onSave }: EditUserPanel
           />
         </Stack>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}>
+        <div
+          style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}
+        >
           <DefaultButton
             text="Cancel"
             onClick={onDismiss}
