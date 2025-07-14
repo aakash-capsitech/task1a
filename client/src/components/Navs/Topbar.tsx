@@ -86,7 +86,14 @@ const Topbar = () => {
       >
         <div style={{ fontSize: 16, fontWeight: 500 }}>Acting Office - Dev</div>
 
-        <div style={{ flex: 1, maxWidth: 320, margin: '0 16px' }}>
+        <div style={{
+          display: "flex",
+          gap: "4rem"
+        }}>
+
+      
+
+        <div style={{ flex: 1, maxWidth: 320, margin: 'auto 16px' }}>
           <SearchBox
             placeholder="Ctrl + K"
             styles={{
@@ -148,6 +155,7 @@ const Topbar = () => {
           </div>
         </Stack>
       </div>
+        </div>
 
       {isCalloutVisible && (
         <Callout

@@ -52,6 +52,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const [totalUsers, setTotalUsers] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
@@ -301,8 +302,29 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             Rate logs
           </button>
         </div>
-
+<div style={{
+  display: "flex",
+  gap: "4rem"
+}}>
+<div style={{
+  display: "flex"
+}}>
         <SearchBox
+          placeholder="Search by name, email, phone"
+          value={searchValue}
+          onChange={(e) => {
+            // setSearchTerm(newValue || '');
+            setSearchValue(e!.target.value);
+            setPage(1);
+          }}
+          styles={{ root: { width: 200 } }}
+        />
+        <PrimaryButton text='Apply' onClick={()=>{
+          setSearchTerm(searchValue)
+        }} />
+        </div>
+
+         {/* <SearchBox
           placeholder="Search by name, email, phone"
           value={searchTerm}
           onChange={(_, newValue) => {
@@ -310,7 +332,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             setPage(1);
           }}
           styles={{ root: { width: 200 } }}
-        />
+        /> */}
 
         <div
           style={{
@@ -408,6 +430,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               />
             </div>
           )}
+        </div>
         </div>
       </div>
 

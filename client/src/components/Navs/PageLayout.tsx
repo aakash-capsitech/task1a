@@ -2,6 +2,7 @@ import Topbar from '../Navs/Topbar';
 import Sidebar from '../Navs/Sidebar';
 import SB from '../Navs/SB';
 import React from 'react';
+import BreadcrumbBar from './BreadcrumbBar';
 
 type PageLayoutProps = {
   children: React.ReactNode;
@@ -15,6 +16,8 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
 
       <div className="d-flex flex-column flex-grow-1" style={{ minWidth: 0 }}>
         <Topbar />
+        <BreadcrumbBar activeItem={activeItem} />
+
 
         <div
           className="d-flex flex-grow-1 bg-light"

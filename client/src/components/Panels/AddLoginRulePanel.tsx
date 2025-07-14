@@ -20,7 +20,7 @@ type AddLoginRulePanelProps = {
   onDismiss: () => void;
   existingRule?: {
     id: string;
-    userIds: string[];
+    userEmails: string[];
     restriction: string;
     fromDate?: string;
     toDate?: string;
@@ -28,8 +28,8 @@ type AddLoginRulePanelProps = {
 };
 
 const restrictionOptions: IDropdownOption[] = [
-  { key: 'deny', text: 'Deny' },
-  { key: 'allow', text: 'Allow' },
+  { key: 'Deny', text: 'Deny' },
+  { key: 'Allow', text: 'Allow' },
 ];
 
 export const AddLoginRulePanel = ({
@@ -48,27 +48,35 @@ export const AddLoginRulePanel = ({
 
   const [enableDatePick, setEnableDatePick] = useState(true)
 
+  const [userMap, setUserMap] = useState<Record<string, string>>({}); 
+
   useEffect(() => {
     const fetchUsers = async () => {
-      setLoadingUsers(true);
-      try {
-        const response = await axios.get('http://localhost:5153/api/users');
-        const users = Array.isArray(response.data)
-          ? response.data
-          : response.data.users;
+  setLoadingUsers(true);
+  try {
+    const response = await axios.get('http://localhost:5153/api/users');
+    const users = Array.isArray(response.data)
+      ? response.data
+      : response.data.users;
 
-        const options = users.map((user: any) => ({
-          key: user.id,
-          text: user.email,
-        }));
+    const options = users.map((user: any) => ({
+      key: user.email, // display email as dropdown key
+      text: user.email,
+    }));
 
-        setUserOptions(options);
-      } catch (err) {
-        console.error('Failed to fetch users', err);
-      } finally {
-        setLoadingUsers(false);
-      }
-    };
+    const map: Record<string, string> = {};
+    for (const user of users) {
+      map[user.email] = user.id;
+    }
+
+    setUserMap(map);
+    setUserOptions(options);
+  } catch (err) {
+    console.error('Failed to fetch users', err);
+  } finally {
+    setLoadingUsers(false);
+  }
+};
 
     if (isOpen) {
       fetchUsers();
@@ -77,7 +85,7 @@ export const AddLoginRulePanel = ({
 
   useEffect(() => {
     if (isOpen && existingRule) {
-      setSelectedUsers(existingRule.userIds);
+      setSelectedUsers(existingRule.userEmails ?? []);
       setRestriction(existingRule.restriction);
       setFromDate(
         existingRule.fromDate ? new Date(existingRule.fromDate) : null
@@ -101,30 +109,35 @@ export const AddLoginRulePanel = ({
   }, [searchTerm, userOptions]);
 
   const handleSave = async () => {
-    const payload = {
-      userIds: selectedUsers,
-      restriction,
-      fromDate,
-      toDate,
-    };
+  const userIds = selectedUsers
+    .map((email) => userMap[email])
+    .filter(Boolean);
 
-    try {
-      if (existingRule) {
-        await axios.put(
-          `http://localhost:5153/api/loginrules/${existingRule.id}`,
-          payload
-        );
-        toast.success('Login rules Updated');
-      } else {
-        await axios.post('http://localhost:5153/api/loginrules', payload);
-        toast.success('Login rules created');
-      }
-    } catch (err) {
-      console.error('Save failed', err);
-    }
-
-    onDismiss();
+  const payload = {
+    userIds,
+    restriction,
+    fromDate,
+    toDate,
   };
+
+  try {
+    if (existingRule) {
+      await axios.put(
+        `http://localhost:5153/api/loginrules/${existingRule.id}`,
+        payload
+      );
+      toast.success('Login rules Updated');
+    } else {
+      await axios.post('http://localhost:5153/api/loginrules', payload);
+      toast.success('Login rules created');
+    }
+  } catch (err) {
+    console.error('Save failed', err);
+  }
+
+  onDismiss();
+};
+
 
   return (
     <Panel
@@ -170,7 +183,7 @@ export const AddLoginRulePanel = ({
           onChange={(_, opt) => {
             const newRestriction = opt?.key as string;
             setRestriction(newRestriction);
-            const enableDates = newRestriction === 'deny';
+            const enableDates = newRestriction === 'Deny';
             setEnableDatePick(enableDates);
             if (!enableDates) {
               setDateRangeEnabled(false);

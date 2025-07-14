@@ -151,6 +151,7 @@ namespace MyMongoApp.Controllers
         {
             var log = new AuditLog
             {
+                Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString(), 
                 Action = action,
                 EntityId = entityId,
                 Description = description,

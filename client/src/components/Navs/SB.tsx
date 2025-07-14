@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ const SB = ({
   setActiveItem: (item: string) => void;
 }) => {
   const [adminAccess, setAdminAccess] = useState(false);
+  const [configs, setConfigs] = useState<any[]>([])
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,29 @@ const SB = ({
       setAdminAccess(true);
     }
   }, []);
+
+  useEffect(()=>{
+
+    async function getConfigs() {
+          const token: string | null = localStorage.getItem('token');
+        if (!token) {
+          setAdminAccess(false);
+          return;
+        }
+
+        const decoded: any = jwtDecode(token);
+            const id = decoded?.nameid;
+        
+        const response = await axios.get(`http://localhost:5153/api/users/${id}`)
+        const configRoles = response.data.configRoles
+        setConfigs(configRoles)
+
+        console.log(configRoles)
+    }
+
+    getConfigs()
+    
+  },[])
 
   const sidebarItems = [
     {
@@ -52,7 +77,7 @@ const SB = ({
       section: 'Customisations',
       items: [
         {
-          children: userConfigRoles,
+          children: configs,
         },
       ],
     },

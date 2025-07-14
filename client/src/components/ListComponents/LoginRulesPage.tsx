@@ -9,6 +9,8 @@ import {
   SelectionMode,
   Text,
   Panel,
+  Icon,
+  DefaultButton,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -118,11 +120,17 @@ export const LoginRulesPage = () => {
             setIsPanelOpen(true);
           }}
         />
-        <PrimaryButton
+        {/* <PrimaryButton
           text="+ Refresh"
           onClick={() => {
             fetchRules()
           }}
+        /> */}
+
+        <DefaultButton
+          text='Refresh'
+          onClick={() => fetchRules()}
+            iconProps={{ iconName: 'Refresh' }}
         />
         {/* <PrimaryButton
           text="history"
