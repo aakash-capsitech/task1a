@@ -16,11 +16,12 @@ import { AddLoginRulePanel } from '../Panels/AddLoginRulePanel';
 
 type LoginRule = {
   id: string;
-  userIds: string[];
-  restriction: 'allow' | 'deny';
+  userEmails: string[];
+  restriction: 'Allow' | 'Deny'; // capitalize to match backend
   fromDate?: string;
   toDate?: string;
 };
+
 
 export const LoginRulesPage = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -40,6 +41,7 @@ export const LoginRulesPage = () => {
 
   const fetchRules = async () => {
     const response = await axios.get('http://localhost:5153/api/loginrules');
+    console.log(response.data)
     setRules(response.data);
   };
 
@@ -60,7 +62,7 @@ export const LoginRulesPage = () => {
       key: 'users',
       name: 'Users',
       minWidth: 200,
-      onRender: (item: LoginRule) => item.userIds.join(', '),
+      onRender: (item: LoginRule) => item.userEmails?.join(', ') || 'No users',
     },
     {
       key: 'restriction',
@@ -131,8 +133,11 @@ export const LoginRulesPage = () => {
 
       <DetailsList
         items={rules.filter((r) =>
-          r.userIds.some((u) => u.toLowerCase().includes(search.toLowerCase()))
-        )}
+          r.userEmails?.some((email) =>
+            email.toLowerCase().includes(search.toLowerCase())
+          )
+        )
+      }
         columns={columns}
         setKey="loginRulesList"
         layoutMode={DetailsListLayoutMode.fixedColumns}

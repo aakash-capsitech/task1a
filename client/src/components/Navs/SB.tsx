@@ -23,7 +23,9 @@ const SB = ({
 
     const decoded: any = jwtDecode(token);
     const role = decoded?.role;
-    if (role === 'admin') {
+    // console.log(role)
+    // alert(role)
+    if (role == 'Admin') {
       setAdminAccess(true);
     }
   }, []);
@@ -36,9 +38,11 @@ const SB = ({
     {
       section: 'Practice configuration',
       items: [
-        'Practice profile',
+        // 'Practice profile',
+        ...(adminAccess ? ['Practice profile'] : []),
         'Automation',
         ...(adminAccess ? ['Users'] : []),
+        // 'Users',
         'Call flow',
         'Addons',
         'Canned emails',

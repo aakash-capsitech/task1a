@@ -126,7 +126,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`http://localhost:5153/api/users/${userId}`);
+      await axios.put(`http://localhost:5153/api/users/delete/${userId}`);
       toast.warn('user deleted');
       await fetchUsers();
     } catch (err) {

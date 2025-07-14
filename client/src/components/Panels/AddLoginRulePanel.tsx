@@ -46,6 +46,8 @@ export const AddLoginRulePanel = ({
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [enableDatePick, setEnableDatePick] = useState(true)
+
   useEffect(() => {
     const fetchUsers = async () => {
       setLoadingUsers(true);
@@ -165,14 +167,37 @@ export const AddLoginRulePanel = ({
           label="Restrictions"
           options={restrictionOptions}
           selectedKey={restriction}
-          onChange={(_, opt) => setRestriction(opt?.key as string)}
+          onChange={(_, opt) => {
+            const newRestriction = opt?.key as string;
+            setRestriction(newRestriction);
+            const enableDates = newRestriction === 'deny';
+            setEnableDatePick(enableDates);
+            if (!enableDates) {
+              setDateRangeEnabled(false);
+              setFromDate(null);
+              setToDate(null);
+            }
+          }}
         />
 
-        <Checkbox
-          label="Select date range"
-          checked={dateRangeEnabled}
-          onChange={(_, checked) => setDateRangeEnabled(!!checked)}
-        />
+
+
+
+
+
+
+        {enableDatePick && <Checkbox
+            label="Select date range"
+            checked={dateRangeEnabled}
+            onChange={(_, checked) => setDateRangeEnabled(!!checked)}
+          />
+        }
+
+
+
+
+
+
 
         {dateRangeEnabled && (
           <>

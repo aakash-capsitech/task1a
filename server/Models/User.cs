@@ -61,7 +61,7 @@ namespace MyMongoApp.Models
         public int Logins { get; set; } = 0;
 
         [BsonElement("role")]
-        public string Role { get; set; } = string.Empty;
+        public UserRole Role { get; set; } = UserRole.Unknown;
 
         [BsonElement("phone")]
         public string Phone { get; set; } = string.Empty;
@@ -78,5 +78,8 @@ namespace MyMongoApp.Models
 
         [BsonElement("passwordHash")]
         public string PasswordHash { get; set; } = "12345";
+
+        [BsonElement("status")]
+        public UserStatus status { get; set; } = UserStatus.Unknown;
     }
 }
