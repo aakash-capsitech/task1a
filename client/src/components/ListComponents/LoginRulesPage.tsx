@@ -17,7 +17,7 @@ import { AddLoginRulePanel } from '../Panels/AddLoginRulePanel';
 type LoginRule = {
   id: string;
   userEmails: string[];
-  restriction: 'Allow' | 'Deny'; // capitalize to match backend
+  restriction: 'Allow' | 'Deny';
   fromDate?: string;
   toDate?: string;
 };
@@ -116,6 +116,12 @@ export const LoginRulesPage = () => {
           onClick={() => {
             setEditingRule(null);
             setIsPanelOpen(true);
+          }}
+        />
+        <PrimaryButton
+          text="+ Refresh"
+          onClick={() => {
+            fetchRules()
           }}
         />
         {/* <PrimaryButton

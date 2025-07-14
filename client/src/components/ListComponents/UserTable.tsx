@@ -62,9 +62,9 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const filterOptions: IDropdownOption[] = [{ key: 'role', text: 'Roles' }];
 
   const roleOptions: IDropdownOption[] = [
-    { key: 'staff', text: 'Staff' },
-    { key: 'manager', text: 'Manager' },
-    { key: 'admin', text: 'Admin' },
+    { key: 'Staff', text: 'Staff' },
+    { key: 'Manager', text: 'Manager' },
+    { key: 'Admin', text: 'Admin' },
   ];
 
   const fetchUsers = async () => {
