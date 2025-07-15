@@ -238,7 +238,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   return (
     <div
-      style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}
+      style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0 }}
     >
       <div
         style={{
@@ -250,7 +250,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           backgroundColor: 'white',
           padding: '12px',
           borderRadius: '8px',
-          marginBottom: '12px',
+          // marginBottom: '12px',
         }}
       >
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -455,12 +455,13 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               root: {
                 width: '100%',
                 selectors: {
-                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1' },
+                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
                   '.ms-DetailsHeader-cell': {
                     color: '#004578',
                     fontWeight: 600,
                     fontSize: '13px',
                     borderBottom: '1px solid #ccc',
+                    // paddingTop: '0 px !important'
                   },
                   '.ms-DetailsRow': {
                     minHeight: '28px !important',

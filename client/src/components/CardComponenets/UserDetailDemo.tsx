@@ -99,7 +99,7 @@ const UserDetailsDemo = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: 12 }}>
       <UserDetailsCard
         username={userData.name}
         email={userData.email}

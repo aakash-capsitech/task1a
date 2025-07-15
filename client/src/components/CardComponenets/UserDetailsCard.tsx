@@ -31,7 +31,7 @@ const sectionStyle = {
     border: '1px solid #ddd',
     borderRadius: 6,
     padding: 16,
-    maxWidth: 1100,
+    // maxWidth: 1100,
   },
 };
 

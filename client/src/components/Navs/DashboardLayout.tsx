@@ -1,15 +1,16 @@
-import Topbar from '../Navs/Topbar';
-import Sidebar from '../Navs/Sidebar';
-import SB from '../Navs/SB';
+import Topbar from './Topbar';
+import Sidebar from './Sidebar';
+import SB from './SB';
 import React from 'react';
 import BreadcrumbBar from './BreadcrumbBar';
+// import BreadcrumbBar from './BreadcrumbBar';
 
 type PageLayoutProps = {
   children: React.ReactNode;
   activeItem: string;
 };
 
-const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
+const DashboardLayout = ({ children, activeItem }: PageLayoutProps) => {
   return (
     <div className="d-flex" style={{ height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
@@ -24,7 +25,7 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
           style={{ overflow: 'hidden' }}
         >
           {/* Fixed SB */}
-          <div
+          {/* <div
             style={{
               width: '220px',
               borderRight: '1px solid #e1e1e1',
@@ -38,11 +39,11 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
               activeItem={activeItem}
               setActiveItem={() => {}}
             />
-          </div>
+          </div> */}
 
           {/* Scrollable Main Content */}
           <div
-            className="flex-grow-1"
+            className="flex-grow-1 p-3"
             style={{ overflowY: 'auto', height: '100%' }}
           >
             {children}
@@ -53,4 +54,4 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
   );
 };
 
-export default PageLayout;
+export default DashboardLayout;

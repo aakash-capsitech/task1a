@@ -1,8 +1,11 @@
 import { Icon } from '@fluentui/react/lib/Icon';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isIcon, setIsIcon] = useState(() => window.innerWidth > 1360);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleResize = () => {
@@ -15,29 +18,29 @@ const Sidebar = () => {
   }, []);
 
   const menuItems = [
-    { icon: 'ViewDashboard', label: 'Dashboard' },
-    { icon: 'Mail', label: 'Emails', beta: 'beta' },
+    { icon: 'ViewDashboard', label: 'Dashboard', nav: "Dashboard" },
+    { icon: 'Mail', label: 'Emails', beta: 'beta', nav: "Emails" },
     { type: 'section', label: 'Operations' },
-    { icon: 'Suitcase', label: 'Clients' },
-    { icon: 'TaskManager', label: 'Tasks' },
-    { icon: 'ContactCard', label: 'E-signatures' },
-    { icon: 'Calendar', label: 'Deadlines' },
+    { icon: 'Suitcase', label: 'Clients', nav: "Clients" },
+    { icon: 'TaskManager', label: 'Tasks', nav: "Tasks" },
+    { icon: 'ContactCard', label: 'E-signatures', nav: "esignatures" },
+    { icon: 'Calendar', label: 'Deadlines', nav: "Deadlines" },
     { type: 'section', label: 'Sales' },
-    { icon: 'UserGauge', label: 'Leads' },
-    { icon: 'TaskManagerMirrored', label: 'Quotes' },
-    { icon: 'News', label: 'Letters' },
-    { icon: 'ChatInviteFriend', label: 'Chats' },
+    { icon: 'UserGauge', label: 'Leads', nav: "Leads" },
+    { icon: 'TaskManagerMirrored', label: 'Quotes', nav: "Quotes" },
+    { icon: 'News', label: 'Letters', nav: "Letters" },
+    { icon: 'ChatInviteFriend', label: 'Chats', nav: "Chats" },
     { type: 'section', label: 'Premium' },
-    { icon: 'DateTime2', label: 'Timesheet', beta: 'beta' },
-    { icon: 'FolderList', label: 'Documents' },
-    { icon: 'Bank', label: 'Accabot Chat', beta: 'beta' },
+    { icon: 'DateTime2', label: 'Timesheet', beta: 'beta', nav: "Timesheet" },
+    { icon: 'FolderList', label: 'Documents',nav: "Documents" },
+    { icon: 'Bank', label: 'Accabot Chat', beta: 'beta', nav: "AccabotChat" },
     { type: 'section', label: 'Marketing' },
-    { icon: 'UserEvent', label: 'Lead Sources' },
+    { icon: 'UserEvent', label: 'Lead Sources', nav: "LeadSources" },
     { type: 'section', label: 'Reports' },
-    { icon: 'DateTime', label: 'Manual timesheet' },
-    { icon: 'Teamwork', label: 'Teams' },
-    { icon: 'ReportDocument', label: 'Reports' },
-    { icon: 'Share', label: 'Resources' },
+    { icon: 'DateTime', label: 'Manual timesheet', nav: "Manualtimesheet" },
+    { icon: 'Teamwork', label: 'Teams', nav: "Teams" },
+    { icon: 'ReportDocument', label: 'Reports', nav: "Reports" },
+    { icon: 'Share', label: 'Resources', nav: "Resources" },
   ];
 
   return (
@@ -105,6 +108,9 @@ const Sidebar = () => {
               onMouseLeave={(e) =>
                 (e.currentTarget.style.background = 'transparent')
               }
+              onClick={()=>{
+                navigate(`/${item.nav}`)
+              }}
             >
               <li className="mb-2 d-flex align-items-center justify-content-between w-100">
                 <div

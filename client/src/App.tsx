@@ -12,10 +12,28 @@ import CallFlow from './components/TemplatePages/CallFlow';
 import Addons from './components/TemplatePages/Addons';
 import CannedEmails from './components/TemplatePages/CannedEmails';
 import MainUserTablePage from './components/TemplatePages/Users';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { D1 } from './components/Demos/D1';
 import { CToastProvider } from './components/toast/CToastProvider';
+import Clients from './components/DashboardComponents/Clients';
+import Tasks from './components/DashboardComponents/Tasks';
+import ESignatures from './components/DashboardComponents/ESignatures';
+import Deadlines from './components/DashboardComponents/Deadlines';
+import Leads from './components/DashboardComponents/Leads';
+import Quotes from './components/DashboardComponents/Quotes';
+import Letters from './components/DashboardComponents/Letters';
+import Chats from './components/DashboardComponents/Chats';
+import Timesheet from './components/DashboardComponents/Timesheet';
+import Documents from './components/DashboardComponents/Documents';
+import AccabotChat from './components/DashboardComponents/AccabotChat';
+import LeadSources from './components/DashboardComponents/LeadSources';
+import ManualTimesheet from './components/DashboardComponents/ManualTimesheet';
+import Teams from './components/DashboardComponents/Teams';
+import Reports from './components/DashboardComponents/Reports';
+import Resources from './components/DashboardComponents/Resources';
+import Dashboard from './components/DashboardComponents/Dashboard';
+import Emails from './components/DashboardComponents/Emails';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
 
@@ -114,6 +132,24 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          <Route path='/clients' element={<Clients />} />
+          <Route path='/tasks' element={<Tasks />} />
+          <Route path='/esignatures' element={<ESignatures />} />
+          <Route path='/deadlines' element={<Deadlines />} />
+          <Route path='/leads' element={<Leads />} />
+          <Route path='/quotes' element={<Quotes />} />
+          <Route path='/letters' element={<Letters />} />
+          <Route path='/chats' element={<Chats />} />
+          <Route path='/timesheet' element={<Timesheet />} />
+          <Route path='/documents' element={<Documents />} />
+          <Route path='/accabotchat' element={<AccabotChat />} />
+          <Route path='/leadsources' element={<LeadSources />} />
+          <Route path='/manualtimesheet' element={<ManualTimesheet />} />
+          <Route path='/teams' element={<Teams />} />
+          <Route path='/reports' element={<Reports />} />
+          <Route path='/resources' element={<Resources />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/emails' element={<Emails />} />
         </Routes>
       </BrowserRouter>
       </CToastProvider>

@@ -64,7 +64,7 @@ const SB = ({
       section: 'Practice configuration',
       items: [
         // 'Practice profile',
-        ...(adminAccess ? ['Practice profile'] : []),
+        ...(adminAccess ? ['Login Rules'] : []),
         'Automation',
         ...(adminAccess ? ['Users'] : []),
         // 'Users',
