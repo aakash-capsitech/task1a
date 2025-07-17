@@ -460,7 +460,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                     color: '#004578',
                     fontWeight: 600,
                     fontSize: '13px',
-                    borderBottom: '1px solid #ccc',
+                    // borderBottom: '1px solid #ccc',
                     // paddingTop: '0 px !important'
                   },
                   '.ms-DetailsRow': {

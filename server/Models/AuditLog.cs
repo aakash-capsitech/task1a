@@ -4,7 +4,9 @@ using MyMongoApp.Enums;
 
 public class AuditLog
 {
-    public string Id { get; set; }
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id { get; set; }
     public AuditLogEntity EntityType { get; set; } = AuditLogEntity.Unknown;
     public string EntityId { get; set; } = string.Empty;  // the LoginRule ID
     public string Action { get; set; } = string.Empty;    // Created, Updated, Deleted

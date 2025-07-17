@@ -24,6 +24,11 @@ namespace MyMongoApp.Data
 
         public IMongoCollection<AuditLog> AuditLogs => _database.GetCollection<AuditLog>("AuditLogs");
 
+        public IMongoCollection<Business> Businesses => _database.GetCollection<Business>("Businesses");
+
+        public IMongoCollection<Quote> Quotes =>
+        _database.GetCollection<Quote>("Quotes");
+
 
 
         // Auth-specific users

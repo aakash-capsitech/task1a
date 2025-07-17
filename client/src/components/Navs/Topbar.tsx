@@ -178,6 +178,13 @@ const Topbar = () => {
               }}
             />
 
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}>
+
+
             <div
               className={classNames.optionRow}
               onClick={() => {
@@ -193,6 +200,8 @@ const Topbar = () => {
             <div className={classNames.optionRow} onClick={handleSignOut}>
               <span className={`ms-Icon ms-Icon--SignOut ${classNames.icon}`} />
               <span className={classNames.label}>Sign Out</span>
+            </div>
+
             </div>
           </div>
         </Callout>

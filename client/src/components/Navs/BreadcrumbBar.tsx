@@ -74,6 +74,7 @@ const BreadcrumbBar = ({ activeItem }: { activeItem: string }) => {
         height: '32px',
         display: 'flex',
         alignItems: 'center',
+        overflow: "hidden"
       }}
     >
       <Breadcrumb

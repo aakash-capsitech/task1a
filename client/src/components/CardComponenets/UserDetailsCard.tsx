@@ -82,13 +82,17 @@ const UserDetailsCard = ({
 
   return (
     <Stack tokens={{ childrenGap: 8 }} styles={sectionStyle}>
-      <Stack horizontal horizontalAlign="space-between">
+      <Stack horizontal>
         <Text
           variant="mediumPlus"
           styles={{ root: { fontWeight: FontWeights.semibold } }}
         >
           Basic details
         </Text>
+        <div style={{
+          display: "flex",
+          justifyContent: "flex-start"
+        }}>
         <DefaultButton
           text=""
           iconProps={{ iconName: 'Edit' }}
@@ -100,6 +104,7 @@ const UserDetailsCard = ({
           iconProps={{ iconName: 'PasswordField' }}
           onClick={() => setIsPasswordModalOpen(true)}
         />
+        </div>
       </Stack>
 
       <Separator />

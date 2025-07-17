@@ -91,7 +91,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-app.UseMiddleware<RequestLoggingMiddleware>();
+// app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -43,7 +43,7 @@ const DashboardLayout = ({ children, activeItem }: PageLayoutProps) => {
 
           {/* Scrollable Main Content */}
           <div
-            className="flex-grow-1 p-3"
+            className="flex-grow-1"
             style={{ overflowY: 'auto', height: '100%' }}
           >
             {children}

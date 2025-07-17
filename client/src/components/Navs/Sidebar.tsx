@@ -22,7 +22,7 @@ const Sidebar = () => {
     { icon: 'Mail', label: 'Emails', beta: 'beta', nav: "Emails" },
     { type: 'section', label: 'Operations' },
     { icon: 'Suitcase', label: 'Clients', nav: "Clients" },
-    { icon: 'TaskManager', label: 'Tasks', nav: "Tasks" },
+    { icon: 'TaskManager', label: 'Invoices', nav: "Tasks" },
     { icon: 'ContactCard', label: 'E-signatures', nav: "esignatures" },
     { icon: 'Calendar', label: 'Deadlines', nav: "Deadlines" },
     { type: 'section', label: 'Sales' },
