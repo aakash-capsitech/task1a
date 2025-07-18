@@ -71,6 +71,7 @@ const SB = ({
         'Call flow',
         'Addons',
         'Canned emails',
+        "All",
       ],
     },
     {
@@ -153,6 +154,9 @@ const SB = ({
                       } else if (item == 'Canned emails') {
                         setActiveItem('');
                         navigate('/cannedemails');
+                      } else if (item == 'All') {
+                        setActiveItem('');
+                        navigate('/all');
                       } else {
                         // Set active item first, then always navigate to home
                         setActiveItem('');

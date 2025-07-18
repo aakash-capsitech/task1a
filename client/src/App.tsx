@@ -34,6 +34,8 @@ import Reports from './components/DashboardComponents/Reports';
 import Resources from './components/DashboardComponents/Resources';
 import Dashboard from './components/DashboardComponents/Dashboard';
 import Emails from './components/DashboardComponents/Emails';
+import AllUsers from './components/ListComponents/AllUsers';
+import All from './components/TemplatePages/All';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
 
@@ -150,6 +152,8 @@ const App = () => {
           <Route path='/resources' element={<Resources />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/emails' element={<Emails />} />
+
+          <Route path='/all' element={<All />} />
         </Routes>
       </BrowserRouter>
       </CToastProvider>
