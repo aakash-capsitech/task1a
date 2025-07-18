@@ -264,6 +264,33 @@
 
 
 
+// import {
+//   DetailsList,
+//   type IColumn,
+//   PrimaryButton,
+//   Dropdown,
+//   type IDropdownOption,
+//   Icon,
+//   SearchBox,
+//   SelectionMode,
+// } from '@fluentui/react';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import { toast } from 'react-toastify';
+// import { CreateQuotePanel } from '../Panels/CreateQuotePanel';
+
+// import jsPDF from 'jspdf';
+
+// const responseTeamOptions: IDropdownOption[] = [
+//   { key: 'TeamA', text: 'Team A' },
+//   { key: 'TeamB', text: 'Team B' },
+// ];
+
+// ✅ Keep imports here
+
+
+
+
 import {
   DetailsList,
   type IColumn,
@@ -278,6 +305,56 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CreateQuotePanel } from '../Panels/CreateQuotePanel';
+
+import jsPDF from 'jspdf';
+
+// ✅ ⬇️ Move this function here, outside QuoteTable
+export const generateQuotePdf = (quote: any) => {
+   const {
+    businessName,
+    firstResponseTeam,
+    date,
+    services = [], // default to empty array
+    discountPercentage,
+    vatPercentage,
+    subtotal,
+    vatAmount,
+    total,
+  } = quote;
+
+  if (!services.length) {
+    console.warn("No services found for quote:", quote.id);
+    // Optional: Show a toast or fallback message
+    return;
+  }
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text('Quote Summary', 20, 20);
+
+  doc.setFontSize(12);
+  doc.text(`Quote ID: ${quote.id}`, 20, 30);
+  doc.text(`Business ID: ${quote.businessId}`, 20, 40);
+  doc.text(`Date: ${new Date(quote.date).toLocaleString()}`, 20, 50);
+  doc.text(`Response Team: ${quote.firstResponseTeam}`, 20, 60);
+
+  doc.text('Services:', 20, 75);
+
+  quote.services?.forEach((s: any, idx: number) => {
+    const y = 85 + idx * 10;
+    doc.text(`- ${s.description || 'No description'} | £${s.amount}`, 25, y);
+  });
+
+  const finalY = 90 + quote.services.length * 10;
+
+  doc.text(`Subtotal: £${quote.subtotal}`, 20, finalY + 10);
+  doc.text(`Discount: ${quote.discountPercentage}%`, 20, finalY + 20);
+  doc.text(`VAT: ${quote.vatPercentage}% (£${quote.vatAmount})`, 20, finalY + 30);
+  doc.text(`Total: £${quote.total}`, 20, finalY + 40);
+
+  doc.save(`Quote_${quote.id}.pdf`);
+};
 
 const responseTeamOptions: IDropdownOption[] = [
   { key: 'TeamA', text: 'Team A' },
@@ -310,6 +387,7 @@ export const QuoteTable = () => {
       });
 
       setQuotes(res.data.quotes || []);
+      console.log(res.data)
       setTotal(res.data.total || 0);
     } catch (err) {
       toast.error('Failed to load quotes');
@@ -393,6 +471,33 @@ export const QuoteTable = () => {
     //     </span>
     //   ),
     // },
+
+    {
+  key: 'actions',
+  name: '',
+  minWidth: 100,
+  maxWidth: 120,
+  onRender: (item) => (
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Icon
+  iconName="Download"
+  title="Download PDF"
+  style={{ cursor: 'pointer', color: '#0078d4' }}
+  onClick={() => {
+    console.log('Downloading PDF for:', item);
+    generateQuotePdf(item)}}
+/>
+
+      {/* <Icon
+        iconName="Delete"
+        title="Delete"
+        style={{ cursor: 'pointer', color: 'red' }}
+        onClick={() => handleDelete(item.id)}
+      /> */}
+    </div>
+  ),
+}
+
   ];
 
   return (
