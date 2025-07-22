@@ -135,7 +135,7 @@ const App = () => {
             }
           />
           <Route path='/clients' element={<Clients />} />
-          <Route path='/tasks' element={<Tasks />} />
+          <Route path='/invoice' element={<Tasks />} />
           <Route path='/esignatures' element={<ESignatures />} />
           <Route path='/deadlines' element={<Deadlines />} />
           <Route path='/leads' element={<Leads />} />

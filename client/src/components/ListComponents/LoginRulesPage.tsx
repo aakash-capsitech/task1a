@@ -475,28 +475,57 @@ export const LoginRulesPage = () => {
             columns={columns}
             layoutMode={DetailsListLayoutMode.fixedColumns}
             selectionMode={SelectionMode.none}
+            // styles={{
+            //   root: {
+            //     width: '100%',
+            //     alignItems: "center",
+            //     selectors: {
+            //       '.ms-DetailsHeader': {
+            //         backgroundColor: '#f3f2f1',
+            //         paddingTop: '0px',
+            //         paddingBottom: '0px',
+            //         marginTop: '0px',
+            //         border: 'none',
+            //         minHeight: '0px',
+            //       },
+            //       '.ms-DetailsHeader-cell': {
+            //         color: '#004578',
+            //         fontWeight: 600,
+            //         fontSize: '13px',
+            //         // borderBottom: '1px solid #ccc',
+            //       },
+            //       '.ms-DetailsRow': {
+            //         height: '24px !important',
+            //         borderBottom: '0.5px solid #eee',
+            //       },
+            //       '.ms-DetailsRow-cell': {
+            //         paddingTop: '4px',
+            //         paddingBottom: '4px',
+            //         fontSize: '13px',
+            //         whiteSpace: 'normal',
+            //         wordBreak: 'break-word',
+            //         // margin:  "auto 0"
+            //       },
+            //     },
+            //   },
+            // }}
             styles={{
               root: {
                 width: '100%',
-                alignItems: "center",
                 selectors: {
-                  '.ms-DetailsHeader': {
-                    backgroundColor: '#f3f2f1',
-                    paddingTop: '0px',
-                    paddingBottom: '0px',
-                    marginTop: '0px',
-                    border: 'none',
-                    minHeight: '0px',
-                  },
+                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
                   '.ms-DetailsHeader-cell': {
                     color: '#004578',
                     fontWeight: 600,
                     fontSize: '13px',
                     // borderBottom: '1px solid #ccc',
+                    // paddingTop: '0 px !important'
+                    
                   },
                   '.ms-DetailsRow': {
-                    height: '24px !important',
+                    minHeight: '28px !important',
                     borderBottom: '0.5px solid #eee',
+                    
                   },
                   '.ms-DetailsRow-cell': {
                     paddingTop: '4px',
@@ -504,7 +533,8 @@ export const LoginRulesPage = () => {
                     fontSize: '13px',
                     whiteSpace: 'normal',
                     wordBreak: 'break-word',
-                    // margin:  "auto 0"
+                    display: "flex",
+                    alignItems: "center"
                   },
                 },
               },

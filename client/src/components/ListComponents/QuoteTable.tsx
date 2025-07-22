@@ -308,6 +308,28 @@ import { CreateQuotePanel } from '../Panels/CreateQuotePanel';
 
 import jsPDF from 'jspdf';
 
+const buttonStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '6px 12px',
+  border: 'none',
+  background: 'white',
+  fontSize: '13px',
+  color: '#333',
+  cursor: 'pointer',
+  height: '32px',
+  transition: 'all 0.2s ease',
+};
+
+const buttonHoverStyle = {
+  background: '#f3f2f1',
+};
+
+const iconStyle = {
+  fontSize: '14px',
+};
+
 // ✅ ⬇️ Move this function here, outside QuoteTable
 export const generateQuotePdf = (quote: any) => {
    const {
@@ -343,10 +365,12 @@ export const generateQuotePdf = (quote: any) => {
 
   quote.services?.forEach((s: any, idx: number) => {
     const y = 85 + idx * 10;
+        doc.text(`- ${s.service || 'No service'}`, 25, 90 + quote.services.length * 10 + idx*10);
+
     doc.text(`- ${s.description || 'No description'} | £${s.amount}`, 25, y);
   });
 
-  const finalY = 90 + quote.services.length * 10;
+  const finalY = 110 + quote.services.length * 10;
 
   doc.text(`Subtotal: £${quote.subtotal}`, 20, finalY + 10);
   doc.text(`Discount: ${quote.discountPercentage}%`, 20, finalY + 20);
@@ -512,7 +536,24 @@ export const QuoteTable = () => {
         }}
       >
         <div style={{ display: 'flex', gap: '12px' }}>
-          <PrimaryButton text="Add Invoice" onClick={() => setIsPanelOpen(true)} />
+          {/* <PrimaryButton text="Add Invoice" onClick={() => setIsPanelOpen(true)} /> */}
+
+            <button
+                        style={buttonStyle}
+                        onMouseEnter={(e) =>
+                          Object.assign(e.currentTarget.style, buttonHoverStyle)
+                        }
+                        onMouseLeave={(e) =>
+                          Object.assign(e.currentTarget.style, { background: 'white' })
+                        }
+                        onClick={() => setIsPanelOpen(true)}
+                      >
+                        <span style={iconStyle}>
+                          <Icon iconName="Add" />
+                        </span>
+                        Invoice
+                      </button>
+            
           <Dropdown
             placeholder="Filter by team"
             options={responseTeamOptions}
@@ -557,18 +598,48 @@ export const QuoteTable = () => {
           columns={columns}
           selectionMode={SelectionMode.none}
           compact
+          // styles={{
+          //   root: {
+          //     selectors: {
+          //       '.ms-DetailsHeader': { background: '#f3f2f1' },
+          //       '.ms-DetailsRow': { minHeight: 32 },
+          //       '.ms-DetailsRow-cell': {
+          //         padding: '6px 8px',
+          //         fontSize: '13px',
+          //       },
+          //     },
+          //   },
+          // }}
           styles={{
-            root: {
-              selectors: {
-                '.ms-DetailsHeader': { background: '#f3f2f1' },
-                '.ms-DetailsRow': { minHeight: 32 },
-                '.ms-DetailsRow-cell': {
-                  padding: '6px 8px',
-                  fontSize: '13px',
+              root: {
+                width: '100%',
+                selectors: {
+                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
+                  '.ms-DetailsHeader-cell': {
+                    color: '#004578',
+                    fontWeight: 600,
+                    fontSize: '13px',
+                    // borderBottom: '1px solid #ccc',
+                    // paddingTop: '0 px !important'
+                    
+                  },
+                  '.ms-DetailsRow': {
+                    minHeight: '28px !important',
+                    borderBottom: '0.5px solid #eee',
+                    
+                  },
+                  '.ms-DetailsRow-cell': {
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    fontSize: '13px',
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-word',
+                    display: "flex",
+                    alignItems: "center"
+                  },
                 },
               },
-            },
-          }}
+            }}
         />
       </div>
 

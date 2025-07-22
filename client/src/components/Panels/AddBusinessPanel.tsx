@@ -1,225 +1,3 @@
-// import {
-//   Panel,
-//   PanelType,
-//   Dropdown,
-//   TextField,
-//   PrimaryButton,
-//   DefaultButton,
-//   Stack,
-//   IconButton,
-//   Label,
-// } from '@fluentui/react';
-// import { useState } from 'react';
-
-// const businessTypes = [
-//   { key: 'limited', text: 'Limited' },
-//   { key: 'individual', text: 'Individual' },
-// ];
-
-// const modeOptions = [
-//   { key: 'livechat', text: 'Live chat' },
-//   { key: 'email', text: 'Email' },
-//   { key: 'phone', text: 'Phone' },
-// ];
-
-// const typeOptions = [
-//   { key: 'work', text: 'Work' },
-//   { key: 'home', text: 'Home' },
-//   { key: 'mobile', text: 'Mobile' },
-// ];
-
-// export const AddBusinessPanel = ({ isOpen, onDismiss }: { isOpen: boolean; onDismiss: () => void }) => {
-//   const [businesses, setBusinesses] = useState([{ type: 'limited', nameOrNumber: '' }]);
-//   const [showContact, setShowContact] = useState(false);
-//   const [phoneFields, setPhoneFields] = useState([{ value: '', type: 'work' }]);
-//   const [emailFields, setEmailFields] = useState([{ value: '', type: 'work' }]);
-
-//   const [ isAliasOpen, setIsAliasOpen ] = useState(false)
-
-//   const addBusiness = () => setBusinesses([...businesses, { type: 'limited', nameOrNumber: '' }]);
-//   const removeBusiness = (index: number) => setBusinesses(businesses.filter((_, i) => i !== index));
-
-//   const updatePhone = (index: number, field: string, value: string) => {
-//     const updated = [...phoneFields];
-//     (updated[index] as any)[field] = value;
-//     setPhoneFields(updated);
-//   };
-
-//   const updateEmail = (index: number, field: string, value: string) => {
-//     const updated = [...emailFields];
-//     (updated[index] as any)[field] = value;
-//     setEmailFields(updated);
-//   };
-
-//   return (
-//     <Panel
-//       isOpen={isOpen}
-//       onDismiss={onDismiss}
-//       headerText="Add business"
-//       closeButtonAriaLabel="Close"
-//       type={PanelType.medium}
-//       onRenderFooterContent={() => (
-//         <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}>
-//           <DefaultButton text="Cancel" onClick={onDismiss} />
-//           <PrimaryButton text="Save" onClick={() => {}} />
-//         </Stack>
-//       )}
-//       isFooterAtBottom
-//     >
-//       <Stack tokens={{ childrenGap: 16 }}>
-//         {businesses.map((b, idx) => (
-//           <Stack horizontal tokens={{ childrenGap: 8 }} verticalAlign="end" key={idx}>
-//             <Dropdown
-//               label="Type"
-//               options={businessTypes}
-//               selectedKey={b.type}
-//               onChange={(_, option) => {
-//                 const updated = [...businesses];
-//                 updated[idx].type = option?.key as string;
-//                 setBusinesses(updated);
-//               }}
-//               styles={{ root: { width: 180 } }}
-//             />
-//             <TextField
-//               label="Business name or number"
-//               value={b.nameOrNumber}
-//               onChange={(_, val) => {
-//                 const updated = [...businesses];
-//                 updated[idx].nameOrNumber = val ?? '';
-//                 setBusinesses(updated);
-//               }}
-//               styles={{ root: { flex: 1 } }}
-//             />
-//             {idx === businesses.length - 1 ? (
-//               <IconButton iconProps={{ iconName: 'Add' }} onClick={addBusiness} />
-//             ) : (
-//               <IconButton iconProps={{ iconName: 'Delete' }} onClick={() => removeBusiness(idx)} />
-//             )}
-//           </Stack>
-//         ))}
-
-//         <DefaultButton
-//           text={showContact ? '− Contact' : '+ Contact'}
-//           onClick={() => setShowContact(!showContact)}
-//         />
-
-//         {showContact && (
-//           <>
-//               <>
-//                 <Stack horizontal tokens={{ childrenGap: 8 }}>
-//                   <TextField label="First name" styles={{ root: { flex: 1 } }} />
-//                   <TextField label="Last name" styles={{ root: { flex: 1 } }} />
-//                   {!isAliasOpen && <DefaultButton text="+Alias" onClick={()=>{
-//                     setIsAliasOpen(true)
-//                   }} />}
-//                   {isAliasOpen && <TextField label="Alias" styles={{ root: { flex: 1 } }} />}
-//                 </Stack>
-
-//                 <Stack horizontal tokens={{ childrenGap: 8 }}>
-//                   <TextField label="Designation" styles={{ root: { flex: 1 } }} />
-//                   <Dropdown label="Mode" options={modeOptions} selectedKey="livechat" styles={{ root: { width: 200 } }} />
-//                 </Stack>
-
-//                 <Label>Phone number</Label>
-//                 {phoneFields.map((p, idx) => (
-//                   <Stack horizontal tokens={{ childrenGap: 8 }} key={idx}>
-//                     <TextField
-//                       value={p.value}
-//                       onChange={(_, val) => updatePhone(idx, 'value', val ?? '')}
-//                       styles={{ root: { flex: 1 } }}
-//                     />
-//                     <Dropdown
-//                       options={typeOptions}
-//                       selectedKey={p.type}
-//                       onChange={(_, opt) => updatePhone(idx, 'type', opt?.key as string)}
-//                       styles={{ root: { width: 120 } }}
-//                     />
-//                     {idx === phoneFields.length - 1 ? (
-//                       <IconButton iconProps={{ iconName: 'Add' }} onClick={() => setPhoneFields([...phoneFields, { value: '', type: 'work' }])} />
-//                     ) : (
-//                       <IconButton iconProps={{ iconName: 'Delete' }} onClick={() => setPhoneFields(phoneFields.filter((_, i) => i !== idx))} />
-//                     )}
-//                   </Stack>
-//                 ))}
-
-//                 <Label>Email</Label>
-//                 {emailFields.map((e, idx) => (
-//                   <Stack horizontal tokens={{ childrenGap: 8 }} key={idx}>
-//                     <TextField
-//                       value={e.value}
-//                       onChange={(_, val) => updateEmail(idx, 'value', val ?? '')}
-//                       styles={{ root: { flex: 1 } }}
-//                     />
-//                     <Dropdown
-//                       options={typeOptions}
-//                       selectedKey={e.type}
-//                       onChange={(_, opt) => updateEmail(idx, 'type', opt?.key as string)}
-//                       styles={{ root: { width: 120 } }}
-//                     />
-//                     {idx === emailFields.length - 1 ? (
-//                       <IconButton iconProps={{ iconName: 'Add' }} onClick={() => setEmailFields([...emailFields, { value: '', type: 'work' }])} />
-//                     ) : (
-//                       <IconButton iconProps={{ iconName: 'Delete' }} onClick={() => setEmailFields(emailFields.filter((_, i) => i !== idx))} />
-//                     )}
-//                   </Stack>
-//                 ))}
-
-//                 <TextField label="Notes" multiline rows={3} />
-//               </>
-//           </>
-//         )}
-//       </Stack>
-//     </Panel>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import {
   Panel,
   PanelType,
@@ -231,12 +9,173 @@ import {
   IconButton,
   Label,
   type IDropdownOption,
+  type IDropdownStyles,
 } from '@fluentui/react';
 import { Formik, Form, FieldArray, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+
+
+const ukBusinessOptions: IDropdownOption[] = [
+  { key: 'Barclays', text: 'Barclays' },
+  { key: 'HSBC', text: 'HSBC' },
+  { key: 'Tesco', text: 'Tesco' },
+  { key: 'Sainsbury\'s', text: 'Sainsbury\'s' },
+  { key: 'Marks & Spencer', text: 'Marks & Spencer' },
+  { key: 'BT Group', text: 'BT Group' },
+  { key: 'Unilever', text: 'Unilever' },
+  { key: 'Rolls-Royce', text: 'Rolls-Royce' },
+  { key: 'AstraZeneca', text: 'AstraZeneca' },
+  { key: 'GlaxoSmithKline', text: 'GlaxoSmithKline' },
+];
+
+
+const TextFieldStyles = {
+  root: {
+    margin: 0,
+    padding: 0,
+    maxWidth: 200,
+  },
+  fieldGroup: {
+    height: 24,
+    minHeight: 24,
+    borderRadius: 4,
+    padding: '0 6px',
+    borderColor: '#c8c6c9',
+  },
+  field: {
+    fontSize: 12,
+    padding: '2px 0',
+  },
+};
+
+const LabelStyles = {
+                          fontSize: 11,
+                          fontWeight: 400,
+                          color: '#323130',
+                          lineHeight: '1',
+                          marginBottom: "10px",
+                          display: 'block',
+                          marginTop: "20px",
+                        }
+
+const compactDropdownStyles: Partial<IDropdownStyles> = {
+  root: {
+    width: 120,
+    margin: 0,
+    padding: 0,
+  },
+  dropdown: {
+    height: 24,
+    minHeight: 24,
+    fontSize: 12,
+    border: '1px solid #c8c6c9',
+    borderRadius: 4,
+  },
+  title: {
+    height: "full",
+    lineHeight: '20px',
+    padding: '0 24px 0 6px', // avoids overlap with icon
+    fontSize: 12,
+    borderRadius: 2,
+  },
+  caretDownWrapper: {
+    height: 24,
+    lineHeight: '20px',
+    width: 20,
+    right: 4,
+  },
+  dropdownItem: {
+    fontSize: 12,
+    height: 28,
+    lineHeight: '28px',
+  },
+};
+
+
+const dropdownStyles: Partial<IDropdownStyles> = {
+  root: {
+    margin: 0,
+    padding: 0,
+    maxWidth: 200,
+    border: "none",
+  },
+  dropdown: {
+    height: 24,
+    minHeight: 24,
+    fontSize: 12,
+    lineHeight: '20px',
+    padding: 0,
+    border: `1px solid #c8c6c9`, // lighter border
+    borderRadius: 2,
+  },
+  title: {
+    height: "full",
+    lineHeight: '20px',
+    // padding: '0 24px 0 6px', // ⬅️ add right padding for chevron
+    fontSize: 12,
+    borderRadius: 2,
+  },
+  caretDownWrapper: {
+    height: 24,
+    lineHeight: '20px',
+    width: 20,
+    right: 4, // ⬅️ keeps chevron aligned
+    border: "none"
+  },
+  dropdownItem: {
+    fontSize: 12,
+    height: 28,
+    lineHeight: '28px',    border: "none"
+
+  },
+};
+
+const dropdownStyles2: Partial<IDropdownStyles> = {
+  root: {
+    margin: 0,
+    padding: 0,
+    maxWidth: 480, // optional: restrict container width
+    border: "none",
+    width: 300, // ⬅️ set desired width
+  },
+  dropdown: {
+    height: 24,
+    minHeight: 24,
+    fontSize: 12,
+    lineHeight: '20px',
+    padding: 0,
+    border: `1px solid #c8c6c9`,
+    borderRadius: 2,
+    width: 300, // ⬅️ set dropdown visible box width
+  },
+  callout: {
+    width: 300, // ⬅️ this controls the width of the options list popup
+  },
+  title: {
+    height: "100%",
+    lineHeight: '20px',
+    fontSize: 12,
+    borderRadius: 2,
+  },
+  caretDownWrapper: {
+    height: 24,
+    lineHeight: '20px',
+    width: 20,
+    right: 4,
+    border: "none",
+  },
+  dropdownItem: {
+    fontSize: 12,
+    height: 28,
+    lineHeight: '28px',
+    border: "none",
+  },
+};
+
+
 
 const businessTypes: IDropdownOption[] = [
   { key: 'limited', text: 'Limited' },
@@ -419,7 +358,7 @@ export const AddBusinessPanel = ({
                         <Stack key={idx} tokens={{ childrenGap: 8 }}>
                           <Stack horizontal tokens={{ childrenGap: 8 }} verticalAlign="end">
                             <Dropdown
-                              label="Type"
+                              onRenderLabel={() => <span style={LabelStyles}>Type</span>}
                               selectedKey={business.type}
                               options={businessTypes}
                               onChange={(_, option) => {
@@ -446,10 +385,10 @@ export const AddBusinessPanel = ({
                                   ? String(businessError.type)
                                   : undefined
                               }
-                              styles={{ root: { width: 180 } }}
+                              styles={dropdownStyles}
                             />
-                            <TextField
-                              label="Business name"
+                            {/* <TextField
+                              onRenderLabel={() => <span style={LabelStyles}>Business Name</span>}
                               value={business.nameOrNumber}
                               onChange={(_, val) =>
                                 setFieldValue(`businesses[${idx}].nameOrNumber`, val || '')
@@ -462,12 +401,34 @@ export const AddBusinessPanel = ({
                                   ? String(businessError.nameOrNumber)
                                   : undefined
                               }
-                              styles={{ root: { flex: 1 } }}
+                              styles={TextFieldStyles}
+                            /> */}
+
+                            <Dropdown
+                               onRenderLabel={() => <span style={LabelStyles}>Business Name</span>}
+                              selectedKey={business.nameOrNumber}
+                              onChange={(_, option) =>
+                                setFieldValue(`businesses[${idx}].nameOrNumber`, option?.key ?? '')
+                              }
+                              options={ukBusinessOptions}
+                              errorMessage={
+                                businessTouched &&
+                                typeof businessError === 'object' &&
+                                businessError &&
+                                'nameOrNumber' in businessError
+                                  ? String(businessError.nameOrNumber)
+                                  : undefined
+                              }
+                              styles={dropdownStyles2}
                             />
+
                             <IconButton
                               iconProps={{
-                                iconName:
-                                  idx === values.businesses.length - 1 ? 'Add' : 'Delete',
+                                iconName: idx === values.businesses.length - 1 ? 'Add' : 'Delete',
+                                styles:
+                                  idx !== values.businesses.length - 1
+                                    ? { root: { color: 'red' } }
+                                    : undefined,
                               }}
                               onClick={() => {
                                 if (idx === values.businesses.length - 1) {
@@ -477,6 +438,7 @@ export const AddBusinessPanel = ({
                                 }
                               }}
                             />
+
                           </Stack>
 
                           {business.type === 'individual' && business.address && (
@@ -496,7 +458,8 @@ export const AddBusinessPanel = ({
                                   return (
                                     <TextField
                                       key={field}
-                                      label={field.charAt(0).toUpperCase() + field.slice(1)}
+                                      // label={field.charAt(0).toUpperCase() + field.slice(1)}
+                                      onRenderLabel={() => <span style={LabelStyles}>{field.charAt(0).toUpperCase() + field.slice(1)}</span>}
                                       value={business.address?.[field] ?? ''}
                                       onChange={(_, val) =>
                                         setFieldValue(
@@ -506,15 +469,17 @@ export const AddBusinessPanel = ({
                                       }
                                       errorMessage={addrErr ? String(addrErr) : undefined}
                                       styles={{
-                                        root: {
-                                          width:
-                                            field === 'postcode'
-                                              ? 120
-                                              : field === 'country'
-                                              ? 180
-                                              : 150,
-                                        },
+                                        ...TextFieldStyles,
+                                        // root: {
+                                        //   width:
+                                        //     field === 'postcode'
+                                        //       ? 120
+                                        //       : field === 'country'
+                                        //       ? 180
+                                        //       : 150,
+                                        // },
                                       }}
+                                      
                                     />
                                   );
                                 }
@@ -531,54 +496,118 @@ export const AddBusinessPanel = ({
               <DefaultButton
                 text={showContact ? '− Contact' : '+ Contact'}
                 onClick={() => setShowContact(!showContact)}
-                styles={{ root: { marginTop: 20 } }}
+                styles={{
+                  root: {
+                    marginTop: 20,
+                    height: 24,
+                    minHeight: 24,
+                    padding: '0 8px',
+                    fontSize: 12,
+                    lineHeight: '16px',
+                  },
+                  label: {
+                    fontWeight: 'normal',
+                  },
+                }}
               />
+
 
               {showContact && (
                 <>
                   <Stack horizontal tokens={{ childrenGap: 8 }}>
                     <TextField
-                      label="First name"
+                        onRenderLabel={() => (
+                          <span
+                            style={LabelStyles}
+                          >
+                            First name
+                          </span>
+                        )}
+                      placeholder="Enter first name"
                       value={contactData.firstName}
                       onChange={(_, val) =>
                         setContactData((prev) => ({ ...prev, firstName: val || '' }))
                       }
-                      styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                     />
                     <TextField
-                      label="Last name"
+                      onRenderLabel={() => (
+                      <span
+                        style={LabelStyles}
+                      >
+                        Last name
+                      </span>
+                    )}
                       value={contactData.lastName}
                       onChange={(_, val) =>
                         setContactData((prev) => ({ ...prev, lastName: val || '' }))
                       }
-                      styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                     />
                     {!isAliasOpen && !contactData.alias && (
-                      <DefaultButton text="+Alias" onClick={() => setIsAliasOpen(true)} />
+                      <DefaultButton text="+Alias" onClick={() => setIsAliasOpen(true)} styles={{
+                          root: {
+                            marginTop: 40,
+                            height: 24,
+                            minHeight: 24,
+                            padding: '0 8px',
+                            fontSize: 12,
+                            lineHeight: '16px',
+                          } }} />
+                      // <DefaultButton
+                      //   text={showContact ? '− Contact' : '+ Contact'}
+                      //   onClick={() => setShowContact(!showContact)}
+                      //   styles={{
+                      //     root: {
+                      //       marginTop: 20,
+                      //       height: 24,
+                      //       minHeight: 24,
+                      //       padding: '0 8px',
+                      //       fontSize: 12,
+                      //       lineHeight: '16px',
+                      //     },
+                      //     label: {
+                      //       fontWeight: 'normal',
+                      //     },
+                      //   }}
+                      // />
+
                     )}
                     {(isAliasOpen || contactData.alias) && (
                       <TextField
-                        label="Alias"
+                        onRenderLabel={() => (
+                          <span
+                            style={LabelStyles}
+                          >
+                            Alias
+                          </span>
+                        )}
                         value={contactData.alias}
                         onChange={(_, val) =>
                           setContactData((prev) => ({ ...prev, alias: val || '' }))
                         }
-                        styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                       />
                     )}
                   </Stack>
 
                   <Stack horizontal tokens={{ childrenGap: 8 }}>
                     <TextField
-                      label="Designation"
+                      onRenderLabel={() => (
+                          <span
+                            style={LabelStyles}
+                          >
+                            Designation
+                          </span>
+                        )}
                       value={contactData.designation}
                       onChange={(_, val) =>
                         setContactData((prev) => ({ ...prev, designation: val || '' }))
                       }
-                      styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                     />
                     <Dropdown
-                      label="Mode"
+                      onRenderLabel={() => <span style={LabelStyles}>Mode</span>}
                       options={modeOptions}
                       selectedKey={contactData.mode}
                       onChange={(_, option) =>
@@ -587,11 +616,19 @@ export const AddBusinessPanel = ({
                           mode: option?.key as string,
                         }))
                       }
-                      styles={{ root: { width: 200 } }}
+                      styles={dropdownStyles}
                     />
+
                   </Stack>
 
-                  <Label>Phone number</Label>
+                  {/* <Label>Phone number</Label> */}
+                  
+                          <span
+                            style={LabelStyles}
+                          >
+                            Phone Number
+                          </span>
+                        
                   {phoneFields.map((phone, idx) => (
                     <Stack horizontal tokens={{ childrenGap: 8 }} key={idx}>
                       <TextField
@@ -601,18 +638,20 @@ export const AddBusinessPanel = ({
                           updated[idx].value = val || '';
                           setPhoneFields(updated);
                         }}
-                        styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                       />
                       <Dropdown
                         options={typeOptions}
                         selectedKey={phone.type}
                         onChange={(_, opt) => {
                           const updated = [...phoneFields];
-                          updated[idx].type = opt?.key as string || 'work';
+                          updated[idx].type = (opt?.key as string) || 'work';
                           setPhoneFields(updated);
                         }}
-                        styles={{ root: { width: 120 } }}
+                        styles={compactDropdownStyles}
                       />
+
+                      
                       {idx === phoneFields.length - 1 ? (
                         <IconButton
                           iconProps={{ iconName: 'Add' }}
@@ -623,6 +662,7 @@ export const AddBusinessPanel = ({
                       ) : (
                         <IconButton
                           iconProps={{ iconName: 'Delete' }}
+                          style={{color: "red"}}
                           onClick={() =>
                             setPhoneFields(phoneFields.filter((_, i) => i !== idx))
                           }
@@ -631,7 +671,14 @@ export const AddBusinessPanel = ({
                     </Stack>
                   ))}
 
-                  <Label>Email</Label>
+                  {/* <Label>Email</Label> */}
+                  {/* onRenderLabel={() => ( */}
+                          <span
+                            style={LabelStyles}
+                          >
+                            Email
+                          </span>
+                        {/* )} */}
                   {emailFields.map((email, idx) => (
                     <Stack horizontal tokens={{ childrenGap: 8 }} key={idx}>
                       <TextField
@@ -641,9 +688,9 @@ export const AddBusinessPanel = ({
                           updated[idx].value = val || '';
                           setEmailFields(updated);
                         }}
-                        styles={{ root: { flex: 1 } }}
+                      styles={ TextFieldStyles }
                       />
-                      <Dropdown
+                      {/* <Dropdown
                         options={typeOptions}
                         selectedKey={email.type}
                         onChange={(_, opt) => {
@@ -652,7 +699,19 @@ export const AddBusinessPanel = ({
                           setEmailFields(updated);
                         }}
                         styles={{ root: { width: 120 } }}
+                      /> */}
+
+                      <Dropdown
+                        options={typeOptions}
+                        selectedKey={email.type}
+                        onChange={(_, opt) => {
+                          const updated = [...emailFields];
+                          updated[idx].type = (opt?.key as string) || 'work';
+                          setEmailFields(updated);
+                        }}
+                        styles={compactDropdownStyles}
                       />
+
                       {idx === emailFields.length - 1 ? (
                         <IconButton
                           iconProps={{ iconName: 'Add' }}
@@ -663,6 +722,7 @@ export const AddBusinessPanel = ({
                       ) : (
                         <IconButton
                           iconProps={{ iconName: 'Delete' }}
+                          style={{color: "red"}}
                           onClick={() =>
                             setEmailFields(emailFields.filter((_, i) => i !== idx))
                           }

@@ -10,7 +10,7 @@ const Tasks = () => {
     const [panelOpen, setPanelOpen] = useState(false)
 
   return (
-    <DashboardLayout activeItem='Tasks'>
+    <DashboardLayout activeItem='Invoice'>
         <div>
           <QuoteTable />
         </div>
