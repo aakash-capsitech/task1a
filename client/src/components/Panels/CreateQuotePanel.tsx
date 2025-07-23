@@ -11,6 +11,8 @@ import {
   Label,
   type IDropdownOption,
   type IDropdownStyles,
+  Icon,
+  Separator,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
 import { Formik, Form, FieldArray, type FormikHelpers } from 'formik';
@@ -80,6 +82,23 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
   },
 };
 
+const headerStyles = {
+  headerText: {
+          fontSize: "15px",
+          fontWeight: "20px"
+        },
+        header: {
+          paddingTop: "0px",
+        },
+        root: {
+          fontSize: "5px"
+        }, commands: {
+          paddingTop: "0px",
+          borderBottom: "1px solid #EAEAEA"
+        }
+      
+}
+
 
 const dropdownStyles: Partial<IDropdownStyles> = {
   root: {
@@ -118,6 +137,17 @@ const dropdownStyles: Partial<IDropdownStyles> = {
 
   },
 };
+
+const readOnlyTexts = {
+  fieldGroup: {
+    background: "#F8F8F8",
+    border: "1px solid #EAEAEA",
+    borderRadius: "6px",
+  },
+  root:{
+    marginTop: "0px"
+  }
+}
 
 const vatOptions = [
   { key: '0', text: 'VAT 0%' },
@@ -303,6 +333,7 @@ export const CreateQuotePanel = ({
       closeButtonAriaLabel="Close"
       type={PanelType.medium}
       isFooterAtBottom
+      styles={headerStyles}
     >
       <Formik
         initialValues={initialValues}
@@ -326,8 +357,15 @@ export const CreateQuotePanel = ({
 
           return (
             <Form style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div style= {{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                gap: "20px"
+              }}>
+                <span style={{...LabelStyles}}>Business Name</span>
               <Dropdown
-                onRenderLabel={() => <span style={LabelStyles}>Business</span>}
+                // onRenderLabel={() => }
                 placeholder="Select or search..."
                 options={businessOptions}
                 selectedKey={values.businessId}
@@ -337,8 +375,13 @@ export const CreateQuotePanel = ({
                     ? errors.businessId
                     : undefined
                 }
-                styles={dropdownStyles}
+                styles={{...dropdownStyles, root: {
+                  width: "400px",
+                  marginTop: "10px"
+                }}}
               />
+              </div>
+              
 
               <Stack horizontal tokens={{ childrenGap: 16 }}>
                 <DatePicker
@@ -379,11 +422,42 @@ export const CreateQuotePanel = ({
                 />
               </Stack>
 
+              <div style={
+                {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around"
+                }
+              }>
+                <div style={
+                {
+                  fontSize: "14px",
+                  fontWeight: 750
+                }
+              }>Service</div>
+                <div style={
+                {
+                  fontSize: "14px",
+                  fontWeight: 750
+                }
+              }>Description</div>
+                <div style={
+                {
+                  fontSize: "14px",
+                  fontWeight: 750
+                }
+              }>Amount</div>
+              </div>
+              <hr style={{
+                height: "10px"
+              }}/>
+
+
               <FieldArray name="rows">
                 {({ remove, push }) => (
                   <>
                     {values.rows.map((row, index) => (
-                      <Stack horizontal tokens={{ childrenGap: 8 }} key={index}>
+                      <Stack horizontal horizontalAlign='center' tokens={{ childrenGap: 8 }} key={index}>
                         <Dropdown
                           placeholder="Select service"
                           options={sampleServices}
@@ -425,21 +499,61 @@ export const CreateQuotePanel = ({
                         <IconButton
                           iconProps={{ iconName: 'Delete' }}
                           onClick={() => remove(index)}
+                          styles={{
+                            root: {
+                              color: "red"
+                            }
+                          }}
                         />
                       </Stack>
                     ))}
-                    <DefaultButton
+
+
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }}>
+                    <Stack styles={{root: {
+                      width: '70px',
+                      // marginTop: "100px"
+                    }}}>
+                      <PrimaryButton
                       text="+ Add"
                       onClick={() =>
                         push({ service: '', description: '', amount: '' })
                       }
+                      styles={{
+                        root: {
+                          padding: '2px 8px',
+                          width: '100%',
+                          minWidth: '100%',
+                          borderRadius: "6px"
+                        },
+                        flexContainer: {
+                          padding: 0
+                        }
+                      }}
                     />
+                    </Stack>
+                    <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
+                {/* <Label style={LabelStyles}>Subtotal</Label> */}
+                <TextField
+                  readOnly
+                  value={`£${calculations.subtotal.toFixed(2)}`}
+                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
+                />
+              </Stack>
+                    </div>
+                    
                   </>
                 )}
               </FieldArray>
 
-              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                <Label style={{...LabelStyles, width: 120}}>Discount (%)</Label>
+
+                <Stack  tokens={{ childrenGap: 1 }}>
+              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 4 }}>
+                <Label style={{...LabelStyles}}>Discount (%)</Label>
                 <TextField
                   type="number"
                   suffix="%"
@@ -451,49 +565,58 @@ export const CreateQuotePanel = ({
                 />
               </Stack>
 
-              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+              
+
+              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 2 }}>
+                
                 <Dropdown
-                  onRenderLabel={() => <span style={LabelStyles}>VAT</span>}
+                  // onRenderLabel={() => <span style={LabelStyles}>VAT</span>}
                   options={vatOptions}
                   selectedKey={values.vatPercent.toString()}
                   onChange={(_, opt) =>
                     setFieldValue('vatPercent', parseInt(opt?.key as string))
                   }
-                  styles={dropdownStyles}
+                  styles={{...dropdownStyles, root: {
+                    marginTop: "0px"
+                  }}}
                 />
                 <TextField
                   readOnly
                   value={`£${calculations.vatAmount.toFixed(2)}`}
-                  styles={{...TextFieldStyles, root: {marginTop: "40px"} }}
+                  styles={{...TextFieldStyles, ...readOnlyTexts, root: {marginTop: "0px"}, }}
                 />
               </Stack>
 
-              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+              {/* <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
                 <Label style={LabelStyles}>Subtotal</Label>
                 <TextField
                   readOnly
                   value={`£${calculations.subtotal.toFixed(2)}`}
-                  styles={TextFieldStyles}
+                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
                 />
-              </Stack>
+              </Stack> */}
 
-              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
                 <Label style={LabelStyles}>Discount</Label>
                 <TextField
                   readOnly
                   value={`£${calculations.discountAmount.toFixed(2)}`}
-                  styles={TextFieldStyles}
+                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
                 />
               </Stack>
 
-              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
                 <Label styles={{ root: { width: 100 } }}>Total</Label>
                 <TextField
                   readOnly
                   value={`£${calculations.total.toFixed(2)}`}
-                  styles={{ root: { width: 120 } }}
+                  styles={{ ...readOnlyTexts,  }}
                 />
               </Stack>
+
+              </Stack>
+              
+              
 
               <Stack horizontal tokens={{ childrenGap: 8 }} horizontalAlign="end">
                 <div

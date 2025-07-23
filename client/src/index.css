@@ -13,6 +13,11 @@
   background-color: #e5f1fb;
 }
 
+.drop {
+  border: 0 !important;
+  outline: 'none' !important
+}
+
 .primary-btn {
   height: 36px;
   background-color: #0078d4;

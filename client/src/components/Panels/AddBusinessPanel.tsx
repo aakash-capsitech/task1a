@@ -71,13 +71,15 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
     height: 24,
     minHeight: 24,
     fontSize: 12,
-    border: '1px solid #c8c6c9',
+    border: 'none',
     borderRadius: 4,
   },
   title: {
     height: "full",
     lineHeight: '20px',
     padding: '0 24px 0 6px', // avoids overlap with icon
+    border: '1px solid #c8c6c9',
+  outline: 'none',
     fontSize: 12,
     borderRadius: 2,
   },
@@ -108,13 +110,16 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     fontSize: 12,
     lineHeight: '20px',
     padding: 0,
-    border: `1px solid #c8c6c9`, // lighter border
+    border: "none", // lighter border
+    outline:"none",
     borderRadius: 2,
   },
   title: {
     height: "full",
     lineHeight: '20px',
     // padding: '0 24px 0 6px', // ⬅️ add right padding for chevron
+    border: '1px solid #c8c6c9',
+  outline: 'none',
     fontSize: 12,
     borderRadius: 2,
   },
@@ -147,7 +152,7 @@ const dropdownStyles2: Partial<IDropdownStyles> = {
     fontSize: 12,
     lineHeight: '20px',
     padding: 0,
-    border: `1px solid #c8c6c9`,
+    border: `none`,
     borderRadius: 2,
     width: 300, // ⬅️ set dropdown visible box width
   },
@@ -159,6 +164,8 @@ const dropdownStyles2: Partial<IDropdownStyles> = {
     lineHeight: '20px',
     fontSize: 12,
     borderRadius: 2,
+    border: '1px solid #c8c6c9',
+  outline: 'none',
   },
   caretDownWrapper: {
     height: 24,
@@ -302,6 +309,21 @@ export const AddBusinessPanel = ({
       closeButtonAriaLabel="Close"
       type={PanelType.medium}
       isFooterAtBottom
+      styles={{
+        headerText: {
+          fontSize: "15px",
+          fontWeight: "20px"
+        },
+        header: {
+          paddingTop: "0px",
+        },
+        root: {
+          fontSize: "5px"
+        }, commands: {
+          paddingTop: "0px",
+          borderBottom: "1px solid #EAEAEA"
+        }
+      }}
     >
       <Formik
         initialValues={getInitialValues()}
@@ -355,6 +377,7 @@ export const AddBusinessPanel = ({
                         <Stack key={idx} tokens={{ childrenGap: 8 }}>
                           <Stack horizontal tokens={{ childrenGap: 8 }} verticalAlign="end">
                             <Dropdown
+                            // className='drop'
                               onRenderLabel={() => <span style={LabelStyles}>Type</span>}
                               selectedKey={business.type}
                               options={businessTypes}
@@ -382,7 +405,9 @@ export const AddBusinessPanel = ({
                                   ? String(businessError.type)
                                   : undefined
                               }
-                              styles={dropdownStyles}
+                              styles={{...dropdownStyles, root: {
+                                width: "200px"
+                              }}}
                             />
 
                             <Dropdown
@@ -485,6 +510,8 @@ export const AddBusinessPanel = ({
                     padding: '0 8px',
                     fontSize: 12,
                     lineHeight: '16px',
+                    background: "#EAEAEA",
+                    border: "none"
                   },
                   label: {
                     fontWeight: 'normal',
@@ -601,7 +628,9 @@ export const AddBusinessPanel = ({
                           updated[idx].value = val || '';
                           setPhoneFields(updated);
                         }}
-                      styles={ TextFieldStyles }
+                      styles={ {...TextFieldStyles, root: {
+                        width: "300px"
+                      }} }
                       />
                       <Dropdown
                         options={typeOptions}
@@ -651,7 +680,9 @@ export const AddBusinessPanel = ({
                           updated[idx].value = val || '';
                           setEmailFields(updated);
                         }}
-                      styles={ TextFieldStyles }
+                      styles={ {...TextFieldStyles, root: {
+                        width: "300px"
+                      }} }
                       />
 
                       <Dropdown
@@ -692,6 +723,12 @@ export const AddBusinessPanel = ({
                     onChange={(_, val) =>
                       setContactData((prev) => ({ ...prev, notes: val || '' }))
                     }
+                    styles={{
+                      fieldGroup:{
+                        border: "1px solid #EAEAEA"
+                      }
+                      
+                    }}
                   />
                 </>
               )}
