@@ -341,9 +341,6 @@ export const AddBusinessPanel = ({
         }) => (
           <div>
             
-            {/* {Object.keys(errors).length > 0 && (
-  <div style={{ color: 'red' }}>⛔ Validation errors present</div>
-)} */}
           <Form
             style={{ height: '100%', display: 'flex', flexDirection: 'column' }} >
             <div style={{ flex: 1 }}>
@@ -387,22 +384,6 @@ export const AddBusinessPanel = ({
                               }
                               styles={dropdownStyles}
                             />
-                            {/* <TextField
-                              onRenderLabel={() => <span style={LabelStyles}>Business Name</span>}
-                              value={business.nameOrNumber}
-                              onChange={(_, val) =>
-                                setFieldValue(`businesses[${idx}].nameOrNumber`, val || '')
-                              }
-                              errorMessage={
-                                businessTouched &&
-                                typeof businessError === 'object' &&
-                                businessError &&
-                                'nameOrNumber' in businessError
-                                  ? String(businessError.nameOrNumber)
-                                  : undefined
-                              }
-                              styles={TextFieldStyles}
-                            /> */}
 
                             <Dropdown
                                onRenderLabel={() => <span style={LabelStyles}>Business Name</span>}
@@ -554,24 +535,6 @@ export const AddBusinessPanel = ({
                             fontSize: 12,
                             lineHeight: '16px',
                           } }} />
-                      // <DefaultButton
-                      //   text={showContact ? '− Contact' : '+ Contact'}
-                      //   onClick={() => setShowContact(!showContact)}
-                      //   styles={{
-                      //     root: {
-                      //       marginTop: 20,
-                      //       height: 24,
-                      //       minHeight: 24,
-                      //       padding: '0 8px',
-                      //       fontSize: 12,
-                      //       lineHeight: '16px',
-                      //     },
-                      //     label: {
-                      //       fontWeight: 'normal',
-                      //     },
-                      //   }}
-                      // />
-
                     )}
                     {(isAliasOpen || contactData.alias) && (
                       <TextField
@@ -690,16 +653,6 @@ export const AddBusinessPanel = ({
                         }}
                       styles={ TextFieldStyles }
                       />
-                      {/* <Dropdown
-                        options={typeOptions}
-                        selectedKey={email.type}
-                        onChange={(_, opt) => {
-                          const updated = [...emailFields];
-                          updated[idx].type = opt?.key as string || 'work';
-                          setEmailFields(updated);
-                        }}
-                        styles={{ root: { width: 120 } }}
-                      /> */}
 
                       <Dropdown
                         options={typeOptions}
@@ -762,9 +715,7 @@ export const AddBusinessPanel = ({
             background: 'white',
             padding: '8px',
             marginRight: "10px",
-            zIndex: 1000, // to be on top of other UI
-            // boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
-            // borderTop: '1px solid #eee',
+            zIndex: 1000,
           }}
         >
               <DefaultButton text="Cancel" onClick={onDismiss} style={{

@@ -192,9 +192,10 @@ export const CreateQuotePanel = ({
       const res = await axios.get('http://localhost:5153/api/businesses', {
         params: { page: 1, pageSize: 100 },
       });
+      console.log(res.data)
       const options = (res.data.businesses || []).map((b: any) => ({
         key: b.id,
-        text: b.businesses?.[0]?.nameOrNumber ?? 'Unnamed',
+        text: b.businessE.nameOrNumber ?? 'Unnamed',
       }));
       setBusinessOptions(options);
     } catch (err) {
