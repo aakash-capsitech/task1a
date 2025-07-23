@@ -250,7 +250,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           backgroundColor: 'white',
           padding: '12px',
           borderRadius: '8px',
-          // marginBottom: '12px',
         }}
       >
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -323,16 +322,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           setSearchTerm(searchValue)
         }} />
         </div>
-
-         {/* <SearchBox
-          placeholder="Search by name, email, phone"
-          value={searchTerm}
-          onChange={(_, newValue) => {
-            setSearchTerm(newValue || '');
-            setPage(1);
-          }}
-          styles={{ root: { width: 200 } }}
-        /> */}
 
         <div
           style={{
@@ -460,8 +449,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                     color: '#004578',
                     fontWeight: 600,
                     fontSize: '13px',
-                    // borderBottom: '1px solid #ccc',
-                    // paddingTop: '0 px !important'
                   },
                   '.ms-DetailsRow': {
                     minHeight: '28px !important',
@@ -561,7 +548,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             onChange={(e) => {
               const newSize = parseInt(e.target.value, 10);
               setPageSize(newSize);
-              setPage(1); // optionally reset to page 1
+              setPage(1);
             }}
           >
             <option>5</option>

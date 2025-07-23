@@ -1,9 +1,7 @@
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
-import SB from './SB';
 import React from 'react';
 import BreadcrumbBar from './BreadcrumbBar';
-// import BreadcrumbBar from './BreadcrumbBar';
 
 type PageLayoutProps = {
   children: React.ReactNode;
@@ -24,24 +22,6 @@ const DashboardLayout = ({ children, activeItem }: PageLayoutProps) => {
           className="d-flex flex-grow-1 bg-light"
           style={{ overflow: 'hidden' }}
         >
-          {/* Fixed SB */}
-          {/* <div
-            style={{
-              width: '220px',
-              borderRight: '1px solid #e1e1e1',
-              overflow: 'hidden',
-              height: '100%',
-              flexShrink: 0,
-            }}
-          >
-            <SB
-              userConfigRoles={[]}
-              activeItem={activeItem}
-              setActiveItem={() => {}}
-            />
-          </div> */}
-
-          {/* Scrollable Main Content */}
           <div
             className="flex-grow-1"
             style={{ overflowY: 'auto', height: '100%' }}

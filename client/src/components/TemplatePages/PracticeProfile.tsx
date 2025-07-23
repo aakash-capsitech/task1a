@@ -3,7 +3,7 @@ import PageLayout from '../Navs/PageLayout';
 
 const PracticeProfile = () => {
   return (
-    <PageLayout activeItem="Practice profile">
+    <PageLayout activeItem="Login Rules">
       <LoginRulesPage />
     </PageLayout>
   );

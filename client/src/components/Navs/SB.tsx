@@ -160,7 +160,7 @@ const SB = ({
                       } else {
                         // Set active item first, then always navigate to home
                         setActiveItem('');
-                        navigate('/practice');
+                        navigate('/loginrules');
                         // navigate("/")
                       }
                     }}

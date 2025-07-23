@@ -34,7 +34,6 @@ import Reports from './components/DashboardComponents/Reports';
 import Resources from './components/DashboardComponents/Resources';
 import Dashboard from './components/DashboardComponents/Dashboard';
 import Emails from './components/DashboardComponents/Emails';
-import AllUsers from './components/ListComponents/AllUsers';
 import All from './components/TemplatePages/All';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
@@ -50,18 +49,7 @@ const App = () => {
     <AuthProvider>
       <CToastProvider>
       <BrowserRouter>
-       {/* <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      /> */}
+
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -87,7 +75,7 @@ const App = () => {
             }
           />
           <Route
-            path="/practice"
+            path="/loginrules"
             element={
               <PrivateRoute>
                 <PracticeProfile />
