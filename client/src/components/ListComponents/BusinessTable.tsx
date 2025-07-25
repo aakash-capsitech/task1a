@@ -51,6 +51,21 @@ export const BusinessTable = () => {
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
 
+  const [refresh, setRefresh] = useState(false);
+
+  const [filterPanelVisible, setFilterPanelVisible] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+
+  const [tempInput, setTempInput] = useState('');
+
+  const filterOptions: IDropdownOption[] = [{ key: 'type', text: 'Types' }];
+
+  const roleOptions: IDropdownOption[] = [
+    { key: 'Limited', text: 'Limited' },
+    { key: 'Individual', text: 'Individual' },
+  ];
+
   const fetchBusinesses = async () => {
     try {
       const res = await axios.get('http://localhost:5153/api/businesses', {
@@ -71,9 +86,18 @@ export const BusinessTable = () => {
 
   useEffect(() => {
     fetchBusinesses();
-  }, [page, pageSize, search, typeFilter]);
+  }, [page, pageSize, search, typeFilter, refresh, selectedFilter]);
 
   const columns: IColumn[] = [
+    {
+      key: 'BSID',
+      name: 'BSID',
+      minWidth: 100,
+      maxWidth: 150,
+      isMultiline: false,
+      isResizable: true,
+      onRender: (item) => item.bsid || '-',
+    },
     {
       key: 'nameOrNumber',
       name: 'Business Name/Number',
@@ -132,7 +156,7 @@ export const BusinessTable = () => {
           justifyContent: 'space-between',
           backgroundColor: 'white',
           borderRadius: '8px',
-          padding: "4px"
+          padding: '4px',
         }}
       >
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -152,7 +176,23 @@ export const BusinessTable = () => {
             Add Business
           </button>
 
-          <Dropdown
+          <button
+            style={buttonStyle}
+            onMouseEnter={(e) =>
+              Object.assign(e.currentTarget.style, buttonHoverStyle)
+            }
+            onMouseLeave={(e) =>
+              Object.assign(e.currentTarget.style, { background: 'white' })
+            }
+            onClick={() => setRefresh(!refresh)}
+          >
+            <span style={iconStyle}>
+              <Icon iconName="Refresh" />
+            </span>
+            Refresh
+          </button>
+
+          {/* <Dropdown
             placeholder="Filter by type"
             options={typeOptions}
             selectedKey={typeFilter}
@@ -165,22 +205,115 @@ export const BusinessTable = () => {
               style={{ cursor: 'pointer', color: '#666' }}
               onClick={() => setTypeFilter(null)}
             />
-          )}
+          )} */}
         </div>
 
-        <div style={{ display: 'flex', gap: '8px', marginRight: '10px' }}>
-          <SearchBox
-            placeholder="Search business/contact"
-            value={searchValue}
-            onChange={(_, val) => setSearchValue(val || '')}
-          />
-          <PrimaryButton
-            text="Apply"
-            onClick={() => {
-              setSearch(searchValue);
-              setPage(1);
-            }}
-          />
+        <div style={{ display: 'flex', gap: '80px', marginRight: '10px' }}>
+          <div style={{ display: 'flex', gap: '0px' }}>
+            <SearchBox
+              placeholder="Search business/contact"
+              value={searchValue}
+              onChange={(_, val) => setSearchValue(val || '')}
+            />
+            <PrimaryButton
+              text="Apply"
+              onClick={() => {
+                setSearch(searchValue);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px' }}>
+            {selectedRole && (
+              <span
+                style={{
+                  backgroundColor: '#f3f2f1',
+                  borderRadius: '12px',
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: '13px',
+                }}
+              >
+                Role = <strong>{selectedRole}</strong>
+                <Icon
+                  iconName="Cancel"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setSelectedRole(null);
+                    setSelectedFilter(null);
+                    setTypeFilter(null);
+                    setPage(1);
+                  }}
+                />
+              </span>
+            )}
+            <button
+              style={{
+                ...buttonStyle,
+                border: '1px solid #ccc',
+                background: '#f3f2f1',
+              }}
+              onClick={() => setFilterPanelVisible((prev) => !prev)}
+            >
+              <Icon iconName="Filter" /> Add filter
+            </button>
+
+            {/* Filter Dropdown Panel */}
+            {filterPanelVisible && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '36px',
+                  right: 0,
+                  background: '#fff',
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '6px',
+                  width: '220px',
+                  zIndex: 1000,
+                  boxShadow: '0 0 4px rgba(0,0,0,0.1)',
+                }}
+              >
+                <div style={{ fontWeight: 600, marginBottom: '6px' }}>
+                  Add filter
+                </div>
+                <span style={{ fontSize: '12px', color: '#666' }}>
+                  Criteria *
+                </span>
+                <Dropdown
+                  placeholder="Select"
+                  options={filterOptions}
+                  onChange={(_, option) =>
+                    setSelectedFilter(option?.key as string)
+                  }
+                />
+
+                {selectedFilter === 'type' && (
+                  <Dropdown
+                    placeholder="Select type"
+                    options={roleOptions}
+                    onChange={(_, option) => {
+                      setTempInput(option?.key as string);
+                    }}
+                  />
+                )}
+
+                <PrimaryButton
+                  style={{ marginTop: '10px' }}
+                  text="Apply Filter"
+                  onClick={() => {
+                    setSelectedRole(tempInput || null);
+                    setTypeFilter(tempInput || null);
+                    setFilterPanelVisible(false);
+                    setPage(1);
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -231,7 +364,14 @@ export const BusinessTable = () => {
       </div>
 
       {/* Pagination */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: "20px" }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 12,
+          marginTop: '20px',
+        }}
+      >
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
         </button>

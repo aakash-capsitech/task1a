@@ -11,11 +11,34 @@ import {
   Stack,
   type IDetailsRowProps,
   DetailsRow,
+  Icon,
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const pageSize = 10;
+
+const buttonStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '6px 12px',
+  border: 'none',
+  background: 'white',
+  fontSize: '13px',
+  color: '#333',
+  cursor: 'pointer',
+  height: '32px',
+  transition: 'all 0.2s ease',
+};
+
+const buttonHoverStyle = {
+  background: '#f3f2f1',
+};
+
+const iconStyle = {
+  fontSize: '14px',
+};
 
 const roleOptions: IDropdownOption[] = [
   { key: '', text: 'All Roles' },
@@ -40,6 +63,8 @@ const AllUsers: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const [refresh, setRefresh] = useState(false)
 
   const handleRestore = async (userId: string) => {
     try {
@@ -74,7 +99,7 @@ const AllUsers: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [search, role, status, page]);
+  }, [search, role, status, page, refresh]);
 
   const columns: IColumn[] = [
     { key: 'name', name: 'Name', fieldName: 'name', minWidth: 100, isResizable: true },
@@ -152,6 +177,21 @@ const AllUsers: React.FC = () => {
   return (
     <Stack tokens={{ childrenGap: 10 }}>
       <Stack horizontal tokens={{ childrenGap: 10 }}>
+        <button
+                                          style={buttonStyle}
+                                          onMouseEnter={(e) =>
+                                            Object.assign(e.currentTarget.style, buttonHoverStyle)
+                                          }
+                                          onMouseLeave={(e) =>
+                                            Object.assign(e.currentTarget.style, { background: 'white' })
+                                          }
+                                          onClick={() => setRefresh(!refresh)}
+                                        >
+                                          <span style={iconStyle}>
+                                            <Icon iconName="Refresh" />
+                                          </span>
+                                          Refresh
+                                        </button>
         <TextField 
         placeholder='Search'
         value={search} onChange={handleSearchChange} />

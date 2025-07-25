@@ -57,10 +57,11 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
   const [tempInput, setTempInput] = useState('');
 
-  const filterOptions: IDropdownOption[] = [{ key: 'role', text: 'Roles' }];
+  const filterOptions: IDropdownOption[] = [{ key: 'role', text: 'Roles' }, { key: 'status', text: 'Status' }];
 
   const roleOptions: IDropdownOption[] = [
     { key: 'Staff', text: 'Staff' },
@@ -68,15 +69,32 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
     { key: 'Admin', text: 'Admin' },
   ];
 
+  const statusOptions: IDropdownOption[] = [
+    { key: '', text: 'All Statuses' },
+    { key: 'Unknown', text: 'Unknown' },
+    { key: 'Active', text: 'Active' },
+    { key: 'Deleted', text: 'Deleted' },
+  ];
+
   const fetchUsers = async () => {
     try {
       onLoading(true);
-      const response = await axios.get('http://localhost:5153/api/users', {
+      // const response = await axios.get('http://localhost:5153/api/users', {
+      //   params: {
+      //     page,
+      //     pageSize,
+      //     search: searchTerm,
+      //     role: selectedRole || undefined,
+      //   },
+      // });
+
+      const response = await axios.get('http://localhost:5153/api/users/all', {
         params: {
           page,
           pageSize,
           search: searchTerm,
           role: selectedRole || undefined,
+          status: selectedStatus || undefined,
         },
       });
       setItems(response.data.users || []);
@@ -91,7 +109,7 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, searchTerm, pageSize, selectedRole]);
+  }, [page, searchTerm, pageSize, selectedRole, selectedStatus]);
 
   const handleSaveUser = async (newUser: any) => {
     const name = `${newUser.firstName} ${newUser.lastName}`.trim();
@@ -133,6 +151,15 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
     } catch (err) {
       toast.error('something went wrong');
       console.error('Failed to delete user', err);
+    }
+  };
+
+  const handleRestore = async (userId: string) => {
+    try {
+      await axios.put(`http://localhost:5153/api/users/${userId}/restore`);
+      fetchUsers();
+    } catch (err) {
+      console.error('Restore failed', err);
     }
   };
 
@@ -202,11 +229,19 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       isMultiline: true,
     },
     {
+      key: 'status',
+      name: 'Status',
+      fieldName: 'status',
+      minWidth: 120,
+      maxWidth: 200,
+      isMultiline: true,
+    },
+    {
       key: 'actions',
-      name: '',
+      name: 'Actions',
       minWidth: 40,
       maxWidth: 50,
-      onRender: (item) => (
+      onRender: (item) => item.status === 'Active' ? (
         <div style={{ display: 'flex', gap: '6px' }}>
           <span
             style={{ cursor: 'pointer' }}
@@ -232,7 +267,26 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             />
           </span>
         </div>
-      ),
+      ) : (
+                <PrimaryButton
+                  iconProps={{ iconName: 'Refresh' }}
+                  onClick={() => handleRestore(item.id)}
+                  styles={{
+                    root: {
+                      height: 24,
+                      minHeight: 24,
+                      paddingTop: 0,
+                      paddingBottom: 0,
+                      fontSize: 12,
+                      lineHeight: 1,
+                      backgroundColor: "white",
+                      color: "blue",
+                      border: "none",
+                      background: "none"
+                    },
+                  }}
+                />
+              ),
     },
   ];
 
@@ -356,6 +410,30 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             </span>
           )}
 
+          {selectedStatus && (
+            <span
+              style={{
+                backgroundColor: '#f3f2f1',
+                borderRadius: '12px',
+                padding: '4px 8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '13px',
+              }}
+            >
+              Status = <strong>{selectedStatus}</strong>
+              <Icon
+                iconName="Cancel"
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setSelectedStatus(null);
+                  setPage(1);
+                }}
+              />
+            </span>
+          )}
+
           {/* Add Filter Button */}
           <button
             style={{
@@ -408,11 +486,28 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                 />
               )}
 
+              {selectedFilter === 'status' && (
+                <Dropdown
+                  placeholder="Select status"
+                  options={statusOptions}
+                  onChange={(_, option) => {
+                    setTempInput(option?.key as string);
+                  }}
+                />
+              )}
+
               <PrimaryButton
                 style={{ marginTop: '10px' }}
                 text="Apply Filter"
                 onClick={() => {
-                  setSelectedRole(tempInput || null);
+                  if(selectedFilter === 'status') {
+                    setSelectedStatus(tempInput || null);
+                  }
+                  if(selectedFilter === 'role') {
+                    setSelectedRole(tempInput || null);
+                  }
+                  // setSelectedRole(tempInput || null);
+                  // setSelectedStatus(tempInput || null);
                   setFilterPanelVisible(false);
                   setPage(1);
                 }}

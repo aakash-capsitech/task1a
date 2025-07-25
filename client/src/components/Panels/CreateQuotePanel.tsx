@@ -19,6 +19,7 @@ import { Formik, Form, FieldArray, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import imge from '../../assets/image.png';
 
 const TextFieldStyles = {
   root: {
@@ -28,9 +29,9 @@ const TextFieldStyles = {
   },
   fieldGroup: {
     height: 24,
-    minHeight: 24,
+    minHeight: 18,
     borderRadius: 4,
-    padding: '0 6px',
+    padding: '0 0px',
     borderColor: '#c8c6c9',
   },
   field: {
@@ -40,14 +41,14 @@ const TextFieldStyles = {
 };
 
 const LabelStyles = {
-                          fontSize: 11,
-                          fontWeight: 400,
-                          color: '#323130',
-                          lineHeight: '1',
-                          marginBottom: "10px",
-                          display: 'block',
-                          marginTop: "20px",
-                        }
+  fontSize: 11,
+  fontWeight: 400,
+  color: '#323130',
+  lineHeight: '1',
+  marginBottom: '10px',
+  display: 'block',
+  marginTop: '20px',
+};
 
 const compactDropdownStyles: Partial<IDropdownStyles> = {
   root: {
@@ -63,7 +64,7 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
     borderRadius: 4,
   },
   title: {
-    height: "full",
+    height: 'full',
     lineHeight: '20px',
     padding: '0 24px 0 6px', // avoids overlap with icon
     fontSize: 12,
@@ -84,28 +85,27 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
 
 const headerStyles = {
   headerText: {
-          fontSize: "15px",
-          fontWeight: "20px"
-        },
-        header: {
-          paddingTop: "0px",
-        },
-        root: {
-          fontSize: "5px"
-        }, commands: {
-          paddingTop: "0px",
-          borderBottom: "1px solid #EAEAEA"
-        }
-      
-}
-
+    fontSize: '15px',
+    fontWeight: '20px',
+  },
+  header: {
+    paddingTop: '0px',
+  },
+  root: {
+    fontSize: '5px',
+  },
+  commands: {
+    paddingTop: '0px',
+    borderBottom: '1px solid #EAEAEA',
+  },
+};
 
 const dropdownStyles: Partial<IDropdownStyles> = {
   root: {
     margin: 0,
     padding: 0,
     maxWidth: 200,
-    border: "none",
+    border: 'none',
   },
   dropdown: {
     height: 24,
@@ -117,7 +117,7 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     borderRadius: 4,
   },
   title: {
-    height: "full",
+    height: 'full',
     lineHeight: '20px',
     // padding: '0 24px 0 6px', // ⬅️ add right padding for chevron
     fontSize: 12,
@@ -128,26 +128,44 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     lineHeight: '20px',
     width: 20,
     right: 4, // ⬅️ keeps chevron aligned
-    border: "none"
+    border: 'none',
   },
   dropdownItem: {
     fontSize: 12,
     height: 28,
-    lineHeight: '28px',    border: "none"
-
+    lineHeight: '28px',
+    border: 'none',
   },
 };
 
 const readOnlyTexts = {
   fieldGroup: {
-    background: "#F8F8F8",
-    border: "1px solid #EAEAEA",
-    borderRadius: "6px",
+    background: '#F8F8F8',
+    border: '1px solid #EAEAEA',
+    borderRadius: '6px',
   },
-  root:{
-    marginTop: "0px"
-  }
-}
+  root: {
+    marginTop: '0px',
+  },
+};
+
+const bottomReads = {
+  root: {
+    width: '115px',
+    marginRight: '39px',
+  },
+  prefix: {
+    borderRight: '1px solid rgba(0,0,0,0.2)',
+    marginRight: '10px',
+    borderTopLeftRadius: '4px',
+    borderBottomLeftRadius: '4px',
+  },
+  fieldGroup: {
+    height: '24px',
+    border: '1px solid rgba(0,0,0,0.2)',
+    borderRadius: '4px',
+  },
+};
 
 const vatOptions = [
   { key: '0', text: 'VAT 0%' },
@@ -222,7 +240,7 @@ export const CreateQuotePanel = ({
       const res = await axios.get('http://localhost:5153/api/businesses', {
         params: { page: 1, pageSize: 100 },
       });
-      console.log(res.data)
+      console.log(res.data);
       const options = (res.data.businesses || []).map((b: any) => ({
         key: b.id,
         text: b.businessE.nameOrNumber ?? 'Unnamed',
@@ -245,13 +263,16 @@ export const CreateQuotePanel = ({
         amount: parseFloat(row.amount || '0') || 0,
       }));
 
-      console.log(services)
+      console.log(services);
 
-      const response = await axios.post('http://localhost:5153/api/quotes/calc', {
-        services,
-        discountPercentage: discountPercent,
-        vatPercentage: vatPercent,
-      });
+      const response = await axios.post(
+        'http://localhost:5153/api/quotes/calc',
+        {
+          services,
+          discountPercentage: discountPercent,
+          vatPercentage: vatPercent,
+        }
+      );
 
       setCalculations(response.data);
     } catch (error) {
@@ -264,7 +285,7 @@ export const CreateQuotePanel = ({
       const discountAmount = subtotal * (discountPercent / 100);
       const vatAmount = (subtotal - discountAmount) * (vatPercent / 100);
       const total = subtotal - discountAmount + vatAmount;
-      
+
       setCalculations({
         subtotal,
         discountAmount,
@@ -331,9 +352,16 @@ export const CreateQuotePanel = ({
       onDismiss={onDismiss}
       headerText="Create Invoice"
       closeButtonAriaLabel="Close"
-      type={PanelType.medium}
+      type={PanelType.custom}
+      customWidth="700px"
       isFooterAtBottom
-      styles={headerStyles}
+      styles={{
+        ...headerStyles,
+        root: {
+          // minWidth: "20%",
+          // width: "1000px"
+        },
+      }}
     >
       <Formik
         initialValues={initialValues}
@@ -351,133 +379,259 @@ export const CreateQuotePanel = ({
           // Trigger calculation whenever rows, discount, or VAT changes
           useEffect(() => {
             if (values.rows.length > 0) {
-              calculateTotals(values.rows, values.discountPercent, values.vatPercent);
+              calculateTotals(
+                values.rows,
+                values.discountPercent,
+                values.vatPercent
+              );
             }
           }, [values.rows, values.discountPercent, values.vatPercent]);
 
           return (
-            <Form style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div style= {{
-                display: "flex",
-                justifyContent: "start",
-                alignItems: "center",
-                gap: "20px"
-              }}>
-                <span style={{...LabelStyles}}>Business Name</span>
-              <Dropdown
-                // onRenderLabel={() => }
-                placeholder="Select or search..."
-                options={businessOptions}
-                selectedKey={values.businessId}
-                onChange={(_, opt) => setFieldValue('businessId', opt?.key)}
-                errorMessage={
-                  touched.businessId && typeof errors.businessId === 'string'
-                    ? errors.businessId
-                    : undefined
-                }
-                styles={{...dropdownStyles, root: {
-                  width: "400px",
-                  marginTop: "10px"
-                }}}
-              />
-              </div>
-              
-
-              <Stack horizontal tokens={{ childrenGap: 16 }}>
-                <DatePicker
-                  label="Date"
-                  value={values.date as Date}
-                  onSelectDate={(d) => setFieldValue('date', d)}
+            <Form style={{ display: 'flex', flexDirection: 'column' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'start',
+                  alignItems: 'center',
+                  gap: '20px',
+                }}
+              >
+                <span style={{ ...LabelStyles }}>Business Name</span>
+                <Dropdown
+                  // onRenderLabel={() => }
+                  placeholder="Select or search..."
+                  options={businessOptions}
+                  selectedKey={values.businessId}
+                  onChange={(_, opt) => setFieldValue('businessId', opt?.key)}
+                  errorMessage={
+                    touched.businessId && typeof errors.businessId === 'string'
+                      ? errors.businessId
+                      : undefined
+                  }
                   styles={{
-                    root: { width: 180, height: 24 },
-                    textField: {
-                      fieldGroup: {
-                        height: 12,
-                        minHeight: 12,
-                        borderColor: '#c8c6c9',
-                        borderRadius: 2,
-                        padding: '0 6px',
-                      },
-                      field: {
-                        fontSize: 12,
-                        padding: '2px 0',
-                      },
-                      label: {
-                        fontSize: 11,
-                        marginBottom: 0,
-                        color: '#323130',
-                        lineHeight: '1',
-                      },
+                    ...dropdownStyles,
+                    root: {
+                      width: '450px',
+                      marginTop: '10px',
+                    },
+
+                    dropdown: {
+                      border: 'none',
+                    },
+                    title: {
+                      border: '1px solid rgba(0,0,0,0.2)',
+                      background: '#EAEAEA',
+                      borderRadius: '6px',
+                      height: '30px',
+                      // alignItems: "center"
                     },
                   }}
                 />
+              </div>
 
+              <Stack
+                horizontal
+                tokens={{ childrenGap: 16 }}
+                styles={{
+                  root: {
+                    marginBottom: '20px',
+                  },
+                }}
+              >
+                <Stack
+                  horizontal
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 16 }}
+                >
+                  <span style={{ ...LabelStyles }}>Date</span>
+                  <DatePicker
+                    value={values.date as Date}
+                    onSelectDate={(d) => setFieldValue('date', d)}
+                    styles={{
+                      root: {
+                        width: 180,
+                        // height: 24,
+                        height: '20px',
+                        border: 'none',
+                      },
+                      textField: {
+                        fieldGroup: {
+                          // backgroundColor: 'red',
+                          border: 'none',
+                          // height: 24,
+                          height: '20px',
+                        },
+                        field: {
+                          // backgroundColor: 'red',
+                          // height: 22,
+                          height: '20px',
+                          border: 'none',
+                        },
+                      },
+                      icon: {
+                        // backgroundColor: 'red',
+                        // height: "10px",
+                        // width: "10px"
+                      },
+                      readOnlyTextField: {
+                        // backgroundColor: 'red',
+                        height: '20px',
+                        border: 'none',
+                      },
+                    }}
+                  />
+                </Stack>
 
-                <Dropdown
-                  onRenderLabel={() => <span style={LabelStyles}>First Response</span>}
-                  options={firstResponseOptions}
-                  selectedKey={values.firstResponse}
-                  onChange={(_, opt) => setFieldValue('firstResponse', opt?.key)}
-                  styles={dropdownStyles}
-                />
+                <Stack
+                  horizontal
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 16 }}
+                >
+                  <span style={{ ...LabelStyles }}>First Response</span>
+
+                  <Dropdown
+                    // onRenderLabel={() => <span style={{...LabelStyles}}>First Response</span>}
+                    options={firstResponseOptions}
+                    selectedKey={values.firstResponse}
+                    placeholder="select"
+                    onChange={(_, opt) =>
+                      setFieldValue('firstResponse', opt?.key)
+                    }
+                    styles={{
+                      ...dropdownStyles,
+                      root: {
+                        width: '180px',
+                        // borderBottom: "10px",
+                        // outline: "none"
+                      },
+                      dropdown: {
+                        border: 'none',
+                      },
+                      title: {
+                        border: '1px solid rgba(0,0,0,0.2)',
+                        background: '#EAEAEA',
+                        borderRadius: '6px',
+                        height: '30px',
+                        // alignItems: "center"
+                      },
+                    }}
+                  />
+                </Stack>
               </Stack>
 
-              <div style={
-                {
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-around"
-                }
-              }>
-                <div style={
-                {
-                  fontSize: "14px",
-                  fontWeight: 750
-                }
-              }>Service</div>
-                <div style={
-                {
-                  fontSize: "14px",
-                  fontWeight: 750
-                }
-              }>Description</div>
-                <div style={
-                {
-                  fontSize: "14px",
-                  fontWeight: 750
-                }
-              }>Amount</div>
-              </div>
-              <hr style={{
-                height: "10px"
-              }}/>
+              <hr
+                style={{
+                  height: '1px',
+                  backgroundColor: 'black',
+                  border: 'none',
+                  padding: '0',
+                  margin: '0',
+                }}
+              />
 
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-around',
+                  padding: '0',
+                  margin: '0',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 750,
+                  }}
+                >
+                  Service
+                </div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 750,
+                  }}
+                >
+                  Description
+                </div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 750,
+                  }}
+                >
+                  Amount
+                </div>
+              </div>
+              <hr
+                style={{
+                  height: '2px',
+                  backgroundColor: 'black',
+                  border: 'none',
+                  padding: '0',
+                  margin: '0',
+                  marginBottom: '12px',
+                }}
+              />
 
               <FieldArray name="rows">
                 {({ remove, push }) => (
                   <>
                     {values.rows.map((row, index) => (
-                      <Stack horizontal horizontalAlign='center' tokens={{ childrenGap: 8 }} key={index}>
+                      <Stack
+                        horizontal
+                        horizontalAlign="space-between"
+                        tokens={{ childrenGap: 8 }}
+                        key={index}
+                      >
+                        <img
+                          src={imge}
+                          style={{
+                            paddingTop: '5px',
+                            paddingBottom: '15px',
+                          }}
+                        />
                         <Dropdown
-                          placeholder="Select service"
+                          placeholder="Select"
                           options={sampleServices}
                           selectedKey={row.service}
                           onChange={(_, opt) =>
                             setFieldValue(`rows[${index}].service`, opt?.key)
                           }
-                          styles={dropdownStyles}
+                          styles={{
+                            ...dropdownStyles,
+                            root: {
+                              width: '120px',
+                              height: '40px',
+                              flex: 4,
+                            },
+                            dropdown: {
+                              border: 'none',
+                            },
+                            title: {
+                              border: '1px solid #EAEAEA',
+                              height: '25px',
+                              alignItems: 'center',
+                            },
+                          }}
                           errorMessage={
                             touched.rows?.[index]?.service &&
                             (errors.rows?.[index] as any)?.service
                           }
                         />
                         <TextField
-                          placeholder="Description"
+                          // placeholder="Description"
                           value={row.description}
                           onChange={(_, val) =>
                             setFieldValue(`rows[${index}].description`, val)
                           }
-                          styles={TextFieldStyles}
+                          styles={{
+                            ...TextFieldStyles,
+                            root: {
+                              flex: 4,
+                            },
+                          }}
                           errorMessage={
                             touched.rows?.[index]?.description &&
                             (errors.rows?.[index] as any)?.description
@@ -490,7 +644,18 @@ export const CreateQuotePanel = ({
                           onChange={(_, val) =>
                             setFieldValue(`rows[${index}].amount`, val)
                           }
-                          styles={TextFieldStyles}
+                          styles={{
+                            ...TextFieldStyles,
+                            prefix: {
+                              backgroundColor: 'white',
+                              borderRight: '1px solid grey',
+                            },
+                            root: {
+                              width: '150px',
+                              flex: 2,
+                              // marginLeft: "10px"
+                            },
+                          }}
                           errorMessage={
                             touched.rows?.[index]?.amount &&
                             (errors.rows?.[index] as any)?.amount
@@ -501,93 +666,130 @@ export const CreateQuotePanel = ({
                           onClick={() => remove(index)}
                           styles={{
                             root: {
-                              color: "red"
-                            }
+                              color: 'red',
+                            },
                           }}
                         />
                       </Stack>
                     ))}
 
-
-                    <div style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center"
-                    }}>
-                    <Stack styles={{root: {
-                      width: '70px',
-                      // marginTop: "100px"
-                    }}}>
-                      <PrimaryButton
-                      text="+ Add"
-                      onClick={() =>
-                        push({ service: '', description: '', amount: '' })
-                      }
-                      styles={{
-                        root: {
-                          padding: '2px 8px',
-                          width: '100%',
-                          minWidth: '100%',
-                          borderRadius: "6px"
-                        },
-                        flexContainer: {
-                          padding: 0
-                        }
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                       }}
-                    />
-                    </Stack>
-                    <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                {/* <Label style={LabelStyles}>Subtotal</Label> */}
-                <TextField
-                  readOnly
-                  value={`£${calculations.subtotal.toFixed(2)}`}
-                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
-                />
-              </Stack>
+                    >
+                      <Stack
+                        styles={{
+                          root: {
+                            width: '70px',
+                            // marginTop: "100px"
+                          },
+                        }}
+                      >
+                        <PrimaryButton
+                          text="+ Add"
+                          onClick={() =>
+                            push({ service: '', description: '', amount: '' })
+                          }
+                          styles={{
+                            root: {
+                              padding: '2px 8px',
+                              width: '100%',
+                              minWidth: '100%',
+                              borderRadius: '6px',
+                              minHeight: '24px',
+                            },
+                            label: {
+                              padding: '0px',
+                              margin: '0px',
+                            },
+                            flexContainer: {
+                              padding: 0,
+                            },
+                          }}
+                        />
+                      </Stack>
+                      <Stack
+                        horizontal
+                        horizontalAlign="end"
+                        verticalAlign="center"
+                        tokens={{ childrenGap: 8 }}
+                      >
+                        {/* <Label style={LabelStyles}>Subtotal</Label> */}
+                        <TextField
+                          readOnly
+                          prefix="£"
+                          value={`£${calculations.subtotal.toFixed(2)}`}
+                          styles={{
+                            ...TextFieldStyles,
+                            ...readOnlyTexts,
+                            ...bottomReads,
+                          }}
+                        />
+                      </Stack>
                     </div>
-                    
                   </>
                 )}
               </FieldArray>
 
+              <Stack tokens={{ childrenGap: 1 }}>
+                <Stack
+                  horizontal
+                  horizontalAlign="end"
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 4 }}
+                >
+                  <Label style={{ ...LabelStyles }}>Discount (%)</Label>
+                  <TextField
+                    type="number"
+                    prefix="£"
+                    suffix="%"
+                    value={values.discountPercent.toString()}
+                    onChange={(_, val) =>
+                      setFieldValue(
+                        'discountPercent',
+                        parseFloat(val || '0') || 0
+                      )
+                    }
+                    styles={{ ...TextFieldStyles, ...bottomReads }}
+                  />
+                </Stack>
 
-                <Stack  tokens={{ childrenGap: 1 }}>
-              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 4 }}>
-                <Label style={{...LabelStyles}}>Discount (%)</Label>
-                <TextField
-                  type="number"
-                  suffix="%"
-                  value={values.discountPercent.toString()}
-                  onChange={(_, val) =>
-                    setFieldValue('discountPercent', parseFloat(val || '0') || 0)
-                  }
-                  styles={TextFieldStyles}
-                />
-              </Stack>
+                <Stack
+                  horizontal
+                  horizontalAlign="end"
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 2 }}
+                >
+                  <Dropdown
+                    // onRenderLabel={() => <span style={LabelStyles}>VAT</span>}
+                    options={vatOptions}
+                    selectedKey={values.vatPercent.toString()}
+                    onChange={(_, opt) =>
+                      setFieldValue('vatPercent', parseInt(opt?.key as string))
+                    }
+                    styles={{
+                      ...dropdownStyles,
+                      root: {
+                        marginTop: '0px',
+                      },
+                    }}
+                  />
+                  <TextField
+                    readOnly
+                    prefix="£"
+                    value={`£${calculations.vatAmount.toFixed(2)}`}
+                    styles={{
+                      ...TextFieldStyles,
+                      ...readOnlyTexts,
+                      ...bottomReads,
+                    }}
+                  />
+                </Stack>
 
-              
-
-              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 2 }}>
-                
-                <Dropdown
-                  // onRenderLabel={() => <span style={LabelStyles}>VAT</span>}
-                  options={vatOptions}
-                  selectedKey={values.vatPercent.toString()}
-                  onChange={(_, opt) =>
-                    setFieldValue('vatPercent', parseInt(opt?.key as string))
-                  }
-                  styles={{...dropdownStyles, root: {
-                    marginTop: "0px"
-                  }}}
-                />
-                <TextField
-                  readOnly
-                  value={`£${calculations.vatAmount.toFixed(2)}`}
-                  styles={{...TextFieldStyles, ...readOnlyTexts, root: {marginTop: "0px"}, }}
-                />
-              </Stack>
-
-              {/* <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
+                {/* <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
                 <Label style={LabelStyles}>Subtotal</Label>
                 <TextField
                   readOnly
@@ -596,29 +798,50 @@ export const CreateQuotePanel = ({
                 />
               </Stack> */}
 
-              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                <Label style={LabelStyles}>Discount</Label>
-                <TextField
-                  readOnly
-                  value={`£${calculations.discountAmount.toFixed(2)}`}
-                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
-                />
+                <Stack
+                  horizontal
+                  horizontalAlign="end"
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 8 }}
+                >
+                  <Label style={LabelStyles}>Discount</Label>
+                  <TextField
+                    readOnly
+                    prefix="£"
+                    value={`£${calculations.discountAmount.toFixed(2)}`}
+                    styles={{
+                      ...TextFieldStyles,
+                      ...readOnlyTexts,
+                      ...bottomReads,
+                    }}
+                  />
+                </Stack>
+
+                <Stack
+                  horizontal
+                  horizontalAlign="end"
+                  verticalAlign="center"
+                  tokens={{ childrenGap: 8 }}
+                >
+                  <Label styles={{ root: {} }}>Total</Label>
+                  <TextField
+                    readOnly
+                    prefix="£"
+                    value={`£${calculations.total.toFixed(2)}`}
+                    styles={{
+                      ...TextFieldStyles,
+                      ...readOnlyTexts,
+                      ...bottomReads,
+                    }}
+                  />
+                </Stack>
               </Stack>
 
-              <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                <Label styles={{ root: { width: 100 } }}>Total</Label>
-                <TextField
-                  readOnly
-                  value={`£${calculations.total.toFixed(2)}`}
-                  styles={{ ...readOnlyTexts,  }}
-                />
-              </Stack>
-
-              </Stack>
-              
-              
-
-              <Stack horizontal tokens={{ childrenGap: 8 }} horizontalAlign="end">
+              <Stack
+                horizontal
+                tokens={{ childrenGap: 8 }}
+                horizontalAlign="end"
+              >
                 <div
                   style={{
                     position: 'fixed',
@@ -631,7 +854,11 @@ export const CreateQuotePanel = ({
                     // borderTop: '1px solid #eee',
                   }}
                 >
-                  <DefaultButton text="Cancel" onClick={onDismiss} style={{marginRight: "10px"}} />
+                  <DefaultButton
+                    text="Cancel"
+                    onClick={onDismiss}
+                    style={{ marginRight: '10px' }}
+                  />
                   <PrimaryButton
                     text="Save"
                     onClick={() => handleSubmit()}
