@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const Deadlines = () => {
-
   return (
-    <DashboardLayout activeItem='Deadlines'>
-        <div>Deadlines</div>
+    <DashboardLayout activeItem="Deadlines">
+      <div>Deadlines</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default Deadlines
+export default Deadlines;

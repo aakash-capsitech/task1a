@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import "./ctoast.css";
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import './ctoast.css';
 
-type ToastType = "success" | "error" | "info" | "warn";
+type ToastType = 'success' | 'error' | 'info' | 'warn';
 
 type Toast = {
   id: number;
@@ -17,10 +17,12 @@ const CToastContext = createContext<ToastContextType | undefined>(undefined);
 
 let toastId = 0;
 
-export const CToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CToastProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const showToast = useCallback((message: string, type: ToastType = "info") => {
+  const showToast = useCallback((message: string, type: ToastType = 'info') => {
     const id = toastId++;
     const newToast: Toast = { id, message, type };
     setToasts((prev) => [...prev, newToast]);
@@ -41,7 +43,12 @@ export const CToastProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         {toasts.map((toast) => (
           <div key={toast.id} className={`ctoast ctoast-${toast.type}`}>
             <div className="ctoast-message">{toast.message}</div>
-            <button className="ctoast-close" onClick={() => removeToast(toast.id)}>×</button>
+            <button
+              className="ctoast-close"
+              onClick={() => removeToast(toast.id)}
+            >
+              ×
+            </button>
             <div className="ctoast-progress" />
           </div>
         ))}
@@ -52,6 +59,6 @@ export const CToastProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
 export const useCToast = () => {
   const context = useContext(CToastContext);
-  if (!context) throw new Error("useCToast must be used within CToastProvider");
+  if (!context) throw new Error('useCToast must be used within CToastProvider');
   return context;
 };

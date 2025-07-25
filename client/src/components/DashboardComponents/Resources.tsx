@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const Resources = () => {
-
   return (
-    <DashboardLayout activeItem='Resources'>
-        <div>Resources</div>
+    <DashboardLayout activeItem="Resources">
+      <div>Resources</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default Resources
+export default Resources;

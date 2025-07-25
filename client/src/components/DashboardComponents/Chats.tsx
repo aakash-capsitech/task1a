@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const Chats = () => {
-
   return (
-    <DashboardLayout activeItem='Chats'>
-        <div>Chats</div>
+    <DashboardLayout activeItem="Chats">
+      <div>Chats</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default Chats
+export default Chats;

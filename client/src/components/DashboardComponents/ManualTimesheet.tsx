@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const ManualTimesheet = () => {
-
   return (
-    <DashboardLayout activeItem='ManualTimesheet'>
-        <div>ManualTimesheet</div>
+    <DashboardLayout activeItem="ManualTimesheet">
+      <div>ManualTimesheet</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default ManualTimesheet
+export default ManualTimesheet;

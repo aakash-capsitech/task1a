@@ -64,7 +64,7 @@ const AllUsers: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
 
   const handleRestore = async (userId: string) => {
     try {
@@ -102,11 +102,41 @@ const AllUsers: React.FC = () => {
   }, [search, role, status, page, refresh]);
 
   const columns: IColumn[] = [
-    { key: 'name', name: 'Name', fieldName: 'name', minWidth: 100, isResizable: true },
-    { key: 'email', name: 'Email', fieldName: 'email', minWidth: 150, isResizable: true },
-    { key: 'phone', name: 'Phone', fieldName: 'phone', minWidth: 100, isResizable: true },
-    { key: 'role', name: 'Role', fieldName: 'role', minWidth: 100, isResizable: true },
-    { key: 'status', name: 'Status', fieldName: 'status', minWidth: 100, isResizable: true },
+    {
+      key: 'name',
+      name: 'Name',
+      fieldName: 'name',
+      minWidth: 100,
+      isResizable: true,
+    },
+    {
+      key: 'email',
+      name: 'Email',
+      fieldName: 'email',
+      minWidth: 150,
+      isResizable: true,
+    },
+    {
+      key: 'phone',
+      name: 'Phone',
+      fieldName: 'phone',
+      minWidth: 100,
+      isResizable: true,
+    },
+    {
+      key: 'role',
+      name: 'Role',
+      fieldName: 'role',
+      minWidth: 100,
+      isResizable: true,
+    },
+    {
+      key: 'status',
+      name: 'Status',
+      fieldName: 'status',
+      minWidth: 100,
+      isResizable: true,
+    },
     {
       key: 'restore',
       name: 'Restore',
@@ -124,16 +154,15 @@ const AllUsers: React.FC = () => {
                 paddingBottom: 0,
                 fontSize: 12,
                 lineHeight: 1,
-                backgroundColor: "white",
-                color: "blue",
-                border: "none",
-                background: "none"
+                backgroundColor: 'white',
+                color: 'blue',
+                border: 'none',
+                background: 'none',
               },
             }}
           />
         ) : null,
     },
-
   ];
 
   const handleSearchChange = (_: any, newValue?: string) => {
@@ -158,18 +187,18 @@ const AllUsers: React.FC = () => {
       <DetailsRow
         {...props}
         styles={{
-        root: {
-          minHeight: 28,
-          paddingTop: 0,
-          paddingBottom: 0,
-        },
-        cell: {
-          display: 'flex',
-          alignItems: 'center',
-          paddingTop: 0,
-          paddingBottom: 0,
-        },
-      }}
+          root: {
+            minHeight: 28,
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+          cell: {
+            display: 'flex',
+            alignItems: 'center',
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+        }}
       />
     );
   };
@@ -178,23 +207,25 @@ const AllUsers: React.FC = () => {
     <Stack tokens={{ childrenGap: 10 }}>
       <Stack horizontal tokens={{ childrenGap: 10 }}>
         <button
-                                          style={buttonStyle}
-                                          onMouseEnter={(e) =>
-                                            Object.assign(e.currentTarget.style, buttonHoverStyle)
-                                          }
-                                          onMouseLeave={(e) =>
-                                            Object.assign(e.currentTarget.style, { background: 'white' })
-                                          }
-                                          onClick={() => setRefresh(!refresh)}
-                                        >
-                                          <span style={iconStyle}>
-                                            <Icon iconName="Refresh" />
-                                          </span>
-                                          Refresh
-                                        </button>
-        <TextField 
-        placeholder='Search'
-        value={search} onChange={handleSearchChange} />
+          style={buttonStyle}
+          onMouseEnter={(e) =>
+            Object.assign(e.currentTarget.style, buttonHoverStyle)
+          }
+          onMouseLeave={(e) =>
+            Object.assign(e.currentTarget.style, { background: 'white' })
+          }
+          onClick={() => setRefresh(!refresh)}
+        >
+          <span style={iconStyle}>
+            <Icon iconName="Refresh" />
+          </span>
+          Refresh
+        </button>
+        <TextField
+          placeholder="Search"
+          value={search}
+          onChange={handleSearchChange}
+        />
         <Dropdown
           options={roleOptions}
           selectedKey={role}
@@ -216,36 +247,46 @@ const AllUsers: React.FC = () => {
           selectionMode={SelectionMode.none}
           layoutMode={DetailsListLayoutMode.fixedColumns}
           onRenderRow={customRenderRow}
-          compact= {true} 
+          compact={true}
           styles={{
-              root: {
-                width: '100%',
-                selectors: {
-                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
-                  '.ms-DetailsHeader-cell': {
-                    color: '#004578',
-                    fontWeight: 600,
-                    fontSize: '13px',
-                  },
-                  '.ms-DetailsRow': {
-                    minHeight: '28px !important',
-                    borderBottom: '0.5px solid #eee',
-                  },
-                  '.ms-DetailsRow-cell': {
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
-                    fontSize: '13px',
-                    whiteSpace: 'normal',
-                    wordBreak: 'break-word',
-                  },
+            root: {
+              width: '100%',
+              selectors: {
+                '.ms-DetailsHeader': {
+                  backgroundColor: '#f3f2f1',
+                  paddingTop: '0px',
+                  paddingBottom: '0px',
+                  border: 'none',
+                },
+                '.ms-DetailsHeader-cell': {
+                  color: '#004578',
+                  fontWeight: 600,
+                  fontSize: '13px',
+                },
+                '.ms-DetailsRow': {
+                  minHeight: '28px !important',
+                  borderBottom: '0.5px solid #eee',
+                },
+                '.ms-DetailsRow-cell': {
+                  paddingTop: '4px',
+                  paddingBottom: '4px',
+                  fontSize: '13px',
+                  whiteSpace: 'normal',
+                  wordBreak: 'break-word',
                 },
               },
-            }}
+            },
+          }}
         />
       )}
 
       {totalPages > 1 && (
-        <Stack horizontal horizontalAlign="center" tokens={{ childrenGap: 8 }} style={{ marginTop: 16 }}>
+        <Stack
+          horizontal
+          horizontalAlign="center"
+          tokens={{ childrenGap: 8 }}
+          style={{ marginTop: 16 }}
+        >
           <PrimaryButton
             text="Prev"
             disabled={page === 1}
@@ -257,7 +298,9 @@ const AllUsers: React.FC = () => {
               key={i}
               text={(i + 1).toString()}
               onClick={() => setPage(i + 1)}
-              style={{ backgroundColor: page === i + 1 ? '#0078d4' : undefined }}
+              style={{
+                backgroundColor: page === i + 1 ? '#0078d4' : undefined,
+              }}
             />
           ))}
 

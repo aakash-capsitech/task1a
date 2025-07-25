@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const Teams = () => {
-
   return (
-    <DashboardLayout activeItem='Teams'>
-        <div>Teams</div>
+    <DashboardLayout activeItem="Teams">
+      <div>Teams</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default Teams
+export default Teams;

@@ -85,7 +85,9 @@ export const AddLoginRulePanel = ({
     if (isOpen && existingRule) {
       setSelectedUser(existingRule.userEmail);
       setRestriction(existingRule.restriction);
-      setFromDate(existingRule.fromDate ? new Date(existingRule.fromDate) : null);
+      setFromDate(
+        existingRule.fromDate ? new Date(existingRule.fromDate) : null
+      );
       setToDate(existingRule.toDate ? new Date(existingRule.toDate) : null);
       setDateRangeEnabled(!!existingRule.fromDate || !!existingRule.toDate);
     } else {
@@ -144,8 +146,11 @@ export const AddLoginRulePanel = ({
       type={PanelType.smallFixedFar}
     >
       {/* <Stack tokens={{ childrenGap: 15 }}> */}
-      <Stack verticalFill styles={{ root: { height: '100%' } }} tokens={{ childrenGap: 15 }}>
-
+      <Stack
+        verticalFill
+        styles={{ root: { height: '100%' } }}
+        tokens={{ childrenGap: 15 }}
+      >
         {loadingUsers ? (
           <Spinner label="Loading users..." />
         ) : (
@@ -227,7 +232,6 @@ export const AddLoginRulePanel = ({
             <PrimaryButton text="Save" onClick={handleSave} />
           </Stack>
         </div>
-
       </Stack>
     </Panel>
   );

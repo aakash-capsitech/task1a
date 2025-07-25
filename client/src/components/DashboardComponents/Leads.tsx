@@ -1,13 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const Leads = () => {
-
-
   return (
-    <DashboardLayout activeItem='Leads'>
-        <div>Leads</div>
+    <DashboardLayout activeItem="Leads">
+      <div>Leads</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default Leads
+export default Leads;

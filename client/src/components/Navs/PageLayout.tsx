@@ -18,7 +18,6 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
         <Topbar />
         <BreadcrumbBar activeItem={activeItem} />
 
-
         <div
           className="d-flex flex-grow-1 bg-light"
           style={{ overflow: 'hidden' }}

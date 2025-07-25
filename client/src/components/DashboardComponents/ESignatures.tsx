@@ -1,12 +1,11 @@
-import DashboardLayout from '../Navs/DashboardLayout'
+import DashboardLayout from '../Navs/DashboardLayout';
 
 const ESignatures = () => {
-
   return (
-    <DashboardLayout activeItem='ESignatures'>
-        <div>ESignatures</div>
+    <DashboardLayout activeItem="ESignatures">
+      <div>ESignatures</div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default ESignatures
+export default ESignatures;

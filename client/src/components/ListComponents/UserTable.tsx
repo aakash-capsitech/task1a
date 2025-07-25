@@ -61,7 +61,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   const [tempInput, setTempInput] = useState('');
 
-  const filterOptions: IDropdownOption[] = [{ key: 'role', text: 'Roles' }, { key: 'status', text: 'Status' }];
+  const filterOptions: IDropdownOption[] = [
+    { key: 'role', text: 'Roles' },
+    { key: 'status', text: 'Status' },
+  ];
 
   const roleOptions: IDropdownOption[] = [
     { key: 'Staff', text: 'Staff' },
@@ -241,52 +244,53 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       name: 'Actions',
       minWidth: 40,
       maxWidth: 50,
-      onRender: (item) => item.status === 'Active' ? (
-        <div style={{ display: 'flex', gap: '6px' }}>
-          <span
-            style={{ cursor: 'pointer' }}
-            onClick={() => handleDeleteUser(item.id)}
-          >
-            <Icon
-              iconName={'Delete'}
-              className="me-2"
-              style={{ color: 'red' }}
-            />
-          </span>
-          <span
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setSelectedEditUser(item);
-              setIsEditOpen(true);
+      onRender: (item) =>
+        item.status === 'Active' ? (
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <span
+              style={{ cursor: 'pointer' }}
+              onClick={() => handleDeleteUser(item.id)}
+            >
+              <Icon
+                iconName={'Delete'}
+                className="me-2"
+                style={{ color: 'red' }}
+              />
+            </span>
+            <span
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setSelectedEditUser(item);
+                setIsEditOpen(true);
+              }}
+            >
+              <Icon
+                iconName={'Edit'}
+                className="me-2"
+                style={{ color: 'blue' }}
+              />
+            </span>
+          </div>
+        ) : (
+          <PrimaryButton
+            iconProps={{ iconName: 'Refresh' }}
+            onClick={() => handleRestore(item.id)}
+            styles={{
+              root: {
+                height: 24,
+                minHeight: 24,
+                paddingTop: 0,
+                paddingBottom: 0,
+                fontSize: 12,
+                lineHeight: 1,
+                backgroundColor: 'white',
+                color: 'blue',
+                border: 'none',
+                background: 'none',
+              },
             }}
-          >
-            <Icon
-              iconName={'Edit'}
-              className="me-2"
-              style={{ color: 'blue' }}
-            />
-          </span>
-        </div>
-      ) : (
-                <PrimaryButton
-                  iconProps={{ iconName: 'Refresh' }}
-                  onClick={() => handleRestore(item.id)}
-                  styles={{
-                    root: {
-                      height: 24,
-                      minHeight: 24,
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                      fontSize: 12,
-                      lineHeight: 1,
-                      backgroundColor: "white",
-                      color: "blue",
-                      border: "none",
-                      background: "none"
-                    },
-                  }}
-                />
-              ),
+          />
+        ),
     },
   ];
 
@@ -331,7 +335,16 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             onMouseLeave={(e) =>
               Object.assign(e.currentTarget.style, { background: 'white' })
             }
-            onClick={() => fetchUsers()}
+            onClick={() => {
+              //     search: searchTerm,
+              // role: selectedRole || undefined,
+              // status: selectedStatus || undefined,
+              setSearchTerm('');
+              setSearchValue('');
+              setSelectedRole(null);
+              setSelectedStatus(null);
+              fetchUsers();
+            }}
           >
             <span style={iconStyle}>
               <Icon iconName="Refresh" />
@@ -355,166 +368,173 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
             Rate logs
           </button>
         </div>
-<div style={{
-  display: "flex",
-  gap: "4rem"
-}}>
-<div style={{
-  display: "flex"
-}}>
-        <SearchBox
-          placeholder="Search by name, email, phone"
-          value={searchValue}
-          onChange={(e) => {
-            // setSearchTerm(newValue || '');
-            setSearchValue(e!.target.value);
-            setPage(1);
-          }}
-          styles={{ root: { width: 200 } }}
-        />
-        <PrimaryButton text='Apply' onClick={()=>{
-          setSearchTerm(searchValue)
-        }} />
-        </div>
-
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            position: 'relative',
+            gap: '4rem',
           }}
         >
-          {/* Filter Chip */}
-          {selectedRole && (
-            <span
-              style={{
-                backgroundColor: '#f3f2f1',
-                borderRadius: '12px',
-                padding: '4px 8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '13px',
-              }}
-            >
-              Role = <strong>{selectedRole}</strong>
-              <Icon
-                iconName="Cancel"
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setSelectedRole(null);
-                  setPage(1);
-                }}
-              />
-            </span>
-          )}
-
-          {selectedStatus && (
-            <span
-              style={{
-                backgroundColor: '#f3f2f1',
-                borderRadius: '12px',
-                padding: '4px 8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '13px',
-              }}
-            >
-              Status = <strong>{selectedStatus}</strong>
-              <Icon
-                iconName="Cancel"
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setSelectedStatus(null);
-                  setPage(1);
-                }}
-              />
-            </span>
-          )}
-
-          {/* Add Filter Button */}
-          <button
+          <div
             style={{
-              ...buttonStyle,
-              border: '1px solid #ccc',
-              background: '#f3f2f1',
+              display: 'flex',
             }}
-            onClick={() => setFilterPanelVisible((prev) => !prev)}
           >
-            <Icon iconName="Filter" /> Add filter
-          </button>
-
-          {/* Filter Dropdown Panel */}
-          {filterPanelVisible && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '36px',
-                right: 0,
-                background: '#fff',
-                padding: '12px',
-                border: '1px solid #ccc',
-                borderRadius: '6px',
-                width: '220px',
-                zIndex: 1000,
-                boxShadow: '0 0 4px rgba(0,0,0,0.1)',
+            <SearchBox
+              placeholder="Search by name, email, phone"
+              value={searchValue}
+              onChange={(e) => {
+                // setSearchTerm(newValue || '');
+                setSearchValue(e!.target.value);
+                setPage(1);
               }}
-            >
-              <div style={{ fontWeight: 600, marginBottom: '6px' }}>
-                Add filter
-              </div>
-              <span style={{ fontSize: '12px', color: '#666' }}>
-                Criteria *
-              </span>
-              <Dropdown
-                placeholder="Select"
-                options={filterOptions}
-                onChange={(_, option) =>
-                  setSelectedFilter(option?.key as string)
-                }
-              />
+              styles={{ root: { width: 200 } }}
+            />
+            <PrimaryButton
+              text="Apply"
+              onClick={() => {
+                setSearchTerm(searchValue);
+              }}
+            />
+          </div>
 
-              {selectedFilter === 'role' && (
-                <Dropdown
-                  placeholder="Select role"
-                  options={roleOptions}
-                  onChange={(_, option) => {
-                    setTempInput(option?.key as string);
-                  }}
-                />
-              )}
-
-              {selectedFilter === 'status' && (
-                <Dropdown
-                  placeholder="Select status"
-                  options={statusOptions}
-                  onChange={(_, option) => {
-                    setTempInput(option?.key as string);
-                  }}
-                />
-              )}
-
-              <PrimaryButton
-                style={{ marginTop: '10px' }}
-                text="Apply Filter"
-                onClick={() => {
-                  if(selectedFilter === 'status') {
-                    setSelectedStatus(tempInput || null);
-                  }
-                  if(selectedFilter === 'role') {
-                    setSelectedRole(tempInput || null);
-                  }
-                  // setSelectedRole(tempInput || null);
-                  // setSelectedStatus(tempInput || null);
-                  setFilterPanelVisible(false);
-                  setPage(1);
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              position: 'relative',
+            }}
+          >
+            {/* Filter Chip */}
+            {selectedRole && (
+              <span
+                style={{
+                  backgroundColor: '#f3f2f1',
+                  borderRadius: '12px',
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: '13px',
                 }}
-              />
-            </div>
-          )}
-        </div>
+              >
+                Role = <strong>{selectedRole}</strong>
+                <Icon
+                  iconName="Cancel"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setSelectedRole(null);
+                    setPage(1);
+                  }}
+                />
+              </span>
+            )}
+
+            {selectedStatus && (
+              <span
+                style={{
+                  backgroundColor: '#f3f2f1',
+                  borderRadius: '12px',
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: '13px',
+                }}
+              >
+                Status = <strong>{selectedStatus}</strong>
+                <Icon
+                  iconName="Cancel"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setSelectedStatus(null);
+                    setPage(1);
+                  }}
+                />
+              </span>
+            )}
+
+            {/* Add Filter Button */}
+            <button
+              style={{
+                ...buttonStyle,
+                border: '1px solid #ccc',
+                background: '#f3f2f1',
+              }}
+              onClick={() => setFilterPanelVisible((prev) => !prev)}
+            >
+              <Icon iconName="Filter" /> Add filter
+            </button>
+
+            {/* Filter Dropdown Panel */}
+            {filterPanelVisible && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '36px',
+                  right: 0,
+                  background: '#fff',
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '6px',
+                  width: '220px',
+                  zIndex: 1000,
+                  boxShadow: '0 0 4px rgba(0,0,0,0.1)',
+                }}
+              >
+                <div style={{ fontWeight: 600, marginBottom: '6px' }}>
+                  Add filter
+                </div>
+                <span style={{ fontSize: '12px', color: '#666' }}>
+                  Criteria *
+                </span>
+                <Dropdown
+                  placeholder="Select"
+                  options={filterOptions}
+                  onChange={(_, option) =>
+                    setSelectedFilter(option?.key as string)
+                  }
+                />
+
+                {selectedFilter === 'role' && (
+                  <Dropdown
+                    placeholder="Select role"
+                    options={roleOptions}
+                    onChange={(_, option) => {
+                      setTempInput(option?.key as string);
+                    }}
+                  />
+                )}
+
+                {selectedFilter === 'status' && (
+                  <Dropdown
+                    placeholder="Select status"
+                    options={statusOptions}
+                    onChange={(_, option) => {
+                      setTempInput(option?.key as string);
+                    }}
+                  />
+                )}
+
+                <PrimaryButton
+                  style={{ marginTop: '10px' }}
+                  text="Apply Filter"
+                  onClick={() => {
+                    if (selectedFilter === 'status') {
+                      setSelectedStatus(tempInput || null);
+                    }
+                    if (selectedFilter === 'role') {
+                      setSelectedRole(tempInput || null);
+                    }
+                    // setSelectedRole(tempInput || null);
+                    // setSelectedStatus(tempInput || null);
+                    setFilterPanelVisible(false);
+                    setPage(1);
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -539,7 +559,12 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               root: {
                 width: '100%',
                 selectors: {
-                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
+                  '.ms-DetailsHeader': {
+                    backgroundColor: '#f3f2f1',
+                    paddingTop: '0px',
+                    paddingBottom: '0px',
+                    border: 'none',
+                  },
                   '.ms-DetailsHeader-cell': {
                     color: '#004578',
                     fontWeight: 600,

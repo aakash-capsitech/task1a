@@ -184,7 +184,14 @@ export const BusinessTable = () => {
             onMouseLeave={(e) =>
               Object.assign(e.currentTarget.style, { background: 'white' })
             }
-            onClick={() => setRefresh(!refresh)}
+            onClick={() => {
+              setSearchValue('');
+              setTypeFilter(null);
+              setSelectedFilter(null);
+              setSearch('');
+              setSelectedRole(null);
+              setRefresh(!refresh);
+            }}
           >
             <span style={iconStyle}>
               <Icon iconName="Refresh" />

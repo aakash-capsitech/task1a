@@ -83,7 +83,9 @@ export const LoginRulesPage = () => {
 
   const openHistory = async (id: string) => {
     try {
-      const res = await axios.get(`http://localhost:5153/api/loginrules/${id}/history`);
+      const res = await axios.get(
+        `http://localhost:5153/api/loginrules/${id}/history`
+      );
       setHistory(res.data);
       setIsHistoryOpen(true);
     } catch (err) {
@@ -151,7 +153,9 @@ export const LoginRulesPage = () => {
   ];
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0 }}>
+    <div
+      style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0 }}
+    >
       {/* Header */}
       <div
         style={{
@@ -167,24 +171,40 @@ export const LoginRulesPage = () => {
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button
             style={buttonStyle}
-            onMouseEnter={(e) => Object.assign(e.currentTarget.style, buttonHoverStyle)}
-            onMouseLeave={(e) => Object.assign(e.currentTarget.style, { background: 'white' })}
+            onMouseEnter={(e) =>
+              Object.assign(e.currentTarget.style, buttonHoverStyle)
+            }
+            onMouseLeave={(e) =>
+              Object.assign(e.currentTarget.style, { background: 'white' })
+            }
             onClick={() => {
               setEditingRule(null);
               setIsPanelOpen(true);
             }}
           >
-            <span style={iconStyle}><Icon iconName="Add" /></span>
+            <span style={iconStyle}>
+              <Icon iconName="Add" />
+            </span>
             Add
           </button>
 
           <button
             style={buttonStyle}
-            onMouseEnter={(e) => Object.assign(e.currentTarget.style, buttonHoverStyle)}
-            onMouseLeave={(e) => Object.assign(e.currentTarget.style, { background: 'white' })}
-            onClick={fetchRules}
+            onMouseEnter={(e) =>
+              Object.assign(e.currentTarget.style, buttonHoverStyle)
+            }
+            onMouseLeave={(e) =>
+              Object.assign(e.currentTarget.style, { background: 'white' })
+            }
+            onClick={() => {
+              setSearchInput('');
+              setSearchTerm('');
+              fetchRules();
+            }}
           >
-            <span style={iconStyle}><Icon iconName="Refresh" /></span>
+            <span style={iconStyle}>
+              <Icon iconName="Refresh" />
+            </span>
             Refresh
           </button>
         </div>
@@ -196,7 +216,10 @@ export const LoginRulesPage = () => {
             onChange={(e) => setSearchInput(e!.target.value)}
             styles={{ root: { width: 200 } }}
           />
-          <PrimaryButton text='Apply' onClick={() => setSearchTerm(searchInput)} />
+          <PrimaryButton
+            text="Apply"
+            onClick={() => setSearchTerm(searchInput)}
+          />
         </div>
       </div>
 
@@ -222,7 +245,12 @@ export const LoginRulesPage = () => {
               root: {
                 width: '100%',
                 selectors: {
-                  '.ms-DetailsHeader': { backgroundColor: '#f3f2f1', paddingTop: "0px", paddingBottom: "0px", border: "none" },
+                  '.ms-DetailsHeader': {
+                    backgroundColor: '#f3f2f1',
+                    paddingTop: '0px',
+                    paddingBottom: '0px',
+                    border: 'none',
+                  },
                   '.ms-DetailsHeader-cell': {
                     color: '#004578',
                     fontWeight: 600,
@@ -231,7 +259,6 @@ export const LoginRulesPage = () => {
                   '.ms-DetailsRow': {
                     minHeight: '28px !important',
                     borderBottom: '0.5px solid #eee',
-                    
                   },
                   '.ms-DetailsRow-cell': {
                     paddingTop: '4px',
@@ -239,8 +266,8 @@ export const LoginRulesPage = () => {
                     fontSize: '13px',
                     whiteSpace: 'normal',
                     wordBreak: 'break-word',
-                    display: "flex",
-                    alignItems: "center"
+                    display: 'flex',
+                    alignItems: 'center',
                   },
                 },
               },
@@ -250,7 +277,14 @@ export const LoginRulesPage = () => {
       </div>
 
       {/* Pagination */}
-      <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', gap: '12px' }}>
+      <div
+        style={{
+          marginTop: '12px',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '12px',
+        }}
+      >
         <button
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
@@ -306,16 +340,27 @@ export const LoginRulesPage = () => {
         >
           {history.map((log, idx) => (
             <Stack key={idx} styles={{ root: { marginBottom: 10 } }}>
-              <Text style={{
-                color: "blue"
-              }}>
-                <strong style={{
-                  color: "red"
-                }}>{log.action}</strong> - {new Date(log.timestamp).toLocaleString()}
+              <Text
+                style={{
+                  color: 'blue',
+                }}
+              >
+                <strong
+                  style={{
+                    color: 'red',
+                  }}
+                >
+                  {log.action}
+                </strong>{' '}
+                - {new Date(log.timestamp).toLocaleString()}
               </Text>
-              <Text style={{
-                color: "yellowgreen"
-              }}>{log.description}</Text>
+              <Text
+                style={{
+                  color: 'yellowgreen',
+                }}
+              >
+                {log.description}
+              </Text>
             </Stack>
           ))}
         </Panel>

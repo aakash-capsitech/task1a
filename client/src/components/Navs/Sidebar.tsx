@@ -111,9 +111,7 @@ const Sidebar = () => {
                 background: isActive ? '#f0f0f0' : 'transparent',
                 transition: 'background 0.2s ease',
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = '#eee')
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#eee')}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.background = isActive
                   ? '#f0f0f0'

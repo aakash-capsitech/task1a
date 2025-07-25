@@ -86,76 +86,75 @@ const Topbar = () => {
       >
         <div style={{ fontSize: 16, fontWeight: 500 }}>Acting Office - Dev</div>
 
-        <div style={{
-          display: "flex",
-          gap: "4rem"
-        }}>
-
-      
-
-        <div style={{ flex: 1, maxWidth: 320, margin: 'auto 16px' }}>
-          <SearchBox
-            placeholder="Ctrl + K"
-            styles={{
-              root: {
-                width: '100%',
-                borderRadius: 4,
-                backgroundColor: 'white',
-              },
-              field: { fontSize: 14, padding: '4px 8px' },
-              iconContainer: { color: '#605e5c' },
-            }}
-          />
-        </div>
-
-        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-          <IconButton
-            iconProps={{ iconName: 'Waffle' }}
-            title="Apps"
-            styles={{ root: { color: 'white' } }}
-          />
-          <IconButton
-            iconProps={{ iconName: 'News' }}
-            title="Feed"
-            styles={{ root: { color: 'white' } }}
-          />
-          <IconButton
-            iconProps={{ iconName: 'ReadingMode' }}
-            title="Bookmarks"
-            styles={{ root: { color: 'white' } }}
-          />
-          <IconButton
-            iconProps={{ iconName: 'Headset' }}
-            title="Support"
-            styles={{ root: { color: 'white' } }}
-          />
-
-          <div ref={personaRef}>
-            <button
-              onClick={() => setIsCalloutVisible((prev) => !prev)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                padding: 0,
-                cursor: 'pointer',
+        <div
+          style={{
+            display: 'flex',
+            gap: '4rem',
+          }}
+        >
+          <div style={{ flex: 1, maxWidth: 320, margin: 'auto 16px' }}>
+            <SearchBox
+              placeholder="Ctrl + K"
+              styles={{
+                root: {
+                  width: '100%',
+                  borderRadius: 4,
+                  backgroundColor: 'white',
+                },
+                field: { fontSize: 14, padding: '4px 8px' },
+                iconContainer: { color: '#605e5c' },
               }}
-            >
-              <Persona
-                text={userInfo.name}
-                size={PersonaSize.size40}
-                hidePersonaDetails
-                presence={PersonaPresence.online}
-                initialsColor={6}
-                styles={{
-                  root: { background: 'transparent' },
-                  primaryText: { color: 'white' },
-                }}
-              />
-            </button>
+            />
           </div>
-        </Stack>
-      </div>
+
+          <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+            <IconButton
+              iconProps={{ iconName: 'Waffle' }}
+              title="Apps"
+              styles={{ root: { color: 'white' } }}
+            />
+            <IconButton
+              iconProps={{ iconName: 'News' }}
+              title="Feed"
+              styles={{ root: { color: 'white' } }}
+            />
+            <IconButton
+              iconProps={{ iconName: 'ReadingMode' }}
+              title="Bookmarks"
+              styles={{ root: { color: 'white' } }}
+            />
+            <IconButton
+              iconProps={{ iconName: 'Headset' }}
+              title="Support"
+              styles={{ root: { color: 'white' } }}
+            />
+
+            <div ref={personaRef}>
+              <button
+                onClick={() => setIsCalloutVisible((prev) => !prev)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                }}
+              >
+                <Persona
+                  text={userInfo.name}
+                  size={PersonaSize.size40}
+                  hidePersonaDetails
+                  presence={PersonaPresence.online}
+                  initialsColor={6}
+                  styles={{
+                    root: { background: 'transparent' },
+                    primaryText: { color: 'white' },
+                  }}
+                />
+              </button>
+            </div>
+          </Stack>
         </div>
+      </div>
 
       {isCalloutVisible && (
         <Callout
@@ -178,30 +177,33 @@ const Topbar = () => {
               }}
             />
 
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}>
-
-
             <div
-              className={classNames.optionRow}
-              onClick={() => {
-                // alert('Go to profile');
-                navigate("/profile")
-                setIsCalloutVisible(false)
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
-              <span className={`ms-Icon ms-Icon--ContactInfo ${classNames.icon}`} />
-              <span className={classNames.label}>Profile</span>
-            </div>
+              <div
+                className={classNames.optionRow}
+                onClick={() => {
+                  // alert('Go to profile');
+                  navigate('/profile');
+                  setIsCalloutVisible(false);
+                }}
+              >
+                <span
+                  className={`ms-Icon ms-Icon--ContactInfo ${classNames.icon}`}
+                />
+                <span className={classNames.label}>Profile</span>
+              </div>
 
-            <div className={classNames.optionRow} onClick={handleSignOut}>
-              <span className={`ms-Icon ms-Icon--SignOut ${classNames.icon}`} />
-              <span className={classNames.label}>Sign Out</span>
-            </div>
-
+              <div className={classNames.optionRow} onClick={handleSignOut}>
+                <span
+                  className={`ms-Icon ms-Icon--SignOut ${classNames.icon}`}
+                />
+                <span className={classNames.label}>Sign Out</span>
+              </div>
             </div>
           </div>
         </Callout>

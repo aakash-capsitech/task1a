@@ -89,21 +89,23 @@ const UserDetailsCard = ({
         >
           Basic details
         </Text>
-        <div style={{
-          display: "flex",
-          justifyContent: "flex-start"
-        }}>
-        <DefaultButton
-          text=""
-          iconProps={{ iconName: 'Edit' }}
-          onClick={() => setIsEditOpen(true)}
-          style={{ border: 'none', background: 'none' }}
-        />
-        <DefaultButton
-          text="Change Password"
-          iconProps={{ iconName: 'PasswordField' }}
-          onClick={() => setIsPasswordModalOpen(true)}
-        />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <DefaultButton
+            text=""
+            iconProps={{ iconName: 'Edit' }}
+            onClick={() => setIsEditOpen(true)}
+            style={{ border: 'none', background: 'none' }}
+          />
+          <DefaultButton
+            text="Change Password"
+            iconProps={{ iconName: 'PasswordField' }}
+            onClick={() => setIsPasswordModalOpen(true)}
+          />
         </div>
       </Stack>
 

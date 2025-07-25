@@ -13,7 +13,7 @@ const SB = ({
   setActiveItem: (item: string) => void;
 }) => {
   const [adminAccess, setAdminAccess] = useState(false);
-  const [configs, setConfigs] = useState<any[]>([])
+  const [configs, setConfigs] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,28 +32,26 @@ const SB = ({
     }
   }, []);
 
-  useEffect(()=>{
-
+  useEffect(() => {
     async function getConfigs() {
-          const token: string | null = localStorage.getItem('token');
-        if (!token) {
-          setAdminAccess(false);
-          return;
-        }
+      const token: string | null = localStorage.getItem('token');
+      if (!token) {
+        setAdminAccess(false);
+        return;
+      }
 
-        const decoded: any = jwtDecode(token);
-            const id = decoded?.nameid;
-        
-        const response = await axios.get(`http://localhost:5153/api/users/${id}`)
-        const configRoles = response.data.configRoles
-        setConfigs(configRoles)
+      const decoded: any = jwtDecode(token);
+      const id = decoded?.nameid;
 
-        console.log(configRoles)
+      const response = await axios.get(`http://localhost:5153/api/users/${id}`);
+      const configRoles = response.data.configRoles;
+      setConfigs(configRoles);
+
+      console.log(configRoles);
     }
 
-    getConfigs()
-    
-  },[])
+    getConfigs();
+  }, []);
 
   const sidebarItems = [
     {
@@ -154,8 +152,7 @@ const SB = ({
                       } else if (item == 'Canned emails') {
                         setActiveItem('');
                         navigate('/cannedemails');
-                      }
-                       else if (item == 'All') {
+                      } else if (item == 'All') {
                         setActiveItem('');
                         navigate('/all');
                       } else {

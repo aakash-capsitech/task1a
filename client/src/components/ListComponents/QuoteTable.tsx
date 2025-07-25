@@ -141,15 +141,15 @@ export const QuoteTable = () => {
     fetchQuotes();
   }, [page, search, businessFilter, responseFilter, refresh]);
 
-  const handleDelete = async (id: string) => {
-    try {
-      await axios.put(`http://localhost:5153/api/Quotes/delete/${id}`);
-      toast.warn('Quote deleted');
-      fetchQuotes();
-    } catch (err) {
-      toast.error('Delete failed');
-    }
-  };
+  // const handleDelete = async (id: string) => {
+  //   try {
+  //     await axios.put(`http://localhost:5153/api/Quotes/delete/${id}`);
+  //     toast.warn('Quote deleted');
+  //     fetchQuotes();
+  //   } catch (err) {
+  //     toast.error('Delete failed');
+  //   }
+  // };
 
   const columns: IColumn[] = [
     {
@@ -269,7 +269,16 @@ export const QuoteTable = () => {
             onMouseLeave={(e) =>
               Object.assign(e.currentTarget.style, { background: 'white' })
             }
-            onClick={() => setRefresh(!refresh)}
+            onClick={() => {
+              setSearchValue('');
+              // setTypeFilter(null)
+              setSelectedFilter(null);
+              setSearch('');
+              setSelectedRole(null);
+              setResponseFilter(null);
+              setBusinessFilter(null);
+              setRefresh(!refresh);
+            }}
           >
             <span style={iconStyle}>
               <Icon iconName="Refresh" />
