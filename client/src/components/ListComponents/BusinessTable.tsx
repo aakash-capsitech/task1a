@@ -7,6 +7,7 @@ import {
   Icon,
   Dropdown,
   type IDropdownOption,
+  DefaultButton,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -67,6 +68,7 @@ export const BusinessTable = () => {
   ];
 
   const fetchBusinesses = async () => {
+    const token = localStorage.getItem("token")
     try {
       const res = await axios.get('http://localhost:5153/api/businesses', {
         params: {
@@ -75,6 +77,9 @@ export const BusinessTable = () => {
           search,
           type: typeFilter || undefined,
         },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setBusinesses(res.data.businesses || []);
       setTotal(res.data.total || 0);
@@ -316,6 +321,14 @@ export const BusinessTable = () => {
                     setTypeFilter(tempInput || null);
                     setFilterPanelVisible(false);
                     setPage(1);
+                  }}
+                />
+
+                <DefaultButton
+                  style={{ marginTop: '10px' }}
+                  text="Cancel"
+                  onClick={() => {
+                    setFilterPanelVisible(false);
                   }}
                 />
               </div>

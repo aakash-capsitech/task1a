@@ -35,6 +35,7 @@ import Resources from './components/DashboardComponents/Resources';
 import Dashboard from './components/DashboardComponents/Dashboard';
 import Emails from './components/DashboardComponents/Emails';
 import All from './components/TemplatePages/All';
+import InvoicePdf from './components/helpers/InvoicePdf';
 // import MainUserTablePage from "./components/ListComponents/UserTable";
 // import Users from "./components/TemplatePages/Users";
 
@@ -140,6 +141,7 @@ const App = () => {
           <Route path='/resources' element={<Resources />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/emails' element={<Emails />} />
+            <Route path='/invoicepdf' element={<InvoicePdf />} />
 
           <Route path='/all' element={<All />} />
         </Routes>

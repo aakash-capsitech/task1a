@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  DefaultButton,
   DetailsList,
   type IColumn,
   Icon,
@@ -532,6 +533,16 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                     setPage(1);
                   }}
                 />
+
+                <DefaultButton
+                  style={{ marginTop: '10px' }}
+                  text="Cancel"
+                  onClick={() => {
+                    setFilterPanelVisible(false);
+                  }}
+                />
+
+                
               </div>
             )}
           </div>

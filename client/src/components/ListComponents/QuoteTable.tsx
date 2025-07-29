@@ -7,6 +7,7 @@ import {
   Icon,
   SearchBox,
   SelectionMode,
+  DefaultButton,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import { toast } from 'react-toastify';
 import { CreateQuotePanel } from '../Panels/CreateQuotePanel';
 
 import jsPDF from 'jspdf';
+import { DuePanel } from '../Panels/DuePanel';
 
 const buttonStyle = {
   display: 'flex',
@@ -91,6 +93,7 @@ const responseTeamOptions: IDropdownOption[] = [
 export const QuoteTable = () => {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isDuePanelOpen, setIsDuePanelOpen] = useState(false);
 
   const [search, setSearch] = useState('');
   const [searchValue, setSearchValue] = useState('');
@@ -106,6 +109,9 @@ export const QuoteTable = () => {
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  // const [token, setToken] = useState("")
+
+  const [dueUser, setDueUser] = useState<any>();
 
   const [tempInput, setTempInput] = useState('');
 
@@ -117,6 +123,8 @@ export const QuoteTable = () => {
   ];
 
   const fetchQuotes = async () => {
+    const token = localStorage.getItem("token")
+    console.log(token)
     try {
       const res = await axios.get('http://localhost:5153/api/quotes', {
         params: {
@@ -126,6 +134,9 @@ export const QuoteTable = () => {
           business: businessFilter || undefined,
           team: responseFilter || undefined,
         },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       setQuotes(res.data.quotes || []);
@@ -140,6 +151,37 @@ export const QuoteTable = () => {
   useEffect(() => {
     fetchQuotes();
   }, [page, search, businessFilter, responseFilter, refresh]);
+
+  const fetchDues = async () => {
+    const token = localStorage.getItem("token")
+    console.log(token)
+    try {
+      const res = await axios.get('http://localhost:5153/api/quotes', {
+        params: {
+          page,
+          pageSize,
+          search,
+          business: businessFilter || undefined,
+          team: responseFilter || undefined,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setQuotes(res.data.quotes || []);
+      console.log(res.data);
+      setTotal(res.data.total || 0);
+    } catch (err) {
+      toast.error('Failed to load quotes');
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDues();
+  }, []);
+
 
   // const handleDelete = async (id: string) => {
   //   try {
@@ -159,7 +201,21 @@ export const QuoteTable = () => {
       maxWidth: 150,
       isMultiline: false,
       isResizable: true,
-      onRender: (item) => item.qsid || '-',
+      onRender: (item) => (
+        <div style={{ display: 'flex', gap: 8 }}>
+          {item.qsid || '-'}
+          <Icon
+            iconName="ReportDocument"
+            style={{ cursor: 'pointer', color: '#0078d4' }}
+            onClick={() => {
+              // console.log('Downloading PDF for:', item);
+              // generateQuotePdf(item);
+              setDueUser(item)
+              setIsDuePanelOpen(true)
+            }}
+          />
+        </div>
+      ),
     },
     {
       key: 'businessName',
@@ -406,6 +462,14 @@ export const QuoteTable = () => {
                     setPage(1);
                   }}
                 />
+
+                <DefaultButton
+                  style={{ marginTop: '10px' }}
+                  text="Cancel"
+                  onClick={() => {
+                    setFilterPanelVisible(false);
+                  }}
+                />
               </div>
             )}
           </div>
@@ -489,6 +553,15 @@ export const QuoteTable = () => {
           fetchQuotes();
         }}
       />
+
+      {dueUser && <DuePanel
+        isOpen={isDuePanelOpen}
+        onDismiss={() => {
+          setIsDuePanelOpen(false);
+          fetchDues();
+        }}
+        dueUserItem = {dueUser}
+      />}
     </div>
   );
 };
