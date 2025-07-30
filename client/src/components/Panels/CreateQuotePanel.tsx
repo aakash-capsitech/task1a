@@ -11,8 +11,6 @@ import {
   Label,
   type IDropdownOption,
   type IDropdownStyles,
-  Icon,
-  Separator,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
 import { Formik, Form, FieldArray, type FormikHelpers } from 'formik';
@@ -20,6 +18,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import imge from '../../assets/image.png';
+import { B_URL } from '../../configs';
 
 const TextFieldStyles = {
   root: {
@@ -66,7 +65,7 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
   title: {
     height: 'full',
     lineHeight: '20px',
-    padding: '0 24px 0 6px', // avoids overlap with icon
+    padding: '0 24px 0 6px',
     fontSize: 12,
     borderRadius: 2,
   },
@@ -113,13 +112,12 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     fontSize: 12,
     lineHeight: '20px',
     padding: 0,
-    border: `1px solid #c8c6c9`, // lighter border
+    border: `1px solid #c8c6c9`, 
     borderRadius: 4,
   },
   title: {
     height: 'full',
     lineHeight: '20px',
-    // padding: '0 24px 0 6px', // ⬅️ add right padding for chevron
     fontSize: 12,
     borderRadius: 2,
   },
@@ -127,7 +125,7 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     height: 24,
     lineHeight: '20px',
     width: 20,
-    right: 4, // ⬅️ keeps chevron aligned
+    right: 4,
     border: 'none',
   },
   dropdownItem: {
@@ -176,7 +174,6 @@ const vatOptions = [
 const sampleServices = [
   { key: 'Consultation', text: 'Consultation' },
   { key: 'Filing', text: 'Filing' },
-  // { key: 'Training', text: 'Training' },
 ];
 
 const firstResponseOptions = [
@@ -236,9 +233,13 @@ export const CreateQuotePanel = ({
   });
 
   const fetchBusinesses = async () => {
+    const token = localStorage.getItem("token")
     try {
-      const res = await axios.get('http://localhost:5153/api/businesses', {
+      const res = await axios.get(`${B_URL}/api/businesses`, {
         params: { page: 1, pageSize: 100 },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
       console.log(res.data);
       const options = (res.data.businesses || []).map((b: any) => ({
@@ -265,19 +266,25 @@ export const CreateQuotePanel = ({
 
       console.log(services);
 
+      const token = localStorage.getItem("token")
+
       const response = await axios.post(
-        'http://localhost:5153/api/quotes/calc',
+        `${B_URL}/api/quotes/calc`,
         {
           services,
           discountPercentage: discountPercent,
           vatPercentage: vatPercent,
+        },{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
+      }
       );
 
       setCalculations(response.data);
     } catch (error) {
       console.error('Failed to calculate totals', error);
-      // Fallback to frontend calculation in case of error
       const subtotal = rows.reduce(
         (sum, row) => sum + (parseFloat(row.amount || '0') || 0),
         0
@@ -319,9 +326,9 @@ export const CreateQuotePanel = ({
     const dto = {
       businessId: values.businessId,
       date: values.date,
-      firstResponseTeam: values.firstResponse ?? '', // required
+      firstResponseTeam: values.firstResponse ?? '',
       services: values.rows.map((row) => ({
-        service: row.service as string, // must match enum exactly
+        service: row.service as string,
         description: row.description ?? '',
         amount: parseFloat(row.amount || '0'),
       })),
@@ -334,8 +341,15 @@ export const CreateQuotePanel = ({
 
     console.log('Final Payload:', dto);
 
+    const token = localStorage.getItem("token")
+
     try {
-      await axios.post('http://localhost:5153/api/Quotes', dto); // NO dto wrapper
+      await axios.post(`${B_URL}/api/Quotes`, dto, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       toast.success('Quote added successfully');
       onDismiss();
     } catch (error) {
@@ -358,8 +372,6 @@ export const CreateQuotePanel = ({
       styles={{
         ...headerStyles,
         root: {
-          // minWidth: "20%",
-          // width: "1000px"
         },
       }}
     >
@@ -376,7 +388,6 @@ export const CreateQuotePanel = ({
           isSubmitting,
           handleSubmit,
         }) => {
-          // Trigger calculation whenever rows, discount, or VAT changes
           useEffect(() => {
             if (values.rows.length > 0) {
               calculateTotals(
@@ -399,7 +410,6 @@ export const CreateQuotePanel = ({
               >
                 <span style={{ ...LabelStyles }}>Business Name</span>
                 <Dropdown
-                  // onRenderLabel={() => }
                   placeholder="Select or search..."
                   options={businessOptions}
                   selectedKey={values.businessId}
@@ -424,7 +434,6 @@ export const CreateQuotePanel = ({
                       background: '#EAEAEA',
                       borderRadius: '6px',
                       height: '30px',
-                      // alignItems: "center"
                     },
                   }}
                 />
@@ -451,31 +460,22 @@ export const CreateQuotePanel = ({
                     styles={{
                       root: {
                         width: 180,
-                        // height: 24,
                         height: '20px',
                         border: 'none',
                       },
                       textField: {
                         fieldGroup: {
-                          // backgroundColor: 'red',
                           border: 'none',
-                          // height: 24,
                           height: '20px',
                         },
                         field: {
-                          // backgroundColor: 'red',
-                          // height: 22,
                           height: '20px',
                           border: 'none',
                         },
                       },
                       icon: {
-                        // backgroundColor: 'red',
-                        // height: "10px",
-                        // width: "10px"
                       },
                       readOnlyTextField: {
-                        // backgroundColor: 'red',
                         height: '20px',
                         border: 'none',
                       },
@@ -491,7 +491,6 @@ export const CreateQuotePanel = ({
                   <span style={{ ...LabelStyles }}>First Response</span>
 
                   <Dropdown
-                    // onRenderLabel={() => <span style={{...LabelStyles}}>First Response</span>}
                     options={firstResponseOptions}
                     selectedKey={values.firstResponse}
                     placeholder="select"
@@ -502,8 +501,6 @@ export const CreateQuotePanel = ({
                       ...dropdownStyles,
                       root: {
                         width: '180px',
-                        // borderBottom: "10px",
-                        // outline: "none"
                       },
                       dropdown: {
                         border: 'none',
@@ -513,7 +510,6 @@ export const CreateQuotePanel = ({
                         background: '#EAEAEA',
                         borderRadius: '6px',
                         height: '30px',
-                        // alignItems: "center"
                       },
                     }}
                   />
@@ -621,7 +617,6 @@ export const CreateQuotePanel = ({
                           }
                         />
                         <TextField
-                          // placeholder="Description"
                           value={row.description}
                           onChange={(_, val) =>
                             setFieldValue(`rows[${index}].description`, val)
@@ -653,7 +648,6 @@ export const CreateQuotePanel = ({
                             root: {
                               width: '150px',
                               flex: 2,
-                              // marginLeft: "10px"
                             },
                           }}
                           errorMessage={
@@ -684,7 +678,6 @@ export const CreateQuotePanel = ({
                         styles={{
                           root: {
                             width: '70px',
-                            // marginTop: "100px"
                           },
                         }}
                       >
@@ -717,7 +710,6 @@ export const CreateQuotePanel = ({
                         verticalAlign="center"
                         tokens={{ childrenGap: 8 }}
                       >
-                        {/* <Label style={LabelStyles}>Subtotal</Label> */}
                         <TextField
                           readOnly
                           prefix="£"
@@ -764,7 +756,6 @@ export const CreateQuotePanel = ({
                   tokens={{ childrenGap: 2 }}
                 >
                   <Dropdown
-                    // onRenderLabel={() => <span style={LabelStyles}>VAT</span>}
                     options={vatOptions}
                     selectedKey={values.vatPercent.toString()}
                     onChange={(_, opt) =>
@@ -788,15 +779,6 @@ export const CreateQuotePanel = ({
                     }}
                   />
                 </Stack>
-
-                {/* <Stack horizontal horizontalAlign='end' verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                <Label style={LabelStyles}>Subtotal</Label>
-                <TextField
-                  readOnly
-                  value={`£${calculations.subtotal.toFixed(2)}`}
-                  styles={{...TextFieldStyles , ...readOnlyTexts, }}
-                />
-              </Stack> */}
 
                 <Stack
                   horizontal
@@ -849,9 +831,7 @@ export const CreateQuotePanel = ({
                     right: '16px',
                     background: 'white',
                     padding: '8px',
-                    zIndex: 1000, // to be on top of other UI
-                    // boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
-                    // borderTop: '1px solid #eee',
+                    zIndex: 1000,
                   }}
                 >
                   <DefaultButton

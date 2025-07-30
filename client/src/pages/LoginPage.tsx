@@ -12,6 +12,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/useAuth';
 import { toast } from 'react-toastify';
+import { B_URL } from '../configs';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -46,7 +47,7 @@ const LoginPage = () => {
           onSubmit={async (values) => {
             try {
               const res = await axios.post(
-                'http://localhost:5153/api/aAuth/login',
+                `${B_URL}/api/aAuth/login`,
                 {
                   email: values.email,
                   password: values.password,
@@ -58,7 +59,6 @@ const LoginPage = () => {
             } catch (err) {
               console.log(err);
               toast.error(`${(err as any).response.data}`);
-              // alert(`${(err as any).response.data}`);
             }
           }}
         >

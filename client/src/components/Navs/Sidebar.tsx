@@ -56,7 +56,6 @@ const Sidebar = () => {
         transition: 'width 0.2s ease',
       }}
     >
-      {/* Toggle Button */}
       <div className="mb-3 d-flex justify-content-start ml-1">
         <button
           onClick={() => setIsIcon((prev) => !prev)}

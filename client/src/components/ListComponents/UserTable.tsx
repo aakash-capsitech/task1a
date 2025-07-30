@@ -14,6 +14,7 @@ import EditUserPanel from '../Panels/EditUserPanel';
 import { Dropdown, type IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { B_URL } from '../../configs';
 
 const buttonStyle = {
   display: 'flex',
@@ -81,18 +82,11 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   ];
 
   const fetchUsers = async () => {
+    const token = localStorage.getItem("token")
     try {
       onLoading(true);
-      // const response = await axios.get('http://localhost:5153/api/users', {
-      //   params: {
-      //     page,
-      //     pageSize,
-      //     search: searchTerm,
-      //     role: selectedRole || undefined,
-      //   },
-      // });
 
-      const response = await axios.get('http://localhost:5153/api/users/all', {
+      const response = await axios.get(`${B_URL}/api/users/all`, {
         params: {
           page,
           pageSize,
@@ -100,6 +94,9 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           role: selectedRole || undefined,
           status: selectedStatus || undefined,
         },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setItems(response.data.users || []);
       setTotalUsers(response.data.total || 0);
@@ -126,9 +123,11 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
       configRoles = [],
     } = newUser;
 
+    const token = localStorage.getItem("token")
+
     try {
       onLoading(true);
-      await axios.post('http://localhost:5153/api/users', {
+      await axios.post(`${B_URL}/api/users`, {
         name,
         email,
         role,
@@ -136,6 +135,11 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
         nationality,
         address,
         configRoles,
+      },{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
       toast.success('User saved successfully');
       await fetchUsers();
@@ -148,8 +152,14 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   };
 
   const handleDeleteUser = async (userId: string) => {
+    const token = localStorage.getItem("token")
     try {
-      await axios.put(`http://localhost:5153/api/users/delete/${userId}`);
+      await axios.post(`${B_URL}/api/users/delete/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       toast.warn('user deleted');
       await fetchUsers();
     } catch (err) {
@@ -159,8 +169,14 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   };
 
   const handleRestore = async (userId: string) => {
+    const token = localStorage.getItem("token")
+    alert(token)
     try {
-      await axios.put(`http://localhost:5153/api/users/${userId}/restore`);
+      await axios.post(`${B_URL}/api/users/${userId}/restore`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       fetchUsers();
     } catch (err) {
       console.error('Restore failed', err);
@@ -337,9 +353,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               Object.assign(e.currentTarget.style, { background: 'white' })
             }
             onClick={() => {
-              //     search: searchTerm,
-              // role: selectedRole || undefined,
-              // status: selectedStatus || undefined,
               setSearchTerm('');
               setSearchValue('');
               setSelectedRole(null);
@@ -384,7 +397,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               placeholder="Search by name, email, phone"
               value={searchValue}
               onChange={(e) => {
-                // setSearchTerm(newValue || '');
                 setSearchValue(e!.target.value);
                 setPage(1);
               }}
@@ -406,7 +418,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               position: 'relative',
             }}
           >
-            {/* Filter Chip */}
             {selectedRole && (
               <span
                 style={{
@@ -454,8 +465,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                 />
               </span>
             )}
-
-            {/* Add Filter Button */}
             <button
               style={{
                 ...buttonStyle,
@@ -467,7 +476,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
               <Icon iconName="Filter" /> Add filter
             </button>
 
-            {/* Filter Dropdown Panel */}
             {filterPanelVisible && (
               <div
                 style={{
@@ -527,8 +535,6 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                     if (selectedFilter === 'role') {
                       setSelectedRole(tempInput || null);
                     }
-                    // setSelectedRole(tempInput || null);
-                    // setSelectedStatus(tempInput || null);
                     setFilterPanelVisible(false);
                     setPage(1);
                   }}
@@ -613,9 +619,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
           }}
           onDismiss={() => setIsEditOpen(false)}
           onSave={async (updatedData) => {
+            const token = localStorage.getItem("token")
             try {
-              await axios.put(
-                `http://localhost:5153/api/users/${selectedEditUser.id}`,
+              await axios.post(
+                `${B_URL}/api/users/${selectedEditUser.id}`,
                 {
                   name: updatedData.username,
                   email: updatedData.email,
@@ -624,7 +631,12 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
                   address: updatedData.address,
                   nationality: updatedData.nationality,
                   configRoles: updatedData.configs,
-                }
+                }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
               );
               await fetchUsers();
               setIsEditOpen(false);

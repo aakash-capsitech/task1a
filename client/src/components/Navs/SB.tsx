@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SB = ({
-  // userConfigRoles,
   activeItem,
   setActiveItem,
 }: {
@@ -25,8 +24,6 @@ const SB = ({
 
     const decoded: any = jwtDecode(token);
     const role = decoded?.role;
-    // console.log(role)
-    // alert(role)
     if (role == 'Admin') {
       setAdminAccess(true);
     }
@@ -61,15 +58,12 @@ const SB = ({
     {
       section: 'Practice configuration',
       items: [
-        // 'Practice profile',
         ...(adminAccess ? ['Login Rules'] : []),
         'Automation',
         ...(adminAccess ? ['Users'] : []),
-        // 'Users',
         'Call flow',
         'Addons',
         'Canned emails',
-        // "All",
       ],
     },
     {
@@ -134,7 +128,6 @@ const SB = ({
                     }}
                     onClick={() => {
                       if (item === 'Users') {
-                        // Clear active item when navigating to admin
                         setActiveItem('');
                         navigate('/admin');
                       } else if (item == 'Profile') {
@@ -156,20 +149,16 @@ const SB = ({
                         setActiveItem('');
                         navigate('/all');
                       } else {
-                        // Set active item first, then always navigate to home
                         setActiveItem('');
                         navigate('/loginrules');
-                        // navigate("/")
                       }
                     }}
                     onMouseEnter={(e) => {
-                      // Only apply hover effect if not active
                       if (!isActive) {
                         e.currentTarget.style.background = '#eee';
                       }
                     }}
                     onMouseLeave={(e) => {
-                      // Reset to transparent (parent div handles active background)
                       e.currentTarget.style.background = 'none';
                     }}
                   >

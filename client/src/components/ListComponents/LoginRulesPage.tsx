@@ -14,6 +14,7 @@ import { Stack } from '@fluentui/react/lib/Stack';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AddLoginRulePanel } from '../Panels/AddLoginRulePanel';
+import { B_URL } from '../../configs';
 
 type LoginRule = {
   id: string;
@@ -62,13 +63,17 @@ export const LoginRulesPage = () => {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const fetchRules = async () => {
+    const token = localStorage.getItem("token")
     try {
-      const res = await axios.get('http://localhost:5153/api/loginrules', {
+      const res = await axios.get(`${B_URL}/api/loginrules`, {
         params: {
           page,
           pageSize,
           search: searchTerm || undefined,
         },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
       setRules(res.data.rules || []);
       setTotal(res.data.total || 0);
@@ -82,9 +87,14 @@ export const LoginRulesPage = () => {
   }, [page, pageSize, searchTerm]);
 
   const openHistory = async (id: string) => {
+    const token = localStorage.getItem("token")
     try {
       const res = await axios.get(
-        `http://localhost:5153/api/loginrules/${id}/history`
+        `${B_URL}/api/loginrules/${id}/history`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
       );
       setHistory(res.data);
       setIsHistoryOpen(true);
@@ -156,7 +166,6 @@ export const LoginRulesPage = () => {
     <div
       style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0 }}
     >
-      {/* Header */}
       <div
         style={{
           display: 'flex',
@@ -223,7 +232,6 @@ export const LoginRulesPage = () => {
         </div>
       </div>
 
-      {/* Table */}
       <div
         style={{
           flex: 1,
@@ -276,7 +284,6 @@ export const LoginRulesPage = () => {
         </div>
       </div>
 
-      {/* Pagination */}
       <div
         style={{
           marginTop: '12px',
@@ -302,7 +309,6 @@ export const LoginRulesPage = () => {
         </button>
       </div>
 
-      {/* Page size selector */}
       <div style={{ textAlign: 'center', marginTop: '4px' }}>
         Show{' '}
         <select
@@ -321,7 +327,6 @@ export const LoginRulesPage = () => {
         rules | Showing {rules.length} of {total}
       </div>
 
-      {/* Panel */}
       <AddLoginRulePanel
         isOpen={isPanelOpen}
         onDismiss={() => {

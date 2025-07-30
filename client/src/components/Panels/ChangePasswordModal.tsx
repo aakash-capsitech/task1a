@@ -11,6 +11,7 @@ import {
   MessageBarType,
 } from '@fluentui/react';
 import axios from 'axios';
+import { B_URL } from '../../configs';
 
 type ChangePasswordModalProps = {
   userId: string;
@@ -45,13 +46,19 @@ const ChangePasswordModal = ({
     }
 
     setLoading(true);
+    const token = localStorage.getItem("token")
     try {
       await axios.post(
-        `http://localhost:5153/api/users/${userId}/change-password`,
+        `${B_URL}/api/users/${userId}/change-password`,
         {
           currentPassword,
           newPassword,
+        }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
+      }
       );
 
       setSuccessMsg('Password changed successfully.');

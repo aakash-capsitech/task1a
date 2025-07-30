@@ -14,6 +14,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { B_URL } from '../configs';
 
 const roleOptions: IDropdownOption[] = [
   { key: 'admin', text: 'Admin' },
@@ -75,7 +76,7 @@ const RegisterPage = () => {
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              await axios.post('http://localhost:5153/api/users', values);
+              await axios.post(`${B_URL}/api/users`, values);
               toast.success('Registration successful');
               navigate('/login');
             } catch (err: any) {

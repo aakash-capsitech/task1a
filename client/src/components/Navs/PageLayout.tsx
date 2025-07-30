@@ -22,7 +22,6 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
           className="d-flex flex-grow-1 bg-light"
           style={{ overflow: 'hidden' }}
         >
-          {/* Fixed SB */}
           <div
             style={{
               width: '220px',
@@ -39,7 +38,6 @@ const PageLayout = ({ children, activeItem }: PageLayoutProps) => {
             />
           </div>
 
-          {/* Scrollable Main Content */}
           <div
             className="flex-grow-1"
             style={{ overflowY: 'auto', height: '100%' }}

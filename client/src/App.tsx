@@ -12,7 +12,6 @@ import CallFlow from './components/TemplatePages/CallFlow';
 import Addons from './components/TemplatePages/Addons';
 import CannedEmails from './components/TemplatePages/CannedEmails';
 import MainUserTablePage from './components/TemplatePages/Users';
-// import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { D1 } from './components/Demos/D1';
 import { CToastProvider } from './components/toast/CToastProvider';
@@ -36,10 +35,7 @@ import Dashboard from './components/DashboardComponents/Dashboard';
 import Emails from './components/DashboardComponents/Emails';
 import All from './components/TemplatePages/All';
 import InvoicePdf from './components/helpers/InvoicePdf';
-// import MainUserTablePage from "./components/ListComponents/UserTable";
-// import Users from "./components/TemplatePages/Users";
 
-// PrivateRoute: guards routes behind auth
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const { isLoggedIn } = useAuth();
   return isLoggedIn ? children : <Navigate to="/login" replace />;
@@ -52,17 +48,14 @@ const App = () => {
       <BrowserRouter>
 
         <Routes>
-          {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path='/d1' element={<D1 />} />
 
-          {/* Protected Routes */}
           <Route
             path="/admin"
             element={
               <PrivateRoute>
-                {/* <Users /> */}
                 <MainUserTablePage />
               </PrivateRoute>
             }

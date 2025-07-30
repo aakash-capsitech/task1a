@@ -31,7 +31,6 @@ const sectionStyle = {
     border: '1px solid #ddd',
     borderRadius: 6,
     padding: 16,
-    // maxWidth: 1100,
   },
 };
 
@@ -49,7 +48,6 @@ const UserDetailsCard = ({
   onSave,
 }: UserDetailsProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
-  // const [passwordEdit, setPasswordEdit] = useState(false)
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [userId, setUserId] = useState('');
 
@@ -58,7 +56,6 @@ const UserDetailsCard = ({
       try {
         const token = localStorage.getItem('token');
         if (!token) {
-          // setError('User not logged in.');
           return;
         }
 
@@ -66,14 +63,12 @@ const UserDetailsCard = ({
         const id = decoded?.nameid;
 
         if (!id) {
-          // setError('Invalid token: Missing user ID.');
           return;
         }
 
         setUserId(id);
       } catch (err) {
         console.error('Failed to fetch user data', err);
-        // setError('Could not load user data.');
       }
     };
 
@@ -133,12 +128,6 @@ const UserDetailsCard = ({
               verticalAlign="center"
               tokens={{ childrenGap: 8 }}
             >
-              {/* <img
-                src="https://flagcdn.com/gb.svg"
-                alt="UK Flag"
-                width={20}
-                style={{ borderRadius: 2 }}
-              /> */}
               <Text styles={valueStyle}>{phone}</Text>
               <TooltipHost content="WhatsApp available">
                 <Icon iconName="Chat" styles={{ root: { color: '#25d366' } }} />

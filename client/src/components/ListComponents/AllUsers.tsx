@@ -15,6 +15,7 @@ import {
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { B_URL } from '../../configs';
 
 const pageSize = 10;
 
@@ -67,8 +68,14 @@ const AllUsers: React.FC = () => {
   const [refresh, setRefresh] = useState(false);
 
   const handleRestore = async (userId: string) => {
+    const token = localStorage.getItem("token")
     try {
-      await axios.put(`http://localhost:5153/api/users/${userId}/restore`);
+      await axios.put(`${B_URL}/api/users/${userId}/restore`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       fetchUsers();
     } catch (err) {
       console.error('Restore failed', err);
@@ -77,8 +84,9 @@ const AllUsers: React.FC = () => {
 
   const fetchUsers = async () => {
     setLoading(true);
+    const token = localStorage.getItem("token")
     try {
-      const response = await axios.get('http://localhost:5153/api/users/all', {
+      const response = await axios.get(`${B_URL}/api/users/all`, {
         params: {
           page,
           pageSize,
@@ -86,6 +94,9 @@ const AllUsers: React.FC = () => {
           role,
           status,
         },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       setUsers(response.data.users);

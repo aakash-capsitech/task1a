@@ -1,4 +1,4 @@
-// Response models returned by API
+//for future use
 
 export interface User {
   id: string;
@@ -10,15 +10,15 @@ export interface User {
   address: string;
   configRoles: string[];
   logins?: number;
-  passwordHash?: string; // only returned in some responses
+  passwordHash?: string; 
 }
 
 export interface LoginRule {
   id: string;
-  userIds: string[];         // should be single-user per rule
-  restriction: string;       // "deny" or similar
-  fromDate?: string;         // ISO format
-  toDate?: string;           // ISO format
+  userIds: string[];        
+  restriction: string;      
+  fromDate?: string;         
+  toDate?: string; 
 }
 
 export interface LogEntry {

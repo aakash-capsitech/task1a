@@ -7,7 +7,6 @@ import {
   DefaultButton,
   Stack,
   IconButton,
-  Label,
   type IDropdownOption,
   type IDropdownStyles,
 } from '@fluentui/react';
@@ -16,6 +15,7 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { B_URL } from '../../configs';
 
 const ukBusinessOptions: IDropdownOption[] = [
   { key: 'Barclays', text: 'Barclays' },
@@ -75,7 +75,7 @@ const compactDropdownStyles: Partial<IDropdownStyles> = {
   title: {
     height: 'full',
     lineHeight: '20px',
-    padding: '0 24px 0 6px', // avoids overlap with icon
+    padding: '0 24px 0 6px',
     border: '1px solid #c8c6c9',
     outline: 'none',
     fontSize: 12,
@@ -107,14 +107,13 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     fontSize: 12,
     lineHeight: '20px',
     padding: 0,
-    border: 'none', // lighter border
+    border: 'none',
     outline: 'none',
     borderRadius: 2,
   },
   title: {
     height: 'full',
     lineHeight: '20px',
-    // padding: '0 24px 0 6px', // ⬅️ add right padding for chevron
     border: '1px solid #c8c6c9',
     outline: 'none',
     fontSize: 12,
@@ -124,7 +123,7 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     height: 24,
     lineHeight: '20px',
     width: 20,
-    right: 4, // ⬅️ keeps chevron aligned
+    right: 4,
     border: 'none',
   },
   dropdownItem: {
@@ -139,9 +138,9 @@ const dropdownStyles2: Partial<IDropdownStyles> = {
   root: {
     margin: 0,
     padding: 0,
-    maxWidth: 480, // optional: restrict container width
+    maxWidth: 480,
     border: 'none',
-    width: 300, // ⬅️ set desired width
+    width: 300,
   },
   dropdown: {
     height: 24,
@@ -151,10 +150,10 @@ const dropdownStyles2: Partial<IDropdownStyles> = {
     padding: 0,
     border: `none`,
     borderRadius: 2,
-    width: 300, // ⬅️ set dropdown visible box width
+    width: 300,
   },
   callout: {
-    width: 300, // ⬅️ this controls the width of the options list popup
+    width: 300,
   },
   title: {
     height: '100%',
@@ -272,7 +271,14 @@ export const AddBusinessPanel = ({
         }),
       };
 
-      await axios.post('http://localhost:5153/api/businesses', payload);
+      const token = localStorage.getItem("token")
+
+      await axios.post(`${B_URL}/api/businesses`, payload, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       toast.success('Business added successfully');
 
       helpers.resetForm();
@@ -383,7 +389,6 @@ export const AddBusinessPanel = ({
                               verticalAlign="end"
                             >
                               <Dropdown
-                                // className='drop'
                                 onRenderLabel={() => (
                                   <span style={LabelStyles}>Type</span>
                                 )}
@@ -501,7 +506,6 @@ export const AddBusinessPanel = ({
                                     return (
                                       <TextField
                                         key={field}
-                                        // label={field.charAt(0).toUpperCase() + field.slice(1)}
                                         onRenderLabel={() => (
                                           <span style={LabelStyles}>
                                             {field.charAt(0).toUpperCase() +
@@ -520,14 +524,6 @@ export const AddBusinessPanel = ({
                                         }
                                         styles={{
                                           ...TextFieldStyles,
-                                          // root: {
-                                          //   width:
-                                          //     field === 'postcode'
-                                          //       ? 120
-                                          //       : field === 'country'
-                                          //       ? 180
-                                          //       : 150,
-                                          // },
                                         }}
                                       />
                                     );
@@ -654,8 +650,6 @@ export const AddBusinessPanel = ({
                       />
                     </Stack>
 
-                    {/* <Label>Phone number</Label> */}
-
                     <span style={LabelStyles}>Phone Number</span>
 
                     {phoneFields.map((phone, idx) => (
@@ -709,10 +703,7 @@ export const AddBusinessPanel = ({
                       </Stack>
                     ))}
 
-                    {/* <Label>Email</Label> */}
-                    {/* onRenderLabel={() => ( */}
                     <span style={LabelStyles}>Email</span>
-                    {/* )} */}
                     {emailFields.map((email, idx) => (
                       <Stack horizontal tokens={{ childrenGap: 8 }} key={idx}>
                         <TextField
@@ -816,8 +807,8 @@ export const AddBusinessPanel = ({
                   <PrimaryButton
                     text="Save"
                     onClick={(e) => {
-                      e.preventDefault(); // optional but safe
-                      handleSubmit(); // no type conflict now
+                      e.preventDefault(); 
+                      handleSubmit(); 
                     }}
                     disabled={isSubmitting}
                   />

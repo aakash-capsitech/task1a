@@ -1,4 +1,4 @@
-import React from 'react'
+//work in progress
 
 const InvoicePdf = () => {
   return (
@@ -56,7 +56,6 @@ const InvoicePdf = () => {
                             <div style={{
                                 display: "flex",
                                 justifyContent: "space-between",
-                                // gap: "60px"
                             }}>
                                 <p>Invoice no.:</p>
                                 <p>{}INV-20252937-A</p>
@@ -64,7 +63,6 @@ const InvoicePdf = () => {
                             <div style={{
                                 display: "flex",
                                 justifyContent: "space-between",
-                                // gap: "60px"
                             }}>
                                 <p>Date:</p>
                                 <p>{}25/06/2025</p>

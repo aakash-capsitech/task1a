@@ -13,6 +13,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { B_URL } from '../../configs';
 
 type AddLoginRulePanelProps = {
   isOpen: boolean;
@@ -51,8 +52,13 @@ export const AddLoginRulePanel = ({
   useEffect(() => {
     const fetchUsers = async () => {
       setLoadingUsers(true);
+      const token = localStorage.getItem("token")
       try {
-        const response = await axios.get('http://localhost:5153/api/users');
+        const response = await axios.get(`${B_URL}/api/users`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
         const users = Array.isArray(response.data)
           ? response.data
           : response.data.users;
@@ -119,15 +125,27 @@ export const AddLoginRulePanel = ({
       toDate,
     };
 
+    const token = localStorage.getItem("token")
+
     try {
       if (existingRule) {
-        await axios.put(
-          `http://localhost:5153/api/loginrules/${existingRule.id}`,
-          payload
+        await axios.post(
+          `${B_URL}/api/loginrules/${existingRule.id}`,
+          payload, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
         );
         toast.success('Login rule updated');
       } else {
-        await axios.post('http://localhost:5153/api/loginrules', payload);
+        await axios.post(`${B_URL}/api/loginrules`, payload, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
         toast.success('Login rule created');
       }
     } catch (err) {
@@ -145,7 +163,6 @@ export const AddLoginRulePanel = ({
       closeButtonAriaLabel="Close"
       type={PanelType.smallFixedFar}
     >
-      {/* <Stack tokens={{ childrenGap: 15 }}> */}
       <Stack
         verticalFill
         styles={{ root: { height: '100%' } }}

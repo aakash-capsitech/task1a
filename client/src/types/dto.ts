@@ -1,4 +1,4 @@
-// DTOs used in API calls
+// for future use
 
 export interface LoginRequest {
   email?: string;
@@ -12,9 +12,9 @@ export interface ChangePasswordDto {
 
 export interface CreateLoginRuleDto {
   userIds: string[];
-  restriction: string; // e.g., "deny"
-  fromDate?: string; // ISO string
-  toDate?: string;   // ISO string
+  restriction: string; 
+  fromDate?: string; 
+  toDate?: string;   
 }
 
 export interface CreateUserDto {

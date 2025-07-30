@@ -16,6 +16,7 @@ import { CreateQuotePanel } from '../Panels/CreateQuotePanel';
 
 import jsPDF from 'jspdf';
 import { DuePanel } from '../Panels/DuePanel';
+import { B_URL } from '../../configs';
 
 const buttonStyle = {
   display: 'flex',
@@ -109,7 +110,6 @@ export const QuoteTable = () => {
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  // const [token, setToken] = useState("")
 
   const [dueUser, setDueUser] = useState<any>();
 
@@ -126,7 +126,7 @@ export const QuoteTable = () => {
     const token = localStorage.getItem("token")
     console.log(token)
     try {
-      const res = await axios.get('http://localhost:5153/api/quotes', {
+      const res = await axios.get(`${B_URL}/api/quotes`, {
         params: {
           page,
           pageSize,
@@ -156,7 +156,7 @@ export const QuoteTable = () => {
     const token = localStorage.getItem("token")
     console.log(token)
     try {
-      const res = await axios.get('http://localhost:5153/api/quotes', {
+      const res = await axios.get(`${B_URL}/api/quotes`, {
         params: {
           page,
           pageSize,
@@ -182,17 +182,6 @@ export const QuoteTable = () => {
     fetchDues();
   }, []);
 
-
-  // const handleDelete = async (id: string) => {
-  //   try {
-  //     await axios.put(`http://localhost:5153/api/Quotes/delete/${id}`);
-  //     toast.warn('Quote deleted');
-  //     fetchQuotes();
-  //   } catch (err) {
-  //     toast.error('Delete failed');
-  //   }
-  // };
-
   const columns: IColumn[] = [
     {
       key: 'QSID',
@@ -208,8 +197,6 @@ export const QuoteTable = () => {
             iconName="ReportDocument"
             style={{ cursor: 'pointer', color: '#0078d4' }}
             onClick={() => {
-              // console.log('Downloading PDF for:', item);
-              // generateQuotePdf(item);
               setDueUser(item)
               setIsDuePanelOpen(true)
             }}
@@ -327,7 +314,6 @@ export const QuoteTable = () => {
             }
             onClick={() => {
               setSearchValue('');
-              // setTypeFilter(null)
               setSelectedFilter(null);
               setSearch('');
               setSelectedRole(null);
@@ -341,21 +327,6 @@ export const QuoteTable = () => {
             </span>
             Refresh
           </button>
-
-          {/* <Dropdown
-            placeholder="Filter by team"
-            options={responseTeamOptions}
-            selectedKey={responseFilter}
-            onChange={(_, opt) => setResponseFilter(opt?.key as string)}
-            styles={{ root: { width: 160 } }}
-          />
-          {responseFilter && (
-            <Icon
-              iconName="Cancel"
-              style={{ cursor: 'pointer', color: '#666' }}
-              onClick={() => setResponseFilter(null)}
-            />
-          )} */}
         </div>
 
         <div style={{ display: 'flex', gap: '80px', marginRight: '10px' }}>
@@ -394,7 +365,6 @@ export const QuoteTable = () => {
                   onClick={() => {
                     setSelectedRole(null);
                     setSelectedFilter(null);
-                    // setTypeFilter(null)
                     setResponseFilter(null);
                     setPage(1);
                   }}
@@ -412,7 +382,6 @@ export const QuoteTable = () => {
               <Icon iconName="Filter" /> Add filter
             </button>
 
-            {/* Filter Dropdown Panel */}
             {filterPanelVisible && (
               <div
                 style={{

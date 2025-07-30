@@ -1,3 +1,5 @@
+//custom toast, not used yet
+
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import './ctoast.css';
 
@@ -29,7 +31,7 @@ export const CToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 7000); // Toast stays for 4 seconds
+    }, 7000);
   }, []);
 
   const removeToast = (id: number) => {

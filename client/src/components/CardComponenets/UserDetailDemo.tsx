@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import UserDetailsCard from './UserDetailsCard';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { B_URL } from '../../configs';
 
 const UserDetailsDemo = () => {
   const [userData, setUserData] = useState<any | null>(null);
@@ -29,7 +30,7 @@ const UserDetailsDemo = () => {
 
         setUserId(id);
 
-        const res = await axios.get(`http://localhost:5153/api/users/${id}`, {
+        const res = await axios.get(`${B_URL}/api/users/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +55,7 @@ const UserDetailsDemo = () => {
       }
 
       await axios.put(
-        `http://localhost:5153/api/users/${userId}`,
+        `${B_URL}/api/users/${userId}`,
         {
           name: updatedData.username,
           email: updatedData.email,
@@ -71,7 +72,6 @@ const UserDetailsDemo = () => {
         }
       );
 
-      // Update local state with new data
       setUserData((prev: any) => ({
         ...prev,
         name: updatedData.username,
@@ -86,7 +86,6 @@ const UserDetailsDemo = () => {
     } catch (err) {
       toast.error('something went wrong');
       console.error('Failed to save user', err);
-      // setError('Could not save user data.');
     }
   };
 

@@ -187,7 +187,6 @@ const Topbar = () => {
               <div
                 className={classNames.optionRow}
                 onClick={() => {
-                  // alert('Go to profile');
                   navigate('/profile');
                   setIsCalloutVisible(false);
                 }}

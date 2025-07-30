@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { B_URL } from '../../configs';
 
 const roles = [
   {
@@ -141,12 +142,13 @@ export const UserRolesModal3 = ({
     );
 
     try {
-      await axios.put(`http://localhost:5153/api/users/${userId}`, {
+      await axios.put(`${B_URL}/api/users/${userId}`, {
         configRoles: selectedKeys,
         phone,
         nationality,
         address,
-      });
+      },
+    );
       toast.success('User updated successfully');
       onUpdate();
       closeDialog();

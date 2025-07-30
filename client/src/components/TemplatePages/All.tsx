@@ -1,4 +1,3 @@
-import UserDetailsDemo from '../CardComponenets/UserDetailDemo';
 import AllUsers from '../ListComponents/AllUsers';
 import PageLayout from '../Navs/PageLayout';
 const All = () => {

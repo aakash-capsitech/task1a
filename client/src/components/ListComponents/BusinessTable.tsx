@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { AddBusinessPanel } from '../Panels/AddBusinessPanel';
+import { B_URL } from '../../configs';
 
 const typeOptions: IDropdownOption[] = [
   { key: 'limited', text: 'Limited' },
@@ -70,7 +71,7 @@ export const BusinessTable = () => {
   const fetchBusinesses = async () => {
     const token = localStorage.getItem("token")
     try {
-      const res = await axios.get('http://localhost:5153/api/businesses', {
+      const res = await axios.get(`${B_URL}/api/businesses`, {
         params: {
           page,
           pageSize,
@@ -204,20 +205,6 @@ export const BusinessTable = () => {
             Refresh
           </button>
 
-          {/* <Dropdown
-            placeholder="Filter by type"
-            options={typeOptions}
-            selectedKey={typeFilter}
-            onChange={(_, opt) => setTypeFilter(opt?.key as string)}
-            styles={{ root: { width: 160 } }}
-          />
-          {typeFilter && (
-            <Icon
-              iconName="Cancel"
-              style={{ cursor: 'pointer', color: '#666' }}
-              onClick={() => setTypeFilter(null)}
-            />
-          )} */}
         </div>
 
         <div style={{ display: 'flex', gap: '80px', marginRight: '10px' }}>
@@ -273,7 +260,6 @@ export const BusinessTable = () => {
               <Icon iconName="Filter" /> Add filter
             </button>
 
-            {/* Filter Dropdown Panel */}
             {filterPanelVisible && (
               <div
                 style={{
@@ -383,7 +369,6 @@ export const BusinessTable = () => {
         />
       </div>
 
-      {/* Pagination */}
       <div
         style={{
           display: 'flex',
@@ -408,7 +393,6 @@ export const BusinessTable = () => {
         Showing {businesses.length} of {total} businesses
       </div>
 
-      {/* Panel for adding */}
       <AddBusinessPanel
         isOpen={isPanelOpen}
         onDismiss={() => {

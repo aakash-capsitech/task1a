@@ -3,6 +3,7 @@ import { Icon } from '@fluentui/react/lib/Icon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { UserRolesModal3 } from '../Panels/UserRolesModal3';
+import { B_URL } from '../../configs';
 
 const tagStyle = {
   backgroundColor: '#dff6dd',
@@ -29,9 +30,16 @@ const UserProfilePanel = ({
 }) => {
   const [user, setUser] = useState<any>(null);
 
+  const token = localStorage.getItem("token")
+
   useEffect(() => {
     axios
-      .get(`http://localhost:5153/api/users/${userId}`)
+      .get(`${B_URL}/api/users/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
       .then((res) => {
         console.log('Full response:', res.data);
         setUser(res.data);
@@ -58,7 +66,6 @@ const UserProfilePanel = ({
         position: 'relative',
       }}
     >
-      {/* Close Button */}
       <button
         onClick={onClose}
         style={{
@@ -113,7 +120,12 @@ const UserProfilePanel = ({
           address={user.address}
           onUpdate={() => {
             axios
-              .get(`http://localhost:5153/api/users/${userId}`)
+              .get(`${B_URL}/api/users/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
               .then((res) => setUser(res.data));
           }}
         />
