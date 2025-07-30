@@ -152,12 +152,12 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    const token = localStorage.getItem("token")
+     const token = localStorage.getItem("token")
+
     try {
-      await axios.post(`${B_URL}/api/users/delete/${userId}`, {
+      await axios.post(`${B_URL}/api/users/delete/${userId}`,null, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`
         }
       });
       toast.warn('user deleted');
@@ -170,11 +170,10 @@ export const UserTable = ({ onUserSelect, onLoading }: Props) => {
 
   const handleRestore = async (userId: string) => {
     const token = localStorage.getItem("token")
-    alert(token)
     try {
-      await axios.post(`${B_URL}/api/users/${userId}/restore`, {
+      await axios.post(`${B_URL}/api/users/${userId}/restore`,null, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       fetchUsers();

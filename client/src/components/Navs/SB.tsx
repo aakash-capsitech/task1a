@@ -2,6 +2,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { B_URL } from '../../configs';
 
 const SB = ({
   activeItem,
@@ -40,7 +41,9 @@ const SB = ({
       const decoded: any = jwtDecode(token);
       const id = decoded?.nameid;
 
-      const response = await axios.get(`http://localhost:5153/api/users/${id}`);
+      const response = await axios.get(`${B_URL}/api/users/${id}`,{ headers: {
+          Authorization: `Bearer ${token}`
+        }});
       const configRoles = response.data.configRoles;
       setConfigs(configRoles);
 

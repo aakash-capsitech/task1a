@@ -141,13 +141,18 @@ export const UserRolesModal3 = ({
       (key) => selectedRoles[key]
     );
 
+    const token = localStorage.getItem("token")
+
     try {
-      await axios.put(`${B_URL}/api/users/${userId}`, {
+      await axios.post(`${B_URL}/api/users/${userId}`, {
         configRoles: selectedKeys,
         phone,
         nationality,
         address,
       },
+      {headers: {
+          Authorization: `Bearer ${token}`
+        }}
     );
       toast.success('User updated successfully');
       onUpdate();
